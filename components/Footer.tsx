@@ -7,7 +7,7 @@ const WhatsAppIcon = () => (
     </svg>
 );
 
-const Footer: React.FC = () => {
+const Footer = () => {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
     return (
         <footer className="bg-gray-800 text-white">

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CartItem } from '../types';
 import { PlaceholderIcon } from '../constants';
@@ -24,7 +23,7 @@ interface CartModalProps {
     onCheckout: () => void;
 }
 
-const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, onCheckout }) => {
+const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, onCheckout }: CartModalProps) => {
     if (!isOpen) return null;
 
     const subtotal = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);

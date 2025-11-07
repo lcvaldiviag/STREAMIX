@@ -7,7 +7,7 @@ import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
 import { Product, Combo, CartItem } from './types';
 
-const App: React.FC = () => {
+const App = () => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);

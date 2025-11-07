@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const StreamixLogo = () => (
@@ -23,7 +22,7 @@ interface HeaderProps {
     onCartClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartItemCount, onCartClick }) => {
+const Header = ({ cartItemCount, onCartClick }: HeaderProps) => {
     return (
         <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

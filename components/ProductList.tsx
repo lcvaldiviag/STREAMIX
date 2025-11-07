@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Product, Combo, Category } from '../types';
 import { PRODUCTS, COMBOS, PlaceholderIcon } from '../constants';
@@ -10,6 +9,7 @@ interface CardProps {
 
 const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
+// Fix: Explicitly type Card as a React.FC to ensure TypeScript correctly handles the 'key' prop used in lists.
 const Card: React.FC<CardProps> = ({ item, onAddToCart }) => {
   return (
     // Updated: More modern styling with larger radius and shadow.
@@ -60,7 +60,7 @@ interface ProductListProps {
   onAddToCart: (item: Product | Combo) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ onAddToCart }) => {
+const ProductList = ({ onAddToCart }: ProductListProps) => {
   const categories = Object.values(Category);
   const itemsByCategory = (category: Category) => {
     if (category === Category.COMBOS) return COMBOS;

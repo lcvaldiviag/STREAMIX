@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { editImage } from '../services/geminiService';
 
@@ -26,7 +25,7 @@ interface ImageEditorProps {
     onClose: () => void;
 }
 
-const ImageEditor: React.FC<ImageEditorProps> = ({ isOpen, onClose }) => {
+const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
     const [originalImage, setOriginalImage] = useState<File | null>(null);
     const [editedImage, setEditedImage] = useState<string | null>(null);
     const [prompt, setPrompt] = useState<string>('');

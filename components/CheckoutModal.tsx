@@ -14,7 +14,7 @@ interface CheckoutModalProps {
     cartItems: CartItem[];
 }
 
-const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, cartItems }) => {
+const CheckoutModal = ({ isOpen, onClose, cartItems }: CheckoutModalProps) => {
     if (!isOpen) return null;
 
     const total = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);
