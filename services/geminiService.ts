@@ -1,18 +1,14 @@
 // Fix: Import Modality for image editing capabilities.
 import { GoogleGenAI, GenerateContentResponse, Modality } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-  console.error("Gemini API key is missing. Please set the API_KEY environment variable.");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
+// The GoogleGenAI instance will now be created on-demand inside each function.
+// This prevents the app from crashing on load if the API key is not immediately available.
 
 // --- Text Generation ---
 
 export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
     const chat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
@@ -30,6 +26,7 @@ export const getChatResponse = async (history: { role: string; parts: { text: st
 
 export const getQuickSuggestion = async (interest: string): Promise<string> => {
     try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
         const response = await ai.models.generateContent({
             model: 'gemini-flash-latest',
             contents: `Based on an interest in '${interest}', suggest a single product or combo from STREAMIX. Be very brief and enthusiastic.`,
@@ -44,6 +41,7 @@ export const getQuickSuggestion = async (interest: string): Promise<string> => {
 // --- Search with Grounding ---
 export const getGroundedSearch = async (query: string): Promise<{ text: string; sources: { uri: string; title: string }[] }> => {
   try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: `Provide up-to-date, factual information about the following topic: "${query}". Answer as if you are a knowledgeable assistant.`,
@@ -77,6 +75,7 @@ export const getGroundedSearch = async (query: string): Promise<{ text: string; 
 // --- Image Editing ---
 export const editImage = async (base64ImageData: string, mimeType: string, prompt: string): Promise<string | null> => {
     try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
             contents: {
