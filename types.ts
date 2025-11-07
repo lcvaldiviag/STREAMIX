@@ -19,12 +19,12 @@ export interface Product {
   priceUSD: number;
   priceBS: number;
   // Fix: Changed from JSX.Element to ReactNode to resolve issue with JSX namespace not being found.
-  logo: ReactNode;
+  logo: string;
   description?: string;
 }
 
 export interface Combo {
-  id: string;
+  id:string;
   name: string;
   priceUSD: number;
   priceBS: number;

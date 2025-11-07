@@ -3,7 +3,7 @@ import { Product, Combo, Category } from './types';
 
 // Generic SVG Icon for placeholders
 // Fix: Re-written without JSX to be compatible with a .ts file.
-const PlaceholderIcon = ({ icon }: { icon: string }): React.ReactElement => (
+export const PlaceholderIcon = ({ icon }: { icon: string }): React.ReactElement => (
   React.createElement('div', { className: "w-12 h-12 flex items-center justify-center bg-gray-200 rounded-lg" },
     React.createElement('span', { className: "text-xl font-bold text-gray-500" }, icon)
   )
@@ -12,51 +12,51 @@ const PlaceholderIcon = ({ icon }: { icon: string }): React.ReactElement => (
 export const PRODUCTS: Product[] = [
   // Fix: Replaced JSX with React.createElement to avoid syntax errors in a .ts file.
   // Streaming & Series
-  { id: 'prod-01', name: 'Netflix', category: Category.STREAMING_SERIES, priceUSD: 4.80, priceBS: 48, logo: React.createElement(PlaceholderIcon, { icon: "N" }) },
-  { id: 'prod-02', name: 'Disney+', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "D+" }) },
-  { id: 'prod-03', name: 'Star Plus', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "S+" }) },
-  { id: 'prod-04', name: 'Prime Video', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "P" }) },
-  { id: 'prod-05', name: 'Paramount+', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: React.createElement(PlaceholderIcon, { icon: "P+" }) },
-  { id: 'prod-06', name: 'Apple TV+', category: Category.STREAMING_SERIES, priceUSD: 4.00, priceBS: 40, logo: React.createElement(PlaceholderIcon, { icon: "A+" }) },
-  { id: 'prod-07', name: 'HBO Max', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: React.createElement(PlaceholderIcon, { icon: "M" }) },
-  { id: 'prod-08', name: 'Crunchyroll', category: Category.STREAMING_SERIES, priceUSD: 3.50, priceBS: 35, logo: React.createElement(PlaceholderIcon, { icon: "C" }) },
-  { id: 'prod-09', name: 'VIX', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: React.createElement(PlaceholderIcon, { icon: "V" }) },
-  { id: 'prod-10', name: 'Drama Box', category: Category.STREAMING_SERIES, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "DB" }) },
+  { id: 'prod-01', name: 'Netflix', category: Category.STREAMING_SERIES, priceUSD: 4.80, priceBS: 48, logo: "N" },
+  { id: 'prod-02', name: 'Disney+', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: "D+" },
+  { id: 'prod-03', name: 'Star Plus', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: "S+" },
+  { id: 'prod-04', name: 'Prime Video', category: Category.STREAMING_SERIES, priceUSD: 3.00, priceBS: 30, logo: "P" },
+  { id: 'prod-05', name: 'Paramount+', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: "P+" },
+  { id: 'prod-06', name: 'Apple TV+', category: Category.STREAMING_SERIES, priceUSD: 4.00, priceBS: 40, logo: "A+" },
+  { id: 'prod-07', name: 'HBO Max', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: "M" },
+  { id: 'prod-08', name: 'Crunchyroll', category: Category.STREAMING_SERIES, priceUSD: 3.50, priceBS: 35, logo: "C" },
+  { id: 'prod-09', name: 'VIX', category: Category.STREAMING_SERIES, priceUSD: 2.00, priceBS: 20, logo: "V" },
+  { id: 'prod-10', name: 'Drama Box', category: Category.STREAMING_SERIES, priceUSD: 5.00, priceBS: 50, logo: "DB" },
 
   // Music
-  { id: 'prod-11', name: 'Spotify', category: Category.MUSIC, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "S" }) },
-  { id: 'prod-12', name: 'Deezer', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "D" }) },
-  { id: 'prod-13', name: 'YouTube Premium', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "YT" }) },
-  { id: 'prod-14', name: 'YouTube Music', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "YM" }) },
+  { id: 'prod-11', name: 'Spotify', category: Category.MUSIC, priceUSD: 5.00, priceBS: 50, logo: "S" },
+  { id: 'prod-12', name: 'Deezer', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: "D" },
+  { id: 'prod-13', name: 'YouTube Premium', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: "YT" },
+  { id: 'prod-14', name: 'YouTube Music', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: "YM" },
 
   // Education & Learning
-  { id: 'prod-15', name: 'Duolingo', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "DL" }) },
-  { id: 'prod-16', name: 'Canva Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.00, priceBS: 20, logo: React.createElement(PlaceholderIcon, { icon: "C" }) },
-  { id: 'prod-17', name: 'CapCut Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.50, priceBS: 25, logo: React.createElement(PlaceholderIcon, { icon: "CC" }) },
-  { id: 'prod-18', name: 'Microsoft 365', category: Category.EDUCATION_LEARNING, priceUSD: 9.99, priceBS: 99, logo: React.createElement(PlaceholderIcon, { icon: "O" }) },
-  { id: 'prod-19', name: 'Grammarly', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: React.createElement(PlaceholderIcon, { icon: "G" }) },
+  { id: 'prod-15', name: 'Duolingo', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: "DL" },
+  { id: 'prod-16', name: 'Canva Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.00, priceBS: 20, logo: "C" },
+  { id: 'prod-17', name: 'CapCut Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.50, priceBS: 25, logo: "CC" },
+  { id: 'prod-18', name: 'Microsoft 365', category: Category.EDUCATION_LEARNING, priceUSD: 9.99, priceBS: 99, logo: "O" },
+  { id: 'prod-19', name: 'Grammarly', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: "G" },
 
   // Artificial Intelligence
-  { id: 'prod-20', name: 'ChatGPT+', category: Category.AI, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "GPT" }) },
-  { id: 'prod-21', name: 'Gemini (AI)', category: Category.AI, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "G" }) },
-  { id: 'prod-22', name: 'Midjourney', category: Category.AI, priceUSD: 6.00, priceBS: 60, logo: React.createElement(PlaceholderIcon, { icon: "MJ" }) },
-  { id: 'prod-23', name: 'ElevenLabs', category: Category.AI, priceUSD: 4.00, priceBS: 40, logo: React.createElement(PlaceholderIcon, { icon: "E" }) },
+  { id: 'prod-20', name: 'ChatGPT+', category: Category.AI, priceUSD: 5.00, priceBS: 50, logo: "GPT" },
+  { id: 'prod-21', name: 'Gemini (AI)', category: Category.AI, priceUSD: 5.00, priceBS: 50, logo: "G" },
+  { id: 'prod-22', name: 'Midjourney', category: Category.AI, priceUSD: 6.00, priceBS: 60, logo: "MJ" },
+  { id: 'prod-23', name: 'ElevenLabs', category: Category.AI, priceUSD: 4.00, priceBS: 40, logo: "E" },
 
   // Security
-  { id: 'prod-24', name: 'NOD32 Antivirus', category: Category.SECURITY, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "N32" }) },
-  { id: 'prod-25', name: 'Kaspersky', category: Category.SECURITY, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "K" }) },
+  { id: 'prod-24', name: 'NOD32 Antivirus', category: Category.SECURITY, priceUSD: 5.00, priceBS: 50, logo: "N32" },
+  { id: 'prod-25', name: 'Kaspersky', category: Category.SECURITY, priceUSD: 5.00, priceBS: 50, logo: "K" },
 
   // Gaming & Subscriptions
-  { id: 'prod-26', name: 'PlayStation Plus', category: Category.GAMING_SUBS, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "PS" }) },
-  { id: 'prod-27', name: 'Xbox Game Pass', category: Category.GAMING_SUBS, priceUSD: 5.00, priceBS: 50, logo: React.createElement(PlaceholderIcon, { icon: "X" }) },
+  { id: 'prod-26', name: 'PlayStation Plus', category: Category.GAMING_SUBS, priceUSD: 5.00, priceBS: 50, logo: "PS" },
+  { id: 'prod-27', name: 'Xbox Game Pass', category: Category.GAMING_SUBS, priceUSD: 5.00, priceBS: 50, logo: "X" },
 
   // Live TV & Sports
-  { id: 'prod-28', name: 'MagisTV', category: Category.LIVE_TV_SPORTS, priceUSD: 4.60, priceBS: 46, logo: React.createElement(PlaceholderIcon, { icon: "M" }) },
-  { id: 'prod-29', name: 'DirecTV Go', category: Category.LIVE_TV_SPORTS, priceUSD: 10.00, priceBS: 100, logo: React.createElement(PlaceholderIcon, { icon: "DTV" }) },
-  { id: 'prod-30', name: 'Movistar Play', category: Category.LIVE_TV_SPORTS, priceUSD: 7.00, priceBS: 70, logo: React.createElement(PlaceholderIcon, { icon: "MP" }) },
+  { id: 'prod-28', name: 'MagisTV', category: Category.LIVE_TV_SPORTS, priceUSD: 4.60, priceBS: 46, logo: "M" },
+  { id: 'prod-29', name: 'DirecTV Go', category: Category.LIVE_TV_SPORTS, priceUSD: 10.00, priceBS: 100, logo: "DTV" },
+  { id: 'prod-30', name: 'Movistar Play', category: Category.LIVE_TV_SPORTS, priceUSD: 7.00, priceBS: 70, logo: "MP" },
 
   // Lifestyle
-  { id: 'prod-31', name: 'Smart Fit Black', category: Category.LIFESTYLE, priceUSD: 25.00, priceBS: 250, logo: React.createElement(PlaceholderIcon, { icon: "SF" }) },
+  { id: 'prod-31', name: 'Smart Fit Black', category: Category.LIFESTYLE, priceUSD: 25.00, priceBS: 250, logo: "SF" },
 ];
 
 export const COMBOS: Combo[] = [

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Product, Combo, Category } from '../types';
-import { PRODUCTS, COMBOS } from '../constants';
+import { PRODUCTS, COMBOS, PlaceholderIcon } from '../constants';
 
 interface CardProps {
   item: Product | Combo;
@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart }) => {
         // Updated: Reduced padding for a more compact card.
         <div className="p-4 flex-grow flex flex-col">
           <div className="flex items-center space-x-3 mb-3">
-            {item.logo}
+            <PlaceholderIcon icon={item.logo} />
             {/* Updated: Smaller base font size. */}
             <h3 className="text-base font-semibold text-gray-800 leading-tight">{item.name}</h3>
           </div>

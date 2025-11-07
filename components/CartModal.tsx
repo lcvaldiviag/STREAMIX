@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { CartItem } from '../types';
+import { PlaceholderIcon } from '../constants';
 
 const CloseIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,7 +49,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, cartItems, onUpd
                             {cartItems.map(item => (
                                 <li key={item.id} className="py-4 flex items-center space-x-4">
                                     <div className="flex-shrink-0">
-                                        {'logo' in item ? item.logo : <img src={(item as any).image} alt={item.name} className="w-16 h-16 rounded-md object-cover" />}
+                                        {'logo' in item ? <PlaceholderIcon icon={item.logo} /> : <img src={(item as any).image} alt={item.name} className="w-16 h-16 rounded-md object-cover" />}
                                     </div>
                                     <div className="flex-1">
                                         <p className="font-semibold">{item.name}</p>
