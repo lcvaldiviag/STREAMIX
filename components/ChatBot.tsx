@@ -70,7 +70,7 @@ const ChatBot = () => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
+                className="fixed bottom-10 right-10 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
                 aria-label="Open Chat"
             >
                 <ChatIcon />
@@ -78,7 +78,7 @@ const ChatBot = () => {
             </button>
 
             {isOpen && (
-                <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full h-full sm:w-96 sm:h-[600px] bg-white rounded-t-lg sm:rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300">
+                <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full h-full sm:w-80 sm:h-[500px] bg-white rounded-t-lg sm:rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300">
                     <header className="p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex justify-between items-center rounded-t-lg sm:rounded-t-2xl">
                         <h3 className="text-lg font-semibold text-white">Chatea con Mixie</h3>
                         <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-white hover:bg-white/20 transition-colors">

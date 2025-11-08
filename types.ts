@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 
 export enum Category {
   STREAMING_SERIES = 'Streaming & Series',
+  COMBOS = 'Combos',
   MUSIC = 'Music',
   EDUCATION_LEARNING = 'Education & Learning',
   AI = 'Artificial Intelligence',
@@ -9,7 +10,6 @@ export enum Category {
   GAMING_SUBS = 'Gaming & Suscriptions',
   LIVE_TV_SPORTS = 'Live TV & Sports',
   LIFESTYLE = 'Lifestyle',
-  COMBOS = 'Combos',
 }
 
 export interface Product {

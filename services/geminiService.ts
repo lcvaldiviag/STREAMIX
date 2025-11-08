@@ -4,11 +4,17 @@ import { GoogleGenAI, GenerateContentResponse, Modality } from "@google/genai";
 // The GoogleGenAI instance will now be created on-demand inside each function.
 // This prevents the app from crashing on load if the API key is not immediately available.
 
+const API_KEY_ERROR_MESSAGE = "No se pudo conectar con el asistente de IA. (Error de configuración: Falta la clave de API). Por favor, contacta al administrador del sitio.";
+
 // --- Text Generation ---
 
 export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
+  if (!process.env.API_KEY) {
+    console.error("API_KEY environment variable not set.");
+    return API_KEY_ERROR_MESSAGE;
+  }
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const chat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
@@ -26,8 +32,12 @@ export const getChatResponse = async (history: { role: string; parts: { text: st
 };
 
 export const getQuickSuggestion = async (interest: string): Promise<string> => {
+    if (!process.env.API_KEY) {
+        console.error("API_KEY environment variable not set.");
+        return API_KEY_ERROR_MESSAGE;
+    }
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const response = await ai.models.generateContent({
             model: 'gemini-flash-latest',
             contents: `Based on an interest in '${interest}', suggest a single product or combo from STREAMIX. Be very brief and enthusiastic.`,
@@ -35,14 +45,18 @@ export const getQuickSuggestion = async (interest: string): Promise<string> => {
         return response.text;
     } catch (error) {
         console.error("Error getting quick suggestion:", error);
-        return "Sorry, I couldn't come up with a suggestion right now."
+        return "Lo siento, no pude encontrar una sugerencia en este momento."
     }
 };
 
 // --- Search with Grounding ---
 export const getGroundedSearch = async (query: string): Promise<{ text: string; sources: { uri: string; title: string }[] }> => {
+  if (!process.env.API_KEY) {
+    console.error("API_KEY environment variable not set.");
+    return { text: API_KEY_ERROR_MESSAGE, sources: [] };
+  }
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: `Provide up-to-date, factual information about the following topic: "${query}". Answer as if you are a knowledgeable assistant.`,
@@ -68,15 +82,19 @@ export const getGroundedSearch = async (query: string): Promise<{ text: string; 
     return { text, sources: uniqueSources };
   } catch (error) {
     console.error("Error with grounded search:", error);
-    return { text: "Sorry, I couldn't perform the search. The topic might be restricted or there was a network error.", sources: [] };
+    return { text: "Lo siento, no pude realizar la búsqueda. El tema podría estar restringido o hubo un error de red.", sources: [] };
   }
 };
 
 // Fix: Add the missing 'editImage' function to support the AI Image Editor feature.
 // --- Image Editing ---
 export const editImage = async (base64ImageData: string, mimeType: string, prompt: string): Promise<string | null> => {
+    if (!process.env.API_KEY) {
+        console.error("API_KEY environment variable not set.");
+        return null;
+    }
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
             contents: {
