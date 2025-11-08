@@ -3,7 +3,7 @@ import { ChatMessage } from '../types';
 import { getChatResponse, getGroundedSearch, getQuickSuggestion } from '../services/geminiService';
 
 const ChatIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>
 );
@@ -70,10 +70,11 @@ const ChatBot = () => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 z-40"
+                className="fixed bottom-6 right-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
                 aria-label="Open Chat"
             >
                 <ChatIcon />
+                <span className="text-white font-semibold pr-2 text-sm">¡Hola! soy Mixie, te ayudo?</span>
             </button>
 
             {isOpen && (

@@ -16,7 +16,8 @@ export const getChatResponse = async (history: { role: string; parts: { text: st
         },
         history,
     });
-    const response = await chat.sendMessage({message: newMessage});
+    // Fix: The sendMessage method expects an object with a 'message' property.
+    const response = await chat.sendMessage({ message: newMessage });
     return response.text;
   } catch (error) {
     console.error("Error getting chat response:", error);
