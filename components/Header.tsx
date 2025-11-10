@@ -2,11 +2,17 @@ import React from 'react';
 
 const StreamixLogo = () => (
     <div className="flex items-center space-x-4">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
-            <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
-        <h1 className="text-4xl font-bold text-gray-100 tracking-wider">STREAMIX</h1>
+        <h1 className="text-3xl font-bold text-gray-800 tracking-wider">STREAMIX</h1>
     </div>
+);
+
+const SearchIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
 );
 
 const ShoppingCartIcon = () => (
@@ -15,43 +21,42 @@ const ShoppingCartIcon = () => (
     </svg>
 );
 
-const MenuIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-    </svg>
-);
-
-
 interface HeaderProps {
     cartItemCount: number;
     onCartClick: () => void;
-    onMenuClick: () => void;
+    searchQuery: string;
+    onSearchChange: (query: string) => void;
 }
 
-const Header = ({ cartItemCount, onCartClick, onMenuClick }: HeaderProps) => {
+const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange }: HeaderProps) => {
     return (
-        <header className="sticky top-0 z-30 w-full bg-[#1A1A2E]/80 backdrop-blur-md shadow-lg shadow-black/20">
+        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center">
-                         <button
-                            onClick={onMenuClick}
-                            className="lg:hidden mr-4 p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1A1A2E] focus:ring-[#3A86FF]"
-                            aria-label="Open navigation menu"
-                         >
-                             <MenuIcon />
-                         </button>
-                        <StreamixLogo />
+                    <StreamixLogo />
+                    <div className="flex items-center space-x-4 flex-1 ml-10">
+                        <div className="relative w-full max-w-lg">
+                             <span className="absolute left-4 top-1/2 -translate-y-1/2">
+                                <SearchIcon />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Search for products..."
+                                value={searchQuery}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                            />
+                        </div>
                     </div>
                     <div className="flex items-center space-x-4">
                         <button
                             onClick={onCartClick}
-                            className="relative p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1A1A2E] focus:ring-[#3A86FF]"
+                            className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
                         >
                             <span className="sr-only">Open cart</span>
                             <ShoppingCartIcon />
                             {cartItemCount > 0 && (
-                                <span className="absolute top-0 right-0 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-[#1A1A2E]">
+                                <span className="absolute -top-1 -right-1 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-white">
                                     {cartItemCount}
                                 </span>
                             )}

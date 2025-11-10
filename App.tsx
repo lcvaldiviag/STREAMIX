@@ -1,34 +1,38 @@
 import React, { useState, useMemo } from 'react';
 import Header from './components/Header';
-import SideNav from './components/SideNav';
 import ProductList from './components/ProductList';
 import CartModal from './components/CartModal';
 import CheckoutModal from './components/CheckoutModal';
 import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
-import ImageEditor from './components/ImageEditor'; // Assuming you might want to open it from somewhere
-import { Product, Combo, CartItem } from './types';
+import SideNav from './components/SideNav';
+import ProductDetail from './components/ProductDetail';
+import { Product, Combo, CartItem, Category } from './types';
 
 const App = () => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-    const [isNavOpen, setIsNavOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const [isEditorOpen, setIsEditorOpen] = useState(false); // Example state to control ImageEditor
+    const [selectedCategory, setSelectedCategory] = useState<Category | 'All Products'>('All Products');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
-    const handleAddToCart = (itemToAdd: Product | Combo) => {
+    const handleAddToCart = (itemToAdd: Product | Combo, quantity: number = 1) => {
         setCart(prevCart => {
             const existingItem = prevCart.find(item => item.id === itemToAdd.id);
             if (existingItem) {
                 return prevCart.map(item =>
-                    item.id === itemToAdd.id ? { ...item, quantity: item.quantity + 1 } : item
+                    item.id === itemToAdd.id ? { ...item, quantity: item.quantity + quantity } : item
                 );
             }
-            return [...prevCart, { ...itemToAdd, quantity: 1 }];
+            return [...prevCart, { ...itemToAdd, quantity }];
         });
+    };
+
+    const handleQuickAddToCart = (itemToAdd: Product | Combo) => {
+        handleAddToCart(itemToAdd);
         setIsCartOpen(true);
     };
 
@@ -58,29 +62,41 @@ const App = () => {
         setCart([]); // Clear cart after successful checkout simulation
     };
 
-    const handleSelectCategory = (category: string) => {
-        setSelectedCategory(category);
-        setIsNavOpen(false); // Close nav on mobile after selection
+    const handleProductSelect = (product: Product | Combo) => {
+        setSelectedProduct(product);
+    };
+
+    const handleCloseDetail = () => {
+        setSelectedProduct(null);
     };
 
     return (
-        <div className="font-sans flex flex-col min-h-screen bg-[#121212]">
+        <div className="font-sans flex flex-col min-h-screen bg-slate-50 relative">
             <Header 
                 cartItemCount={cartItemCount} 
                 onCartClick={() => setIsCartOpen(true)}
-                onMenuClick={() => setIsNavOpen(true)}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
             />
-            <div className="flex-grow max-w-7xl mx-auto w-full flex">
+            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex">
                 <SideNav 
                     selectedCategory={selectedCategory}
-                    onSelectCategory={handleSelectCategory}
-                    isOpen={isNavOpen}
-                    onClose={() => setIsNavOpen(false)}
+                    onSelectCategory={setSelectedCategory}
                 />
-                <main className="flex-grow px-4 sm:px-6 lg:px-8 py-8 w-full">
-                    <ProductList onAddToCart={handleAddToCart} selectedCategory={selectedCategory} />
+                <main className="flex-grow py-8 pl-8 w-full">
+                    <ProductList 
+                        onAddToCart={handleQuickAddToCart}
+                        onProductSelect={handleProductSelect}
+                        selectedCategory={selectedCategory}
+                        searchQuery={searchQuery}
+                    />
                 </main>
             </div>
+             <ProductDetail
+                product={selectedProduct}
+                onClose={handleCloseDetail}
+                onAddToCart={handleQuickAddToCart}
+            />
             <Footer />
             <CartModal
                 isOpen={isCartOpen}
@@ -94,10 +110,6 @@ const App = () => {
                 isOpen={isCheckoutOpen}
                 onClose={handleCloseCheckout}
                 cartItems={cart}
-            />
-            <ImageEditor 
-                isOpen={isEditorOpen}
-                onClose={() => setIsEditorOpen(false)}
             />
             <ChatBot />
         </div>

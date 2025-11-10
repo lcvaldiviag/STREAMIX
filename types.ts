@@ -21,6 +21,7 @@ export interface Product {
   // Fix: Changed from JSX.Element to ReactNode to resolve issue with JSX namespace not being found.
   logo: string;
   description?: string;
+  brandColor?: string;
 }
 
 export interface Combo {
