@@ -21,19 +21,35 @@ const ShoppingCartIcon = () => (
     </svg>
 );
 
+const MenuIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+);
+
 interface HeaderProps {
     cartItemCount: number;
     onCartClick: () => void;
     searchQuery: string;
     onSearchChange: (query: string) => void;
+    onNavToggle: () => void;
 }
 
-const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange }: HeaderProps) => {
+const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle }: HeaderProps) => {
     return (
         <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    <StreamixLogo />
+                    <div className="flex items-center">
+                        <button
+                            onClick={onNavToggle}
+                            className="lg:hidden p-2 -ml-2 mr-2 rounded-md text-gray-600 hover:bg-slate-100"
+                            aria-label="Open navigation menu"
+                        >
+                            <MenuIcon />
+                        </button>
+                        <StreamixLogo />
+                    </div>
                     <div className="flex items-center space-x-4 flex-1 ml-10">
                         <div className="relative w-full max-w-lg">
                              <span className="absolute left-4 top-1/2 -translate-y-1/2">

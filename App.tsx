@@ -16,6 +16,7 @@ const App = () => {
     const [selectedCategory, setSelectedCategory] = useState<Category | 'All Products'>('All Products');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
+    const [isNavOpen, setIsNavOpen] = useState(false);
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
@@ -77,13 +78,27 @@ const App = () => {
                 onCartClick={() => setIsCartOpen(true)}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                onNavToggle={() => setIsNavOpen(!isNavOpen)}
             />
+            
+            {isNavOpen && (
+                <div 
+                    className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+                    onClick={() => setIsNavOpen(false)}
+                    aria-hidden="true"
+                ></div>
+            )}
+
             <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex">
                 <SideNav 
                     selectedCategory={selectedCategory}
-                    onSelectCategory={setSelectedCategory}
+                    onSelectCategory={(category) => {
+                        setSelectedCategory(category);
+                        setIsNavOpen(false);
+                    }}
+                    isOpen={isNavOpen}
                 />
-                <main className="flex-grow py-8 pl-8 w-full">
+                <main className="flex-grow py-8 pl-0 lg:pl-8 w-full">
                     <ProductList 
                         onAddToCart={handleQuickAddToCart}
                         onProductSelect={handleProductSelect}
