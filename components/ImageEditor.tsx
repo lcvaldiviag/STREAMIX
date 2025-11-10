@@ -66,30 +66,30 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
-                <header className="p-4 flex justify-between items-center border-b">
-                    <h2 className="text-xl font-bold">AI Image Editor</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#1E1E3F] border border-gray-700 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+                <header className="p-4 flex justify-between items-center border-b border-gray-700">
+                    <h2 className="text-xl font-bold text-white">AI Image Editor</h2>
+                    <button onClick={onClose} className="p-2 rounded-full text-gray-300 hover:bg-white/10">
                         <CloseIcon />
                     </button>
                 </header>
                 <main className="p-6 flex-1 overflow-y-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="flex flex-col space-y-4">
-                            <div className="p-4 border-2 border-dashed rounded-xl text-center">
-                                <label htmlFor="image-upload" className="cursor-pointer text-indigo-600 font-semibold">
+                            <div className="p-4 border-2 border-dashed border-gray-600 rounded-xl text-center">
+                                <label htmlFor="image-upload" className="cursor-pointer text-blue-400 font-semibold hover:text-blue-300">
                                     {originalImage ? 'Change Image' : 'Click to Upload Image'}
                                 </label>
                                 <input id="image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
-                                {originalImage && <p className="text-sm text-gray-500 mt-2">{originalImage.name}</p>}
+                                {originalImage && <p className="text-sm text-gray-400 mt-2">{originalImage.name}</p>}
                             </div>
 
                             <textarea
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                                 placeholder="e.g., 'add a retro filter', 'make the sky purple', 'put a pirate hat on the cat'"
-                                className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full p-2 bg-gray-800 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={3}
                             />
                              <button
@@ -101,23 +101,23 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
                             </button>
                             {error && <p className="text-red-500 text-sm">{error}</p>}
                         </div>
-                        <div className="flex flex-col items-center justify-center bg-gray-100 rounded-xl p-4 min-h-[300px]">
+                        <div className="flex flex-col items-center justify-center bg-black/30 rounded-xl p-4 min-h-[300px]">
                             {isLoading && (
                                 <div className="flex flex-col items-center">
-                                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-500"></div>
-                                    <p className="mt-4 text-gray-600">AI is thinking...</p>
+                                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-400"></div>
+                                    <p className="mt-4 text-gray-400">AI is thinking...</p>
                                 </div>
                             )}
                             {!isLoading && editedImage && (
                                 <>
                                     <img src={editedImage} alt="Edited result" className="max-w-full max-h-80 rounded-xl object-contain" />
-                                    <p className="text-sm text-gray-600 mt-2 font-semibold">Edited Image</p>
+                                    <p className="text-sm text-gray-400 mt-2 font-semibold">Edited Image</p>
                                 </>
                             )}
                              {!isLoading && !editedImage && originalImage && (
                                 <>
                                     <img src={URL.createObjectURL(originalImage)} alt="Original" className="max-w-full max-h-80 rounded-xl object-contain" />
-                                     <p className="text-sm text-gray-600 mt-2 font-semibold">Original Image</p>
+                                     <p className="text-sm text-gray-400 mt-2 font-semibold">Original Image</p>
                                 </>
                             )}
                              {!isLoading && !editedImage && !originalImage && (

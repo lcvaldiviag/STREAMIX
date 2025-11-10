@@ -5,7 +5,7 @@ const StreamixLogo = () => (
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
             <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
-        <h1 className="text-4xl font-bold text-gray-800 tracking-wider">STREAMIX</h1>
+        <h1 className="text-4xl font-bold text-gray-100 tracking-wider">STREAMIX</h1>
     </div>
 );
 
@@ -15,26 +15,43 @@ const ShoppingCartIcon = () => (
     </svg>
 );
 
+const MenuIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+    </svg>
+);
+
+
 interface HeaderProps {
     cartItemCount: number;
     onCartClick: () => void;
+    onMenuClick: () => void;
 }
 
-const Header = ({ cartItemCount, onCartClick }: HeaderProps) => {
+const Header = ({ cartItemCount, onCartClick, onMenuClick }: HeaderProps) => {
     return (
-        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md shadow-sm">
+        <header className="sticky top-0 z-30 w-full bg-[#1A1A2E]/80 backdrop-blur-md shadow-lg shadow-black/20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    <StreamixLogo />
+                    <div className="flex items-center">
+                         <button
+                            onClick={onMenuClick}
+                            className="lg:hidden mr-4 p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1A1A2E] focus:ring-[#3A86FF]"
+                            aria-label="Open navigation menu"
+                         >
+                             <MenuIcon />
+                         </button>
+                        <StreamixLogo />
+                    </div>
                     <div className="flex items-center space-x-4">
                         <button
                             onClick={onCartClick}
-                            className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="relative p-2 rounded-full text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1A1A2E] focus:ring-[#3A86FF]"
                         >
                             <span className="sr-only">Open cart</span>
                             <ShoppingCartIcon />
                             {cartItemCount > 0 && (
-                                <span className="absolute top-0 right-0 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
+                                <span className="absolute top-0 right-0 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-[#1A1A2E]">
                                     {cartItemCount}
                                 </span>
                             )}

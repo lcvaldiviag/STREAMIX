@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,20 +12,49 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
+        background-color: #121212;
+        color: #F0F0F0;
+        overflow-x: hidden;
+        position: relative;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(58, 134, 255, 0.08), transparent 40%),
+                    radial-gradient(circle at 20% 80%, rgba(131, 56, 236, 0.08), transparent 40%),
+                    radial-gradient(circle at 80% 30%, rgba(255, 0, 110, 0.08), transparent 40%);
+        z-index: 0;
+        animation: gradient-animation 20s ease infinite;
+        pointer-events: none;
+      }
+      @keyframes gradient-animation {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(10px, 20px) rotate(5deg); }
+        50% { transform: translate(-10px, -20px) rotate(-5deg); }
+        75% { transform: translate(5px, -10px) rotate(3deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+      }
+      #root {
+        position: relative;
+        z-index: 1;
       }
       /* Custom scrollbar for a more modern look */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: #1A1A2E;
       }
       ::-webkit-scrollbar-thumb {
-        background: #888;
+        background: #3A86FF;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        background: #5a9bff;
       }
     </style>
   <script type="importmap">
@@ -40,7 +68,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50">
+  <body class="bg-[#121212] text-gray-200">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

@@ -4,8 +4,8 @@ import { Product, Combo, Category } from './types';
 // Generic SVG Icon for placeholders
 // Fix: Re-written without JSX to be compatible with a .ts file.
 export const PlaceholderIcon = ({ icon }: { icon: string }): React.ReactElement => (
-  React.createElement('div', { className: "w-12 h-12 flex items-center justify-center bg-gray-200 rounded-lg" },
-    React.createElement('span', { className: "text-xl font-bold text-gray-500" }, icon)
+  React.createElement('div', { className: "w-12 h-12 flex items-center justify-center bg-gray-700/50 rounded-lg" },
+    React.createElement('span', { className: "text-xl font-bold text-[#3A86FF]" }, icon)
   )
 );
 

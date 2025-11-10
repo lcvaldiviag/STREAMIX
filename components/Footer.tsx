@@ -10,7 +10,7 @@ const WhatsAppIcon = () => (
 const Footer = () => {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
     return (
-        <footer className="bg-gray-800 text-white">
+        <footer className="bg-[#1A1A2E] text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="text-sm text-gray-400 text-center md:text-left">
@@ -26,7 +26,7 @@ const Footer = () => {
                         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Terms of Service</a>
                     </div>
                 </div>
-                 <p className="text-center text-lg font-bold text-white mt-4">
+                 <p className="text-center text-lg font-bold text-white mt-4 tracking-wider">
                     Reliable streaming, as it should be.
                  </p>
             </div>

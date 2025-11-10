@@ -70,7 +70,7 @@ const ChatBot = () => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-10 right-10 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
+                className="fixed bottom-10 right-10 bg-gradient-to-br from-blue-500 to-purple-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg shadow-black/40 hover:scale-105 transition-transform duration-300 z-40"
                 aria-label="Open Chat"
             >
                 <ChatIcon />
@@ -78,26 +78,26 @@ const ChatBot = () => {
             </button>
 
             {isOpen && (
-                <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full h-full sm:w-80 sm:h-[500px] bg-white rounded-t-lg sm:rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300">
-                    <header className="p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex justify-between items-center rounded-t-lg sm:rounded-t-2xl">
+                <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full h-full sm:w-80 sm:h-[500px] bg-[#1E1E3F] rounded-t-lg sm:rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300 border border-gray-700/50">
+                    <header className="p-4 bg-gradient-to-br from-blue-500 to-purple-500 flex justify-between items-center rounded-t-lg sm:rounded-t-2xl">
                         <h3 className="text-lg font-semibold text-white">Chatea con Mixie</h3>
                         <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-white hover:bg-white/20 transition-colors">
                             <CloseIcon />
                         </button>
                     </header>
 
-                    <main className="flex-1 p-4 overflow-y-auto bg-gray-50">
+                    <main className="flex-1 p-4 overflow-y-auto bg-[#121212]">
                         <div className="space-y-4">
                             {messages.map((msg, index) => (
                                 <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-xs md:max-w-sm px-4 py-2 rounded-2xl ${msg.sender === 'user' ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white rounded-br-none' : 'bg-gray-200 text-gray-900 rounded-bl-none'}`}>
+                                    <div className={`max-w-xs md:max-w-sm px-4 py-2 rounded-2xl ${msg.sender === 'user' ? 'bg-[#3A86FF] text-white rounded-br-none' : 'bg-gray-700 text-gray-100 rounded-bl-none'}`}>
                                         <p className="text-sm" dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br />') }}></p>
                                         {msg.sources && msg.sources.length > 0 && (
-                                            <div className="mt-2 pt-2 border-t border-gray-300">
+                                            <div className="mt-2 pt-2 border-t border-gray-500">
                                                 <h4 className="text-xs font-semibold mb-1">Fuentes:</h4>
                                                 <ul className="text-xs space-y-1">
                                                 {msg.sources.map((source, i) => (
-                                                    <li key={i}><a href={source.uri} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline truncate block">{source.title}</a></li>
+                                                    <li key={i}><a href={source.uri} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline truncate block">{source.title}</a></li>
                                                 ))}
                                                 </ul>
                                             </div>
@@ -107,11 +107,11 @@ const ChatBot = () => {
                             ))}
                             {isLoading && (
                                 <div className="flex justify-start">
-                                    <div className="px-4 py-2 rounded-2xl bg-gray-200 text-gray-900 rounded-bl-none">
+                                    <div className="px-4 py-2 rounded-2xl bg-gray-700 text-gray-100 rounded-bl-none">
                                         <div className="flex items-center space-x-2">
-                                            <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></div>
-                                            <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                                            <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+                                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+                                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@ const ChatBot = () => {
                         </div>
                     </main>
 
-                    <footer className="p-3 bg-white border-t">
+                    <footer className="p-3 bg-[#1E1E3F] border-t border-gray-700/50">
                         <div className="flex items-center">
                             <input
                                 type="text"
@@ -128,10 +128,10 @@ const ChatBot = () => {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder="Escribe un mensaje..."
-                                className="flex-1 w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="flex-1 w-full px-4 py-2 border border-gray-600 bg-gray-800 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-[#3A86FF]"
                                 disabled={isLoading}
                             />
-                            <button onClick={handleSend} disabled={isLoading} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-300">
+                            <button onClick={handleSend} disabled={isLoading} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-500">
                                <SendIcon />
                             </button>
                         </div>
