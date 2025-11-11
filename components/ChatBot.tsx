@@ -3,19 +3,19 @@ import { ChatMessage } from '../types';
 import { getChatResponse, getGroundedSearch, getQuickSuggestion } from '../services/geminiService';
 
 const ChatIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>
 );
 
 const CloseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
     </svg>
 );
 
 const SendIcon = () => (
-     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
     </svg>
 );
@@ -25,6 +25,8 @@ const ChatBot = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [apiKey, setApiKey] = useState<string | null>(process.env.API_KEY || null);
+    const [isAwaitingApiKey, setIsAwaitingApiKey] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -35,12 +37,40 @@ const ChatBot = () => {
 
     useEffect(() => {
         if (isOpen) {
-            setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
+            let key = apiKey;
+            if (!key) {
+                const storedKey = sessionStorage.getItem('gemini-api-key');
+                if (storedKey) {
+                    key = storedKey;
+                    setApiKey(storedKey);
+                }
+            }
+
+            if (!key) {
+                setMessages([{ 
+                    sender: 'bot', 
+                    text: `¡Hola! 👋 Para empezar, necesito una clave de API de Google Gemini. <br/><br/> Puedes obtener una gratis en <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold hover:underline">Google AI Studio</a>. <br/><br/>Una vez que la tengas, pégala aquí.` 
+                }]);
+                setIsAwaitingApiKey(true);
+            } else {
+                 setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
+                 setIsAwaitingApiKey(false);
+            }
         }
     }, [isOpen]);
 
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
+
+        if (isAwaitingApiKey) {
+            const potentialKey = input.trim();
+            setApiKey(potentialKey);
+            sessionStorage.setItem('gemini-api-key', potentialKey);
+            setIsAwaitingApiKey(false);
+            setInput('');
+            setMessages([{ sender: 'bot', text: '¡Genial! Gracias. 😊 Ahora sí, ¿en qué puedo ayudarte?' }]);
+            return;
+        }
 
         const userMessage: ChatMessage = { sender: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
@@ -49,22 +79,26 @@ const ChatBot = () => {
 
         let response: ChatMessage;
         
-        if (input.toLowerCase().startsWith('/suggest')) {
+        if (!apiKey) {
+            response = { sender: 'bot', text: 'No se pudo conectar con el asistente de IA. (Error de configuración: Falta la clave de API). Por favor, reinicia el chat e ingresa una clave.' };
+        } else if (input.toLowerCase().startsWith('/suggest')) {
             const query = input.substring(8) || 'something fun';
-             const suggestion = await getQuickSuggestion(query);
+             const suggestion = await getQuickSuggestion(apiKey, query);
              response = { sender: 'bot', text: suggestion };
         } else {
             const chatHistory = messages.map(m => ({
                 role: m.sender === 'user' ? 'user' : 'model',
                 parts: [{ text: m.text }]
             }));
-            const botText = await getChatResponse(chatHistory, input);
+            const botText = await getChatResponse(apiKey, chatHistory, input);
             response = { sender: 'bot', text: botText };
         }
         
         setMessages(prev => [...prev, response]);
         setIsLoading(false);
     };
+    
+    const isInputDisabled = isLoading || (!apiKey && !isAwaitingApiKey);
 
     return (
         <>
@@ -127,11 +161,11 @@ const ChatBot = () => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                                placeholder="Escribe un mensaje..."
-                                className="flex-1 w-full px-4 py-2 border bg-slate-100 border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
-                                disabled={isLoading}
+                                placeholder={isAwaitingApiKey ? "Pega tu clave de API aquí..." : (isInputDisabled ? "Asistente no disponible" : "Escribe un mensaje...")}
+                                className="flex-1 w-full px-4 py-2 border bg-slate-100 border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 disabled:bg-slate-200 disabled:cursor-not-allowed"
+                                disabled={isInputDisabled}
                             />
-                            <button onClick={handleSend} disabled={isLoading} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-400">
+                            <button onClick={handleSend} disabled={isInputDisabled} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-400 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed">
                                <SendIcon />
                             </button>
                         </div>

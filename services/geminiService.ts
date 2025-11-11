@@ -8,13 +8,13 @@ const API_KEY_ERROR_MESSAGE = "No se pudo conectar con el asistente de IA. (Erro
 
 // --- Text Generation ---
 
-export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
-  if (!process.env.API_KEY) {
-    console.error("API_KEY environment variable not set.");
+export const getChatResponse = async (apiKey: string, history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
+  if (!apiKey) {
+    console.error("API key is missing.");
     return API_KEY_ERROR_MESSAGE;
   }
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     const chat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
@@ -31,13 +31,13 @@ export const getChatResponse = async (history: { role: string; parts: { text: st
   }
 };
 
-export const getQuickSuggestion = async (interest: string): Promise<string> => {
-    if (!process.env.API_KEY) {
-        console.error("API_KEY environment variable not set.");
+export const getQuickSuggestion = async (apiKey: string, interest: string): Promise<string> => {
+    if (!apiKey) {
+        console.error("API key is missing.");
         return API_KEY_ERROR_MESSAGE;
     }
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
             model: 'gemini-flash-latest',
             contents: `Based on an interest in '${interest}', suggest a single product or combo from STREAMIX. Be very brief and enthusiastic.`,
@@ -50,13 +50,13 @@ export const getQuickSuggestion = async (interest: string): Promise<string> => {
 };
 
 // --- Search with Grounding ---
-export const getGroundedSearch = async (query: string): Promise<{ text: string; sources: { uri: string; title: string }[] }> => {
-  if (!process.env.API_KEY) {
-    console.error("API_KEY environment variable not set.");
+export const getGroundedSearch = async (apiKey: string, query: string): Promise<{ text: string; sources: { uri: string; title: string }[] }> => {
+  if (!apiKey) {
+    console.error("API key is missing.");
     return { text: API_KEY_ERROR_MESSAGE, sources: [] };
   }
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: `Provide up-to-date, factual information about the following topic: "${query}". Answer as if you are a knowledgeable assistant.`,
@@ -88,13 +88,13 @@ export const getGroundedSearch = async (query: string): Promise<{ text: string; 
 
 // Fix: Add the missing 'editImage' function to support the AI Image Editor feature.
 // --- Image Editing ---
-export const editImage = async (base64ImageData: string, mimeType: string, prompt: string): Promise<string | null> => {
-    if (!process.env.API_KEY) {
-        console.error("API_KEY environment variable not set.");
+export const editImage = async (apiKey: string, base64ImageData: string, mimeType: string, prompt: string): Promise<string | null> => {
+    if (!apiKey) {
+        console.error("API key is missing.");
         return null;
     }
     try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
             contents: {

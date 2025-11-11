@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { editImage } from '../services/geminiService';
 
 const CloseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
     </svg>
 );
@@ -31,6 +31,28 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
     const [prompt, setPrompt] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [apiKey, setApiKey] = useState<string | null>(process.env.API_KEY || null);
+
+    const getApiKey = (): string | null => {
+        let key = apiKey;
+        if (!key) {
+            const storedKey = sessionStorage.getItem('gemini-api-key');
+            if (storedKey) {
+                setApiKey(storedKey);
+                return storedKey;
+            }
+        }
+        if (!key) {
+            const newKey = window.prompt("Por favor, ingresa tu clave de API de Google Gemini para usar el editor de imágenes.\nPuedes obtener una en ai.google.dev");
+            if (newKey) {
+                sessionStorage.setItem('gemini-api-key', newKey);
+                setApiKey(newKey);
+                return newKey;
+            }
+        }
+        return key;
+    };
+
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -47,12 +69,19 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
             setError('Please upload an image and enter a prompt.');
             return;
         }
+
+        const currentApiKey = getApiKey();
+        if (!currentApiKey) {
+            setError("Se requiere una clave de API para generar imágenes.");
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setEditedImage(null);
         try {
             const { data, mimeType } = await fileToGenerativePart(originalImage);
-            const result = await editImage(data, mimeType, prompt);
+            const result = await editImage(currentApiKey, data, mimeType, prompt);
             if (result) {
                 setEditedImage(`data:image/png;base64,${result}`);
             } else {
