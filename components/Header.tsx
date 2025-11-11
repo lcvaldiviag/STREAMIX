@@ -40,6 +40,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
         <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
+                    {/* Left side: Logo & Mobile Nav Toggle */}
                     <div className="flex items-center">
                         <button
                             onClick={onNavToggle}
@@ -50,8 +51,11 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         </button>
                         <StreamixLogo />
                     </div>
-                    <div className="flex items-center space-x-4 flex-1 ml-10">
-                        <div className="relative w-full max-w-lg">
+
+                    {/* Right side: Search & Cart */}
+                    <div className="flex items-center space-x-4">
+                        {/* Search bar - hidden on small screens for better layout */}
+                        <div className="relative w-full max-w-xs hidden md:block lg:max-w-sm">
                              <span className="absolute left-4 top-1/2 -translate-y-1/2">
                                 <SearchIcon />
                             </span>
@@ -63,8 +67,8 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                                 className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
                             />
                         </div>
-                    </div>
-                    <div className="flex items-center space-x-4">
+                        
+                        {/* Cart Button */}
                         <button
                             onClick={onCartClick}
                             className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
