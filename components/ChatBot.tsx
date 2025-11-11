@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
-import { getChatResponse, getGroundedSearch, getQuickSuggestion } from '../services/geminiService';
+import { getChatResponse, getQuickSuggestion } from '../services/geminiService';
 
 const ChatIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24" stroke="currentColor">
@@ -25,8 +25,6 @@ const ChatBot = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [apiKey, setApiKey] = useState<string | null>(process.env.API_KEY || null);
-    const [isAwaitingApiKey, setIsAwaitingApiKey] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -35,62 +33,36 @@ const ChatBot = () => {
 
     useEffect(scrollToBottom, [messages]);
 
+    // Efecto de mensaje inicial simplificado
     useEffect(() => {
-        if (isOpen) {
-            let key = apiKey;
-            if (!key) {
-                const storedKey = sessionStorage.getItem('gemini-api-key');
-                if (storedKey) {
-                    key = storedKey;
-                    setApiKey(storedKey);
-                }
-            }
-
-            if (!key) {
-                setMessages([{ 
-                    sender: 'bot', 
-                    text: `¡Hola! 👋 Para empezar, necesito una clave de API de Google Gemini. <br/><br/> Puedes obtener una gratis en <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold hover:underline">Google AI Studio</a>. <br/><br/>Una vez que la tengas, pégala aquí.` 
-                }]);
-                setIsAwaitingApiKey(true);
-            } else {
-                 setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
-                 setIsAwaitingApiKey(false);
-            }
+        if (isOpen && messages.length === 0) {
+            setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
         }
-    }, [isOpen]);
+    }, [isOpen, messages.length]);
 
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
 
-        if (isAwaitingApiKey) {
-            const potentialKey = input.trim();
-            setApiKey(potentialKey);
-            sessionStorage.setItem('gemini-api-key', potentialKey);
-            setIsAwaitingApiKey(false);
-            setInput('');
-            setMessages([{ sender: 'bot', text: '¡Genial! Gracias. 😊 Ahora sí, ¿en qué puedo ayudarte?' }]);
-            return;
-        }
-
         const userMessage: ChatMessage = { sender: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
+        const currentInput = input; // Capturar el input antes de limpiarlo
         setInput('');
         setIsLoading(true);
 
         let response: ChatMessage;
         
-        if (!apiKey) {
-            response = { sender: 'bot', text: 'No se pudo conectar con el asistente de IA. (Error de configuración: Falta la clave de API). Por favor, reinicia el chat e ingresa una clave.' };
-        } else if (input.toLowerCase().startsWith('/suggest')) {
-            const query = input.substring(8) || 'something fun';
-             const suggestion = await getQuickSuggestion(apiKey, query);
+        if (currentInput.toLowerCase().startsWith('/suggest')) {
+            const query = currentInput.substring(8).trim() || 'something fun';
+             const suggestion = await getQuickSuggestion(query);
              response = { sender: 'bot', text: suggestion };
         } else {
-            const chatHistory = messages.map(m => ({
+            const chatHistory = messages
+                .filter(m => !m.text.includes('asistente de IA')) // filtrar el mensaje de bienvenida
+                .map(m => ({
                 role: m.sender === 'user' ? 'user' : 'model',
                 parts: [{ text: m.text }]
             }));
-            const botText = await getChatResponse(apiKey, chatHistory, input);
+            const botText = await getChatResponse(chatHistory, currentInput);
             response = { sender: 'bot', text: botText };
         }
         
@@ -98,7 +70,8 @@ const ChatBot = () => {
         setIsLoading(false);
     };
     
-    const isInputDisabled = isLoading || (!apiKey && !isAwaitingApiKey);
+    // Lógica de isInputDisabled simplificada
+    const isInputDisabled = isLoading;
 
     return (
         <>
@@ -161,7 +134,7 @@ const ChatBot = () => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                                placeholder={isAwaitingApiKey ? "Pega tu clave de API aquí..." : (isInputDisabled ? "Asistente no disponible" : "Escribe un mensaje...")}
+                                placeholder={isInputDisabled ? "Mixie está pensando..." : "Escribe un mensaje..."}
                                 className="flex-1 w-full px-4 py-2 border bg-slate-100 border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 disabled:bg-slate-200 disabled:cursor-not-allowed"
                                 disabled={isInputDisabled}
                             />

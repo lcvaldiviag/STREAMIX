@@ -7,7 +7,7 @@ const CloseIcon = () => (
     </svg>
 );
 
-// Utility to convert a file to a base64 string
+// Utilidad para convertir un archivo a una cadena base64
 const fileToGenerativePart = async (file: File): Promise<{ mimeType: string; data: string }> => {
     const base64encodedData = await new Promise<string>((resolve) => {
         const reader = new FileReader();
@@ -31,28 +31,6 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
     const [prompt, setPrompt] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [apiKey, setApiKey] = useState<string | null>(process.env.API_KEY || null);
-
-    const getApiKey = (): string | null => {
-        let key = apiKey;
-        if (!key) {
-            const storedKey = sessionStorage.getItem('gemini-api-key');
-            if (storedKey) {
-                setApiKey(storedKey);
-                return storedKey;
-            }
-        }
-        if (!key) {
-            const newKey = window.prompt("Por favor, ingresa tu clave de API de Google Gemini para usar el editor de imágenes.\nPuedes obtener una en ai.google.dev");
-            if (newKey) {
-                sessionStorage.setItem('gemini-api-key', newKey);
-                setApiKey(newKey);
-                return newKey;
-            }
-        }
-        return key;
-    };
-
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -62,17 +40,9 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
         }
     };
 
-    // Fix: Refactored handleGenerate to use a `finally` block to ensure loading state is always reset.
-    // This resolves the scoping errors reported by the compiler.
     const handleGenerate = async () => {
         if (!originalImage || !prompt) {
-            setError('Please upload an image and enter a prompt.');
-            return;
-        }
-
-        const currentApiKey = getApiKey();
-        if (!currentApiKey) {
-            setError("Se requiere una clave de API para generar imágenes.");
+            setError('Por favor, sube una imagen e ingresa una instrucción.');
             return;
         }
 
@@ -81,14 +51,14 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
         setEditedImage(null);
         try {
             const { data, mimeType } = await fileToGenerativePart(originalImage);
-            const result = await editImage(currentApiKey, data, mimeType, prompt);
+            const result = await editImage(data, mimeType, prompt);
             if (result) {
                 setEditedImage(`data:image/png;base64,${result}`);
             } else {
-                setError('Failed to edit image. The AI may have refused the request.');
+                setError('No se pudo editar la imagen. La IA pudo haber rechazado la solicitud o ocurrió un error.');
             }
         } catch (e) {
-            setError('An error occurred while processing the image.');
+            setError('Ocurrió un error al procesar la imagen.');
             console.error(e);
         } finally {
             setIsLoading(false);
@@ -101,7 +71,7 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col text-gray-800">
                 <header className="p-4 flex justify-between items-center border-b border-gray-200">
-                    <h2 className="text-xl font-bold">AI Image Editor</h2>
+                    <h2 className="text-xl font-bold">Editor de Imágenes con IA</h2>
                     <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
                         <CloseIcon />
                     </button>
@@ -111,7 +81,7 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
                         <div className="flex flex-col space-y-4">
                             <div className="p-4 border-2 border-dashed border-gray-300 rounded-xl text-center">
                                 <label htmlFor="image-upload" className="cursor-pointer text-indigo-600 font-semibold">
-                                    {originalImage ? 'Change Image' : 'Click to Upload Image'}
+                                    {originalImage ? 'Cambiar Imagen' : 'Haz clic para Subir una Imagen'}
                                 </label>
                                 <input id="image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
                                 {originalImage && <p className="text-sm text-gray-500 mt-2">{originalImage.name}</p>}
@@ -120,7 +90,7 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
                             <textarea
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
-                                placeholder="e.g., 'add a retro filter', 'make the sky purple', 'put a pirate hat on the cat'"
+                                placeholder="ej: 'añade un filtro retro', 'haz que el cielo sea morado', 'ponle un sombrero de pirata al gato'"
                                 className="w-full p-2 border bg-white border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
                                 rows={3}
                             />
@@ -129,7 +99,7 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
                                 disabled={isLoading || !originalImage || !prompt}
                                 className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition"
                             >
-                                {isLoading ? 'Generating...' : 'Generate'}
+                                {isLoading ? 'Generando...' : 'Generar'}
                             </button>
                             {error && <p className="text-red-500 text-sm">{error}</p>}
                         </div>
@@ -137,23 +107,23 @@ const ImageEditor = ({ isOpen, onClose }: ImageEditorProps) => {
                             {isLoading && (
                                 <div className="flex flex-col items-center">
                                     <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-500"></div>
-                                    <p className="mt-4 text-gray-500">AI is thinking...</p>
+                                    <p className="mt-4 text-gray-500">La IA está pensando...</p>
                                 </div>
                             )}
                             {!isLoading && editedImage && (
                                 <>
-                                    <img src={editedImage} alt="Edited result" className="max-w-full max-h-80 rounded-xl object-contain" />
-                                    <p className="text-sm text-gray-500 mt-2 font-semibold">Edited Image</p>
+                                    <img src={editedImage} alt="Resultado editado" className="max-w-full max-h-80 rounded-xl object-contain" />
+                                    <p className="text-sm text-gray-500 mt-2 font-semibold">Imagen Editada</p>
                                 </>
                             )}
                              {!isLoading && !editedImage && originalImage && (
                                 <>
                                     <img src={URL.createObjectURL(originalImage)} alt="Original" className="max-w-full max-h-80 rounded-xl object-contain" />
-                                     <p className="text-sm text-gray-500 mt-2 font-semibold">Original Image</p>
+                                     <p className="text-sm text-gray-500 mt-2 font-semibold">Imagen Original</p>
                                 </>
                             )}
                              {!isLoading && !editedImage && !originalImage && (
-                               <p className="text-gray-400">Your generated image will appear here.</p>
+                               <p className="text-gray-400">Tu imagen generada aparecerá aquí.</p>
                              )}
                         </div>
                     </div>
