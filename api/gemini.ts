@@ -28,14 +28,20 @@ export default async function handler(req: Request) {
     switch (type) {
       case 'chat': {
         const { history, newMessage } = body;
-        const chat = ai.chats.create({
-          model: 'gemini-2.5-flash',
-          config: {
-              systemInstruction: "Eres un asistente de ventas amigable y servicial para STREAMIX, un mercado digital de suscripciones de streaming. Tu nombre es Mixie. 🤖 Usa emojis para que tus respuestas sean más cálidas y atractivas. 😊 Mantén tus respuestas concisas y útiles. No inventes precios; remite al usuario a la lista de productos. La moneda es USD ($) y Bolivianos (BS.).",
-          },
-          history,
+        // Construir el historial de contenidos para una llamada directa a la API
+        const contents = [
+            ...history,
+            { role: 'user', parts: [{ text: newMessage }] }
+        ];
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: contents,
+            config: {
+                systemInstruction: "Eres un asistente de ventas amigable y servicial para STREAMIX, un mercado digital de suscripciones de streaming. Tu nombre es Mixie. 🤖 Usa emojis para que tus respuestas sean más cálidas y atractivas. 😊 Mantén tus respuestas concisas y útiles. No inventes precios; remite al usuario a la lista de productos. La moneda es USD ($) y Bolivianos (BS.).",
+            }
         });
-        const response = await chat.sendMessage({ message: newMessage });
+
         return new Response(JSON.stringify({ text: response.text }), {
           headers: { 'Content-Type': 'application/json' },
         });

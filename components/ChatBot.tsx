@@ -45,32 +45,42 @@ const ChatBot = () => {
 
         const userMessage: ChatMessage = { sender: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
-        const currentInput = input; // Capturar el input antes de limpiarlo
+        const currentInput = input;
         setInput('');
         setIsLoading(true);
 
-        let response: ChatMessage;
-        
-        if (currentInput.toLowerCase().startsWith('/suggest')) {
-            const query = currentInput.substring(8).trim() || 'something fun';
-             const suggestion = await getQuickSuggestion(query);
-             response = { sender: 'bot', text: suggestion };
-        } else {
-            const chatHistory = messages
-                .filter(m => !m.text.includes('asistente de IA')) // filtrar el mensaje de bienvenida
-                .map(m => ({
-                role: m.sender === 'user' ? 'user' : 'model',
-                parts: [{ text: m.text }]
-            }));
-            const botText = await getChatResponse(chatHistory, currentInput);
-            response = { sender: 'bot', text: botText };
+        try {
+            let response: ChatMessage;
+
+            if (currentInput.toLowerCase().startsWith('/suggest')) {
+                const query = currentInput.substring(8).trim() || 'something fun';
+                const suggestion = await getQuickSuggestion(query);
+                response = { sender: 'bot', text: suggestion };
+            } else {
+                const chatHistory = messages
+                    .filter(m => !m.text.includes('asistente de IA')) // filtrar el mensaje de bienvenida
+                    .map(m => ({
+                        role: m.sender === 'user' ? 'user' : 'model',
+                        parts: [{ text: m.text }]
+                    }));
+                const botText = await getChatResponse(chatHistory, currentInput);
+                response = { sender: 'bot', text: botText };
+            }
+            
+            setMessages(prev => [...prev, response]);
+
+        } catch (error) {
+            console.error("Error al enviar el mensaje:", error);
+            const errorMessage: ChatMessage = {
+                sender: 'bot',
+                text: "Lo siento, algo salió mal al procesar tu solicitud. Por favor, inténtalo de nuevo."
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsLoading(false); // Esto se ejecuta siempre, con éxito o con error.
         }
-        
-        setMessages(prev => [...prev, response]);
-        setIsLoading(false);
     };
     
-    // Lógica de isInputDisabled simplificada
     const isInputDisabled = isLoading;
 
     return (
@@ -138,7 +148,7 @@ const ChatBot = () => {
                                 className="flex-1 w-full px-4 py-2 border bg-slate-100 border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 disabled:bg-slate-200 disabled:cursor-not-allowed"
                                 disabled={isInputDisabled}
                             />
-                            <button onClick={handleSend} disabled={isInputDisabled} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-400 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed">
+                            <button onClick={handleSend} disabled={isInputDisabled || !input.trim()} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:opacity-50 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-opacity">
                                <SendIcon />
                             </button>
                         </div>
