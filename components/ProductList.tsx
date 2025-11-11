@@ -20,10 +20,10 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
       style={{ borderTop: `4px solid ${brandColor || 'transparent'}` }}
     >
       {isProduct(item) ? (
-        <div className="p-5 flex-grow flex flex-col">
+        <div className="p-4 sm:p-5 flex-grow flex flex-col">
           <div className="flex items-center space-x-4 mb-2">
             <PlaceholderIcon icon={item.logo} color={brandColor} />
-            <h3 className="text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
           </div>
           <p className="text-sm text-gray-500 mt-1 flex-grow line-clamp-2">{item.description || `Get the best offer for ${item.name}.`}</p>
         </div>
@@ -32,15 +32,15 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
           <div className="overflow-hidden">
             <img className="h-32 w-full object-cover group-hover:scale-105 transition-transform duration-300" src={item.image} alt={item.name} />
           </div>
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
+          <div className="p-4 sm:p-5">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
             <p className="text-sm text-gray-500 mt-1">Includes: {item.included.join(', ')}</p>
           </div>
         </div>
       )}
-      <div className="p-5 bg-slate-50 flex items-center justify-between mt-auto border-t border-slate-200">
+      <div className="p-4 sm:p-5 bg-slate-50 flex items-center justify-between mt-auto border-t border-slate-200">
         <div>
-          <p className="text-xl font-bold text-indigo-600">${item.priceUSD.toFixed(2)}</p>
+          <p className="text-lg sm:text-xl font-bold text-indigo-600">${item.priceUSD.toFixed(2)}</p>
           <p className="text-sm text-gray-500">BS. {item.priceBS.toFixed(2)}</p>
         </div>
         <button
@@ -48,7 +48,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             e.stopPropagation(); // Prevent card click when adding to cart
             onAddToCart(item);
           }}
-          className="px-5 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg shadow-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-indigo-500 transition-all"
+          className="px-4 sm:px-5 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg shadow-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-indigo-500 transition-all"
         >
           Add
         </button>
@@ -130,7 +130,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
           return (
             <section key={category} id={category.replace(/\s/g, '-')}>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-6 pb-2 border-b-2 border-gray-200">{category}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}
