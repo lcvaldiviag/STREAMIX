@@ -42,7 +42,7 @@ const ChatBot = () => {
                     text: 'No se pudo conectar con el asistente de IA. (Error de configuración: Falta la clave de API). Por favor, contacta al administrador del sitio.' 
                 }]);
             } else {
-                setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
+                setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Aura, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
             }
         }
     }, [isOpen, isApiKeyConfigured]);
@@ -62,10 +62,14 @@ const ChatBot = () => {
              const suggestion = await getQuickSuggestion(query);
              response = { sender: 'bot', text: suggestion };
         } else {
-            const chatHistory = messages.map(m => ({
-                role: m.sender === 'user' ? 'user' : 'model',
-                parts: [{ text: m.text }]
-            }));
+            // Filter out the initial welcome message from the history sent to the API
+            const chatHistory = messages
+                .filter(m => m.text !== '¡Hola! 👋 Soy Aura, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊')
+                .map(m => ({
+                    role: m.sender === 'user' ? 'user' : 'model',
+                    parts: [{ text: m.text }]
+                }));
+
             const botText = await getChatResponse(chatHistory, input);
             response = { sender: 'bot', text: botText };
         }
@@ -78,17 +82,17 @@ const ChatBot = () => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-10 right-10 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
-                aria-label="Open Chat"
+                className="fixed bottom-6 right-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center space-x-2 px-4 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
+                aria-label="Chatea con Aura"
             >
                 <ChatIcon />
-                <span className="text-white font-semibold pr-2 text-sm">¡Hola! soy Mixie, te ayudo?</span>
+                <span className="text-white font-bold text-sm">Chatea con Aura</span>
             </button>
 
             {isOpen && (
                 <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full h-full sm:w-80 sm:h-[500px] bg-white border border-gray-200 rounded-t-lg sm:rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300 text-gray-800">
                     <header className="p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex justify-between items-center rounded-t-lg sm:rounded-t-2xl">
-                        <h3 className="text-lg font-semibold text-white">Chatea con Mixie</h3>
+                        <h3 className="text-lg font-semibold text-white">Chatea con Aura</h3>
                         <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-white hover:bg-white/20 transition-colors">
                             <CloseIcon />
                         </button>
