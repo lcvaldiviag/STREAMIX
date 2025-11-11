@@ -1,21 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
-import { getChatResponse, getQuickSuggestion } from '../services/geminiService';
+import { getChatResponse, getGroundedSearch, getQuickSuggestion } from '../services/geminiService';
 
 const ChatIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>
 );
 
 const CloseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
     </svg>
 );
 
 const SendIcon = () => (
-     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
+     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
     </svg>
 );
@@ -26,6 +26,7 @@ const ChatBot = () => {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const isApiKeyConfigured = !!process.env.API_KEY;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -33,55 +34,45 @@ const ChatBot = () => {
 
     useEffect(scrollToBottom, [messages]);
 
-    // Efecto de mensaje inicial simplificado
     useEffect(() => {
-        if (isOpen && messages.length === 0) {
-            setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
+        if (isOpen) {
+            if (!isApiKeyConfigured) {
+                setMessages([{ 
+                    sender: 'bot', 
+                    text: 'No se pudo conectar con el asistente de IA. (Error de configuración: Falta la clave de API). Por favor, contacta al administrador del sitio.' 
+                }]);
+            } else {
+                setMessages([{ sender: 'bot', text: '¡Hola! 👋 Soy Mixie, tu asistente de IA. Pregúntame sobre nuestros productos o escribe /suggest para una recomendación. ¡Estoy aquí para ayudarte! 😊' }]);
+            }
         }
-    }, [isOpen, messages.length]);
+    }, [isOpen, isApiKeyConfigured]);
 
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
 
         const userMessage: ChatMessage = { sender: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
-        const currentInput = input;
         setInput('');
         setIsLoading(true);
 
-        try {
-            let response: ChatMessage;
-
-            if (currentInput.toLowerCase().startsWith('/suggest')) {
-                const query = currentInput.substring(8).trim() || 'something fun';
-                const suggestion = await getQuickSuggestion(query);
-                response = { sender: 'bot', text: suggestion };
-            } else {
-                const chatHistory = messages
-                    .filter(m => !m.text.includes('asistente de IA')) // filtrar el mensaje de bienvenida
-                    .map(m => ({
-                        role: m.sender === 'user' ? 'user' : 'model',
-                        parts: [{ text: m.text }]
-                    }));
-                const botText = await getChatResponse(chatHistory, currentInput);
-                response = { sender: 'bot', text: botText };
-            }
-            
-            setMessages(prev => [...prev, response]);
-
-        } catch (error) {
-            console.error("Error al enviar el mensaje:", error);
-            const errorMessage: ChatMessage = {
-                sender: 'bot',
-                text: "Lo siento, algo salió mal al procesar tu solicitud. Por favor, inténtalo de nuevo."
-            };
-            setMessages(prev => [...prev, errorMessage]);
-        } finally {
-            setIsLoading(false); // Esto se ejecuta siempre, con éxito o con error.
+        let response: ChatMessage;
+        
+        if (input.toLowerCase().startsWith('/suggest')) {
+            const query = input.substring(8) || 'something fun';
+             const suggestion = await getQuickSuggestion(query);
+             response = { sender: 'bot', text: suggestion };
+        } else {
+            const chatHistory = messages.map(m => ({
+                role: m.sender === 'user' ? 'user' : 'model',
+                parts: [{ text: m.text }]
+            }));
+            const botText = await getChatResponse(chatHistory, input);
+            response = { sender: 'bot', text: botText };
         }
+        
+        setMessages(prev => [...prev, response]);
+        setIsLoading(false);
     };
-    
-    const isInputDisabled = isLoading;
 
     return (
         <>
@@ -144,11 +135,11 @@ const ChatBot = () => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                                placeholder={isInputDisabled ? "Mixie está pensando..." : "Escribe un mensaje..."}
+                                placeholder={isApiKeyConfigured ? "Escribe un mensaje..." : "Asistente no disponible"}
                                 className="flex-1 w-full px-4 py-2 border bg-slate-100 border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 disabled:bg-slate-200 disabled:cursor-not-allowed"
-                                disabled={isInputDisabled}
+                                disabled={isLoading || !isApiKeyConfigured}
                             />
-                            <button onClick={handleSend} disabled={isInputDisabled || !input.trim()} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:opacity-50 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-opacity">
+                            <button onClick={handleSend} disabled={isLoading || !isApiKeyConfigured} className="ml-3 p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed">
                                <SendIcon />
                             </button>
                         </div>
