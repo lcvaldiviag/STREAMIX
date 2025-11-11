@@ -5,6 +5,8 @@ interface SideNavProps {
     selectedCategory: Category | 'All Products';
     onSelectCategory: (category: Category | 'All Products') => void;
     isOpen: boolean;
+    searchQuery: string;
+    onSearchChange: (query: string) => void;
 }
 
 const categoryIcons: Record<Category | 'All Products', string> = {
@@ -20,7 +22,13 @@ const categoryIcons: Record<Category | 'All Products', string> = {
     [Category.LIFESTYLE]: '❤️‍🩹',
 };
 
-const SideNav = ({ selectedCategory, onSelectCategory, isOpen }: SideNavProps) => {
+const SearchIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+);
+
+const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSearchChange }: SideNavProps) => {
     const categories: (Category | 'All Products')[] = ['All Products', ...Object.values(Category)];
     
     return (
@@ -31,6 +39,20 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen }: SideNavProps) =
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
             <div className="py-8 px-4 lg:pr-8 lg:pl-0 h-full overflow-y-auto">
+                <div className="px-3 mb-4 lg:hidden">
+                    <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                            <SearchIcon />
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Search for products..."
+                            value={searchQuery}
+                            onChange={(e) => onSearchChange(e.target.value)}
+                            className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-10 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                    </div>
+                </div>
                 <h2 className="text-lg font-semibold text-gray-800 mb-4 px-3">Categories</h2>
                 <nav className="space-y-2">
                     {categories.map(category => {

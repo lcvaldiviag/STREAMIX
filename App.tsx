@@ -97,6 +97,8 @@ const App = () => {
                         setIsNavOpen(false);
                     }}
                     isOpen={isNavOpen}
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
                 />
                 <main className="flex-grow py-8 pl-0 lg:pl-8 w-full">
                     <ProductList 

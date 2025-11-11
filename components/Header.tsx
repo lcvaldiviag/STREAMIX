@@ -50,8 +50,8 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         </button>
                         <StreamixLogo />
                     </div>
-                    <div className="flex items-center space-x-4 flex-1 ml-10">
-                        <div className="relative w-full max-w-lg">
+                    <div className="flex items-center space-x-4">
+                        <div className="hidden lg:flex relative w-full max-w-sm">
                              <span className="absolute left-4 top-1/2 -translate-y-1/2">
                                 <SearchIcon />
                             </span>
@@ -63,8 +63,6 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                                 className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
                             />
                         </div>
-                    </div>
-                    <div className="flex items-center space-x-4">
                         <button
                             onClick={onCartClick}
                             className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
