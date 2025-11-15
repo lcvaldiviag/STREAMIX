@@ -44,21 +44,35 @@ const ChatBot = () => {
 
         const userMessage: ChatMessage = { sender: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
+        
+        const currentInput = input; // Capture input before clearing it
         setInput('');
         setIsLoading(true);
 
         let response: ChatMessage;
-        
-        if (input.toLowerCase().startsWith('/suggest')) {
-            const query = input.substring(8) || 'something fun';
+        const lowercasedInput = currentInput.toLowerCase();
+
+        // Keywords to trigger grounded search for factual queries
+        const searchKeywords = [
+            'dónde ver', 'donde ver', 'en qué plataforma', 'en que plataforma',
+            'quién es', 'quien es', 'que es', 'qué es', 'cuál es', 'cuales son',
+            'recomiéndame', 'recomiendame',
+            'noticias sobre', 'información sobre', 'informacion sobre'
+        ];
+
+        if (lowercasedInput.startsWith('/suggest')) {
+            const query = currentInput.substring(8).trim() || 'something fun';
              const suggestion = await getQuickSuggestion(query);
              response = { sender: 'bot', text: suggestion };
+        } else if (searchKeywords.some(keyword => lowercasedInput.includes(keyword))) {
+            const { text, sources } = await getGroundedSearch(currentInput);
+            response = { sender: 'bot', text, sources };
         } else {
             const chatHistory = messages.map(m => ({
                 role: m.sender === 'user' ? 'user' : 'model',
                 parts: [{ text: m.text }]
             }));
-            const botText = await getChatResponse(chatHistory, input);
+            const botText = await getChatResponse(chatHistory, currentInput);
             response = { sender: 'bot', text: botText };
         }
         
