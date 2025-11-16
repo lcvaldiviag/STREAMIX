@@ -35,14 +35,14 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                 onClick={e => e.stopPropagation()}
             >
                 <header className="p-4 flex justify-between items-center border-b border-gray-200">
-                    <h2 className="text-xl font-semibold">Shopping Cart</h2>
+                    <h2 className="text-xl font-semibold">Carrito de Compras</h2>
                     <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
                         <CloseIcon />
                     </button>
                 </header>
                 <main className="flex-1 overflow-y-auto p-4 bg-slate-50">
                     {cartItems.length === 0 ? (
-                        <p className="text-gray-500 text-center mt-8">Your cart is empty.</p>
+                        <p className="text-gray-500 text-center mt-8">Tu carrito está vacío.</p>
                     ) : (
                         <ul className="divide-y divide-gray-200">
                             {cartItems.map(item => (
@@ -61,7 +61,7 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                                     </div>
                                     <button onClick={() => onRemoveItem(item.id)} className="flex items-center text-sm text-red-600 hover:text-red-500 transition-colors">
                                         <TrashIcon />
-                                        Remove
+                                        Eliminar
                                     </button>
                                 </li>
                             ))}
@@ -78,7 +78,7 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                             onClick={onCheckout}
                             className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-md hover:opacity-90 transition-opacity"
                         >
-                            Proceed to Checkout
+                            Proceder al Pago
                         </button>
                     </footer>
                 )}

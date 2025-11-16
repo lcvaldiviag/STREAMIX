@@ -14,19 +14,19 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="text-sm text-gray-600 text-center md:text-left">
-                        <p>Phone: +{WHATSAPP_NUMBER}</p>
-                        <p className="mt-2">&copy; {new Date().getFullYear()} STREAMIX. All rights reserved.</p>
+                        <p>Teléfono: +{WHATSAPP_NUMBER}</p>
+                        <p className="mt-2">&copy; {new Date().getFullYear()} STREAMIX. Todos los derechos reservados.</p>
                     </div>
                     <div className="flex items-center space-x-6 mt-4 md:mt-0">
                         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-800 transition-colors">
-                            <span className="sr-only">WhatsApp Support</span>
+                            <span className="sr-only">Soporte por WhatsApp</span>
                             <WhatsAppIcon />
                         </a>
-                        <a href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">Terms of Service</a>
+                        <a href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">Términos de Servicio</a>
                     </div>
                 </div>
                  <p className="text-center text-lg font-bold text-gray-800 mt-4">
-                    Reliable streaming, as it should be.
+                    Streaming confiable, como debe ser.
                  </p>
             </div>
         </footer>

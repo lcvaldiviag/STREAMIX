@@ -13,7 +13,7 @@ const App = () => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<Category | 'All Products'>('All Products');
+    const [selectedCategory, setSelectedCategory] = useState<Category | 'Todos los Productos'>('Todos los Productos');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
     const [isNavOpen, setIsNavOpen] = useState(false);

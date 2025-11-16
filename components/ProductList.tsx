@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             <PlaceholderIcon icon={item.logo} color={brandColor} />
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
           </div>
-          <p className="text-sm text-gray-500 mt-1 flex-grow line-clamp-2">{item.description || `Get the best offer for ${item.name}.`}</p>
+          <p className="text-sm text-gray-500 mt-1 flex-grow line-clamp-2">{item.description || `Obtén la mejor oferta para ${item.name}.`}</p>
         </div>
       ) : (
         <div className="flex-grow flex flex-col">
@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
           </div>
           <div className="p-4 sm:p-5">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
-            <p className="text-sm text-gray-500 mt-1">Includes: {item.included.join(', ')}</p>
+            <p className="text-sm text-gray-500 mt-1">Incluye: {item.included.join(', ')}</p>
           </div>
         </div>
       )}
@@ -50,7 +50,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
           }}
           className="px-4 sm:px-5 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg shadow-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-indigo-500 transition-all"
         >
-          Add
+          Añadir
         </button>
       </div>
     </div>
@@ -61,7 +61,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
 interface ProductListProps {
   onAddToCart: (item: Product | Combo) => void;
   onProductSelect: (item: Product | Combo) => void;
-  selectedCategory: Category | 'All Products';
+  selectedCategory: Category | 'Todos los Productos';
   searchQuery: string;
 }
 
@@ -85,7 +85,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
     return items.filter(item => item.name.toLowerCase().includes(lowerCaseQuery));
   };
   
-  const categoriesToRender = selectedCategory === 'All Products' 
+  const categoriesToRender = selectedCategory === 'Todos los Productos' 
     ? allCategories 
     : [selectedCategory];
 
@@ -93,7 +93,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
     <>
       <div className="mb-8">
         <p className="text-lg text-gray-600 font-medium">
-          Premium entertainment, powerful tools, and real support—all in one place.
+          Entretenimiento premium, herramientas poderosas y soporte real, todo en un solo lugar.
         </p>
       </div>
       <div className="space-y-16">
@@ -102,7 +102,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
           if (items.length === 0) return null;
 
           // Special layout for Lifestyle category
-          if (category === Category.LIFESTYLE && selectedCategory === 'All Products') {
+          if (category === Category.LIFESTYLE && selectedCategory === 'Todos los Productos') {
              return (
               <section key={category} id={category.replace(/\s/g, '-')}>
                 <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-6 pb-2 border-b-2 border-gray-200">{category}</h2>
@@ -113,7 +113,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
                   <div className="md:col-span-2 rounded-xl overflow-hidden shadow-lg relative group">
                     <img 
                       src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop" 
-                      alt="Lifestyle promotion" 
+                      alt="Promoción de Estilo de Vida" 
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>

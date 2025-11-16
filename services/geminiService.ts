@@ -13,14 +13,14 @@ const callApi = async (action: string, payload: object): Promise<any> => {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response from server.' }));
+            const errorData = await response.json().catch(() => ({ error: 'No se pudo analizar la respuesta de error del servidor.' }));
             console.error(`API Error (${action}):`, errorData.error);
-            return { error: errorData.error || `HTTP error! status: ${response.status}`};
+            return { error: errorData.error || `¡Error HTTP! Estado: ${response.status}`};
         }
         return await response.json();
     } catch (error) {
         console.error(`Network or fetch error (${action}):`, error);
-        return { error: 'A network error occurred.' };
+        return { error: 'Ocurrió un error de red.' };
     }
 };
 

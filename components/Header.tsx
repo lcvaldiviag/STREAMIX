@@ -44,7 +44,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         <button
                             onClick={onNavToggle}
                             className="lg:hidden p-2 -ml-2 mr-2 rounded-md text-gray-600 hover:bg-slate-100"
-                            aria-label="Open navigation menu"
+                            aria-label="Abrir menú de navegación"
                         >
                             <MenuIcon />
                         </button>
@@ -57,7 +57,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                             </span>
                             <input
                                 type="text"
-                                placeholder="Search for products..."
+                                placeholder="Buscar productos..."
                                 value={searchQuery}
                                 onChange={(e) => onSearchChange(e.target.value)}
                                 className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
@@ -67,7 +67,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                             onClick={onCartClick}
                             className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
                         >
-                            <span className="sr-only">Open cart</span>
+                            <span className="sr-only">Abrir carrito</span>
                             <ShoppingCartIcon />
                             {cartItemCount > 0 && (
                                 <span className="absolute -top-1 -right-1 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-white">

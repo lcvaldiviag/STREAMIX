@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react';
 
 export enum Category {
-  STREAMING_SERIES = 'Streaming & Series',
+  STREAMING_SERIES = 'Streaming y Series',
   COMBOS = 'Combos',
-  MUSIC = 'Music',
-  EDUCATION_LEARNING = 'Education & Learning',
-  AI = 'Artificial Intelligence',
-  SECURITY = 'Security',
-  GAMING_SUBS = 'Gaming & Suscriptions',
-  LIVE_TV_SPORTS = 'Live TV & Sports',
-  LIFESTYLE = 'Lifestyle',
+  MUSIC = 'Música',
+  EDUCATION_LEARNING = 'Educación y Aprendizaje',
+  AI = 'Inteligencia Artificial',
+  SECURITY = 'Seguridad',
+  GAMING_SUBS = 'Gaming y Suscripciones',
+  LIVE_TV_SPORTS = 'TV en Vivo y Deportes',
+  LIFESTYLE = 'Estilo de Vida',
 }
 
 export interface Product {

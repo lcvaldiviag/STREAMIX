@@ -37,7 +37,7 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
             >
                 <div className="flex flex-col h-full">
                     <header className="p-4 flex justify-between items-center border-b border-gray-200 flex-shrink-0">
-                        <h2 className="text-xl font-semibold text-gray-800">Product Details</h2>
+                        <h2 className="text-xl font-semibold text-gray-800">Detalles del Producto</h2>
                         <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
                             <CloseIcon />
                         </button>
@@ -61,14 +61,14 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
                         )}
                         
                         <p className="text-gray-600 mt-4 text-center">
-                            {isProduct(product) ? product.description : `Includes: ${product.included.join(', ')}`}
+                            {isProduct(product) ? product.description : `Incluye: ${product.included.join(', ')}`}
                         </p>
 
                     </main>
 
                     <footer className="p-6 border-t border-gray-200 bg-slate-50 flex-shrink-0">
                         <div className="flex justify-between items-center mb-4">
-                            <p className="text-sm text-gray-500">Price</p>
+                            <p className="text-sm text-gray-500">Precio</p>
                             <div>
                                 <p className="text-2xl font-bold text-indigo-600">${product.priceUSD.toFixed(2)}</p>
                                 <p className="text-sm text-gray-500 text-right">BS. {product.priceBS.toFixed(2)}</p>
@@ -81,7 +81,7 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
                             }}
                             className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md hover:bg-indigo-500 transition-colors"
                         >
-                            Add to Cart
+                            Añadir al Carrito
                         </button>
                     </footer>
                 </div>

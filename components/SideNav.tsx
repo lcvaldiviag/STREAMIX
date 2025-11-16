@@ -2,15 +2,15 @@ import React from 'react';
 import { Category } from '../types';
 
 interface SideNavProps {
-    selectedCategory: Category | 'All Products';
-    onSelectCategory: (category: Category | 'All Products') => void;
+    selectedCategory: Category | 'Todos los Productos';
+    onSelectCategory: (category: Category | 'Todos los Productos') => void;
     isOpen: boolean;
     searchQuery: string;
     onSearchChange: (query: string) => void;
 }
 
-const categoryIcons: Record<Category | 'All Products', string> = {
-    'All Products': '🌐',
+const categoryIcons: Record<Category | 'Todos los Productos', string> = {
+    'Todos los Productos': '🌐',
     [Category.COMBOS]: '✨',
     [Category.STREAMING_SERIES]: '🎬',
     [Category.MUSIC]: '🎵',
@@ -29,7 +29,7 @@ const SearchIcon = () => (
 );
 
 const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSearchChange }: SideNavProps) => {
-    const categories: (Category | 'All Products')[] = ['All Products', ...Object.values(Category)];
+    const categories: (Category | 'Todos los Productos')[] = ['Todos los Productos', ...Object.values(Category)];
     
     return (
         <aside className={`
@@ -46,14 +46,14 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
                         </span>
                         <input
                             type="text"
-                            placeholder="Search for products..."
+                            placeholder="Buscar productos..."
                             value={searchQuery}
                             onChange={(e) => onSearchChange(e.target.value)}
                             className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-10 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
                 </div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-4 px-3">Categories</h2>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4 px-3">Categorías</h2>
                 <nav className="space-y-2">
                     {categories.map(category => {
                         const isSelected = selectedCategory === category;
