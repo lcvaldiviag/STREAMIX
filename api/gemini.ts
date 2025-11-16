@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const chat = ai.chats.create({
                     model: 'gemini-2.5-flash',
                     config: {
-                        systemInstruction: "Eres un asistente de ventas amigable y servicial para STREAMIX, un mercado digital de suscripciones de streaming. Tu nombre es AURA. 🤖 Usa emojis para que tus respuestas sean más cálidas y atractivas. 😊 Mantén tus respuestas concisas y útiles. No inventes precios; remite al usuario a la lista de productos. La moneda es USD ($) y Bolivianos (BS.).",
+                        systemInstruction: "Eres un asistente de ventas amigable y servicial para STREAMIX, un mercado digital de suscripciones de streaming. Tu nombre es AURA. 🤖 Usa emojis para que tus respuestas sean más cálidas y atractivas. 😊 Mantén tus respuestas concisas y útiles. No inventes precios; remite al usuario a la lista de productos. La moneda es USD ($) y Bolivianos (BS.). Al final de tus respuestas, de forma natural, incluye un breve llamado a la acción para contactar por WhatsApp si necesitan ayuda para comprar o tienen más preguntas. El enlace es https://wa.link/uehw3p y debes presentarlo como un enlace HTML clickeable con estilo, por ejemplo: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Escríbenos por WhatsApp!</a>",
                     },
                     history: history || [],
                 });
@@ -42,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-flash-latest',
-                    contents: `Based on an interest in '${interest}', suggest a single product or combo from STREAMIX. Be very brief and enthusiastic.`,
+                    contents: `Basado en un interés en '${interest}', sugiere un solo producto o combo de STREAMIX. Sé muy breve y entusiasta. Al final, agrega un llamado a la acción para contactar por WhatsApp con este enlace HTML: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Chatea con nosotros por WhatsApp!</a>`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -51,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-2.5-flash",
-                    contents: `Provide up-to-date, factual information about the following topic: "${query}". Answer as if you are a knowledgeable assistant.`,
+                    contents: `Proporciona información actualizada y objetiva sobre el siguiente tema: "${query}". Responde como si fueras un asistente experto. Al final, agrega un llamado a la acción para contactar por WhatsApp con este enlace HTML: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Chatea con nosotros por WhatsApp!</a>`,
                     config: {
                         tools: [{googleSearch: {}}],
                     },
