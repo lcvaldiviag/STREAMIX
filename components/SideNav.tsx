@@ -39,7 +39,7 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
             <div className="py-8 px-4 lg:pr-8 lg:pl-0 h-full overflow-y-auto">
-                <div className="px-3 mb-4 lg:hidden">
+                <div className="px-3 mb-4 md:hidden">
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2">
                             <SearchIcon />

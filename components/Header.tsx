@@ -9,8 +9,8 @@ const StreamixLogo = () => (
     </div>
 );
 
-const SearchIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+const SearchIcon = ({ className = "h-5 w-5 text-gray-400" }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
     </svg>
 );
@@ -50,8 +50,8 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         </button>
                         <StreamixLogo />
                     </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="hidden lg:flex relative w-full max-w-sm">
+                    <div className="flex items-center space-x-2 md:space-x-4">
+                        <div className="hidden md:flex relative w-full max-w-sm">
                              <span className="absolute left-4 top-1/2 -translate-y-1/2">
                                 <SearchIcon />
                             </span>
@@ -63,6 +63,13 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                                 className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
                             />
                         </div>
+                        <button
+                            onClick={onNavToggle}
+                            className="md:hidden p-2 rounded-full text-gray-600 hover:bg-gray-100"
+                            aria-label="Buscar productos"
+                        >
+                            <SearchIcon className="h-6 w-6" />
+                        </button>
                         <button
                             onClick={onCartClick}
                             className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
