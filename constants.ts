@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
   // Education & Learning
   { id: 'prod-15', name: 'Duolingo', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: "DL", brandColor: '#58CC02', description: 'Aprende un nuevo idioma gratis. Divertido, efectivo y respaldado por la ciencia. Potencia tu aprendizaje con Duolingo Plus.' },
   { id: 'prod-16', name: 'Canva Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.00, priceBS: 20, logo: "C", brandColor: '#8E44AD', description: 'Diseña lo que quieras. Canva Pro facilita la creación de diseños profesionales y la expansión de la identidad visual de tu marca.' },
-  { id: 'prod-17', name: 'CapCut Pro', category: Category.EDUCATION_LEARNING, priceUSD: 2.50, priceBS: 25, logo: "CC", brandColor: '#00D68F', description: 'El editor de video todo en uno para todos. Crea videos impresionantes con herramientas potentes y fáciles de usar.' },
+  { id: 'prod-17', name: 'CapCut Pro', category: Category.EDUCATION_LEARNING, priceUSD: 3.50, priceBS: 35, logo: "CC", brandColor: '#00D68F', description: 'El editor de video todo en uno para todos. Crea videos impresionantes con herramientas potentes y fáciles de usar.' },
   { id: 'prod-18', name: 'Microsoft 365', category: Category.EDUCATION_LEARNING, priceUSD: 9.99, priceBS: 99, logo: "O", brandColor: '#D83B01', description: 'Tu nube de productividad. Obtén versiones premium de Word, Excel, PowerPoint, Outlook y más.' },
   { id: 'prod-19', name: 'Grammarly', category: Category.EDUCATION_LEARNING, priceUSD: 3.00, priceBS: 30, logo: "G", brandColor: '#15C79A', description: 'Escritura excelente, simplificada. Redacta textos audaces, claros y sin errores con el asistente de escritura con IA de Grammarly.' },
 
