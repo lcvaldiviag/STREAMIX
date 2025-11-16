@@ -91,8 +91,8 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
 
   return (
     <>
-      <div className="mb-8">
-        <p className="text-lg text-gray-600 font-medium">
+      <div className="mb-12">
+        <p className="text-lg sm:text-xl text-gray-600 font-semibold uppercase tracking-wide">
           Entretenimiento premium, herramientas poderosas y soporte real, todo en un solo lugar.
         </p>
       </div>
