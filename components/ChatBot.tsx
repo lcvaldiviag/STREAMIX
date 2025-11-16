@@ -68,12 +68,17 @@ const ChatBot = () => {
             const { text, sources } = await getGroundedSearch(currentInput);
             response = { sender: 'bot', text, sources };
         } else {
-            const chatHistory = messages.map(m => ({
-                role: m.sender === 'user' ? 'user' : 'model',
-                parts: [{ text: m.text }]
-            }));
-            const botText = await getChatResponse(chatHistory, currentInput);
-            response = { sender: 'bot', text: botText };
+            // Convert message history to the format required by the Gemini API
+            const history = messages
+                // Start with the current messages state before adding the new user message
+                .filter(m => m.sender === 'user' || m.sender === 'bot')
+                .map(m => ({
+                    role: m.sender === 'user' ? 'user' : 'model',
+                    parts: [{ text: m.text }],
+                }));
+
+            const responseText = await getChatResponse(history, currentInput);
+            response = { sender: 'bot', text: responseText };
         }
         
         setMessages(prev => [...prev, response]);
