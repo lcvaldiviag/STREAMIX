@@ -29,7 +29,7 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
     const subtotal = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity" onClick={onClose}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] transition-opacity" onClick={onClose}>
             <div 
                 className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl flex flex-col text-gray-800"
                 onClick={e => e.stopPropagation()}
