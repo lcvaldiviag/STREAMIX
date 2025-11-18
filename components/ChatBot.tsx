@@ -20,7 +20,11 @@ const SendIcon = () => (
     </svg>
 );
 
-const ChatBot = () => {
+interface ChatBotProps {
+    visible?: boolean;
+}
+
+const ChatBot = ({ visible = true }: ChatBotProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
@@ -86,7 +90,7 @@ const ChatBot = () => {
     };
 
     return (
-        <>
+        <div className={visible ? '' : 'hidden'}>
             <button
                 onClick={() => setIsOpen(true)}
                 className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 flex items-center space-x-3 px-5 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 z-40"
@@ -157,7 +161,7 @@ const ChatBot = () => {
                     </footer>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
