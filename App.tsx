@@ -79,7 +79,11 @@ const App = () => {
     };
 
     return (
-        <div className="font-sans flex flex-col min-h-screen bg-slate-50 relative">
+        <div className="font-sans flex flex-col min-h-screen streamix-glass-bg relative text-gray-800">
+            {/* Background Orbs for Fractal Effect */}
+            <div className="glass-orb-1"></div>
+            <div className="glass-orb-2"></div>
+
             <Header 
                 cartItemCount={cartItemCount} 
                 onCartClick={() => setIsCartOpen(true)}
@@ -91,13 +95,13 @@ const App = () => {
             
             {isNavOpen && (
                 <div 
-                    className="fixed inset-0 top-20 bg-black bg-opacity-50 z-30 lg:hidden"
+                    className="fixed inset-0 top-20 bg-black/30 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
                     onClick={() => setIsNavOpen(false)}
                     aria-hidden="true"
                 ></div>
             )}
 
-            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex">
+            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex relative z-10">
                 <SideNav 
                     selectedCategory={selectedCategory}
                     onSelectCategory={(category) => {
