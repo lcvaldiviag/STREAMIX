@@ -22,6 +22,7 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
     if (!product) return null;
 
     const brandColor = isProduct(product) ? product.brandColor : '#6366F1'; // Default to indigo
+    const isSoldOut = isProduct(product) ? product.soldOut : false;
 
     return (
         <>
@@ -76,12 +77,19 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
                         </div>
                         <button 
                             onClick={() => {
-                                onAddToCart(product);
-                                onClose(); // Optionally close panel after adding
+                                if (!isSoldOut) {
+                                    onAddToCart(product);
+                                    onClose(); // Optionally close panel after adding
+                                }
                             }}
-                            className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md hover:bg-indigo-500 transition-colors"
+                            disabled={isSoldOut}
+                            className={`w-full py-3 text-white font-bold rounded-xl shadow-md transition-colors ${
+                                isSoldOut 
+                                ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
+                                : 'bg-indigo-600 hover:bg-indigo-500'
+                            }`}
                         >
-                            Añadir al Carrito
+                            {isSoldOut ? 'Agotado' : 'Añadir al Carrito'}
                         </button>
                     </footer>
                 </div>
