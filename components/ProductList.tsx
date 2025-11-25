@@ -87,15 +87,15 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                 </p>
             </div>
 
-            <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-100">
-                <div className="flex flex-col">
+            <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-100 gap-2">
+                <div className="flex flex-col min-w-0">
                      {originalPriceUSD && (
                         <span className="text-xs text-red-400 line-through font-semibold mb-0.5">
                             ${originalPriceUSD.toFixed(2)}
                         </span>
                     )}
                     <div className="flex items-baseline space-x-1">
-                        <span className="text-xl font-extrabold text-gray-900 tracking-tight">
+                        <span className="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight">
                             ${item.priceUSD.toFixed(2)}
                         </span>
                         <span className="text-xs font-medium text-gray-400">USD</span>
@@ -112,7 +112,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                     }}
                     disabled={isSoldOut}
                     className={`
-                        px-4 py-2 rounded-lg text-sm font-bold shadow-md transform active:scale-95 transition-all
+                        px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0
                         ${isSoldOut 
                             ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
                             : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-lg focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
@@ -211,7 +211,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
                     <h2 className="text-2xl font-bold text-gray-900">{category}</h2>
                     <div className="h-1 flex-grow bg-gradient-to-r from-gray-200 to-transparent rounded-full"></div>
                 </div>
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}

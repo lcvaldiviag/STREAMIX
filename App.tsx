@@ -135,7 +135,7 @@ const App = () => {
                 onClose={handleCloseCheckout}
                 cartItems={cart}
             />
-            <ChatBot visible={!isCartOpen && !isCheckoutOpen} />
+            <ChatBot visible={!isCartOpen && !isCheckoutOpen && !selectedProduct} />
             <Toast message={toast.message} isVisible={toast.visible} onClose={handleHideToast} />
         </div>
     );
