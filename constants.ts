@@ -85,7 +85,7 @@ export const PRODUCTS: Product[] = [
 
 export const COMBOS: Combo[] = [
   { id: 'combo-1', name: 'Pack Cinéfilo', priceUSD: 8.10, priceBS: 81, included: ['Netflix', 'Disney+', 'Prime Video'], image: 'https://images.unsplash.com/photo-1574267432553-4b4628081c31?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },
-  { id: 'combo-2', name: 'Suite del Creador', priceUSD: 7.10, priceBS: 71, included: ['Canva Pro', 'CapCut Pro', 'ChatGPT+'], image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },
+  { id: 'combo-2', name: 'Suite del Creador', priceUSD: 8.00, priceBS: 80, included: ['Canva Pro', 'CapCut Pro', 'ChatGPT+'], image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },
   { id: 'combo-3', name: 'Entretenimiento Total', priceUSD: 6.00, priceBS: 60, included: ['YouTube Premium', 'HBO Max', 'Paramount+'], image: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },
   { id: 'combo-4', name: 'Trío de TV en Vivo', priceUSD: 16.20, priceBS: 162, included: ['MagisTV', 'DirecTV Go', 'Movistar Play'], image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },
   { id: 'combo-5', name: 'Mix Internacional', priceUSD: 9.25, priceBS: 92.5, included: ['VIX', 'DramaBox', 'Crunchyroll'], image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=600&h=400&auto=format&fit=crop', category: Category.COMBOS },

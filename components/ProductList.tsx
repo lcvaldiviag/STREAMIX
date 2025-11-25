@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product, Combo, Category } from '../types';
-import { PRODUCTS, COMBOS, PlaceholderIcon } from '../constants';
+import { PRODUCTS, COMBOS } from '../constants';
 
 interface CardProps {
   item: Product | Combo;
@@ -18,63 +18,112 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
 
   return (
     <div 
-      className="relative h-full group cursor-pointer"
+      className="relative h-full group cursor-pointer select-none"
       onClick={() => onProductSelect(item)}
     >
+      {/* Special Offer Badge - Floating outside slightly */}
       {isSpecialOffer && (
-         <div className="absolute -top-3 -right-3 z-30 pointer-events-none animate-bounce">
+         <div className="absolute -top-2 -right-2 z-30 pointer-events-none animate-bounce">
             <span className="text-4xl filter drop-shadow-md" role="img" aria-label="Oferta especial">🎁</span>
          </div>
       )}
 
-      <div 
-        className="bg-white rounded-xl border border-slate-200 overflow-hidden transform group-hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col h-full relative"
-        style={{ borderTop: `4px solid ${brandColor || 'transparent'}` }}
-      >
-        {isProduct(item) ? (
-          <div className="p-4 sm:p-5 flex-grow flex flex-col relative">
-            <div className="flex items-center space-x-4 mb-2">
-              <PlaceholderIcon icon={item.logo} color={brandColor} />
-              <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
-            </div>
-            <p className="text-sm text-gray-500 mt-1 flex-grow line-clamp-2">{item.description || `Obtén la mejor oferta para ${item.name}.`}</p>
-          </div>
-        ) : (
-          <div className="flex-grow flex flex-col relative">
-            <div className="overflow-hidden">
-              <img className="h-32 w-full object-cover group-hover:scale-105 transition-transform duration-300" src={item.image} alt={item.name} />
-            </div>
-            <div className="p-4 sm:p-5">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
-              <p className="text-sm text-gray-500 mt-1">Incluye: {item.included.join(', ')}</p>
-            </div>
-          </div>
-        )}
-        <div className="p-4 sm:p-5 bg-slate-50 flex items-center justify-between mt-auto border-t border-slate-200">
-          <div>
-            {originalPriceUSD && (
-               <p className="text-xs text-gray-400 line-through font-medium leading-none mb-1">
-                 ${originalPriceUSD.toFixed(2)}
-               </p>
-            )}
-            <p className="text-lg sm:text-xl font-bold text-indigo-600">${item.priceUSD.toFixed(2)}</p>
-            <p className="text-sm text-gray-500">BS. {item.priceBS.toFixed(2)}</p>
-          </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent card click when adding to cart
-              onAddToCart(item);
+      {/* Main Card Container simulating the physical card + hanger */}
+      <div className="flex flex-col h-full rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform group-hover:-translate-y-2 transition-all duration-300 bg-white border border-gray-100">
+        
+        {/* TOP SECTION: The "Gift Card" itself */}
+        <div 
+            className="relative h-40 sm:h-48 flex flex-col items-center pt-3 shrink-0 overflow-hidden"
+            style={{ 
+                backgroundColor: isProduct(item) ? brandColor : '#333',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
             }}
-            disabled={isSoldOut}
-            className={`px-4 sm:px-5 py-2 text-white text-sm font-bold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 transition-all ${
-              isSoldOut 
-              ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
-              : 'bg-indigo-600 hover:bg-indigo-500 focus:ring-indigo-500'
-            }`}
-          >
-            {isSoldOut ? 'Agotado' : 'Añadir'}
-          </button>
+        >
+            {/* Combo Image Background if applicable */}
+            {!isProduct(item) && (
+                <div 
+                    className="absolute inset-0 z-0 opacity-90 transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                />
+            )}
+
+            {/* Plastic Gloss Effect Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10 z-10 pointer-events-none mix-blend-overlay" />
+            
+            {/* The "Hanger Hole" - Simulating the physical hole punch */}
+            <div className="relative z-20 w-16 h-3 bg-slate-50 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] mb-4 mx-auto opacity-90"></div>
+
+            {/* Logo / Brand Content */}
+            <div className="relative z-20 flex-grow flex items-center justify-center w-full pb-6">
+                {isProduct(item) ? (
+                    <div className="flex flex-col items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                         {/* Text Logo with Glassmorphism backing for readability */}
+                         <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center shadow-lg">
+                            <span className="text-3xl font-extrabold text-white drop-shadow-md tracking-tighter">
+                                {item.logo}
+                            </span>
+                         </div>
+                    </div>
+                ) : (
+                    <div className="bg-black/40 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+                         <h3 className="text-white font-bold text-lg shadow-black drop-shadow-md text-center">{item.name}</h3>
+                    </div>
+                )}
+            </div>
         </div>
+
+        {/* BOTTOM SECTION: Info / Price Tag */}
+        <div className="flex flex-col flex-grow p-4 bg-white relative">
+            {/* Dashed line simulating tear-off part (optional aesthetic) */}
+            <div className="absolute top-0 left-4 right-4 border-t border-dashed border-gray-300 opacity-50"></div>
+
+            <div className="mt-2 mb-3 flex-grow">
+                <h3 className={`text-lg font-bold leading-tight mb-1 ${isProduct(item) ? 'text-gray-800' : 'text-gray-800'}`}>
+                    {item.name}
+                </h3>
+                <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                    {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
+                </p>
+            </div>
+
+            <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-100">
+                <div className="flex flex-col">
+                     {originalPriceUSD && (
+                        <span className="text-xs text-red-400 line-through font-semibold mb-0.5">
+                            ${originalPriceUSD.toFixed(2)}
+                        </span>
+                    )}
+                    <div className="flex items-baseline space-x-1">
+                        <span className="text-xl font-extrabold text-gray-900 tracking-tight">
+                            ${item.priceUSD.toFixed(2)}
+                        </span>
+                        <span className="text-xs font-medium text-gray-400">USD</span>
+                    </div>
+                    <span className="text-xs text-gray-500 font-medium">
+                        BS. {item.priceBS.toFixed(2)}
+                    </span>
+                </div>
+
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onAddToCart(item);
+                    }}
+                    disabled={isSoldOut}
+                    className={`
+                        px-4 py-2 rounded-lg text-sm font-bold shadow-md transform active:scale-95 transition-all
+                        ${isSoldOut 
+                            ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
+                            : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-lg focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                        }
+                    `}
+                >
+                    {isSoldOut ? 'Agotado' : 'Añadir'}
+                </button>
+            </div>
+        </div>
+
       </div>
     </div>
   );
@@ -114,12 +163,14 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
 
   return (
     <>
-      <div className="mb-12">
-        <p className="text-lg sm:text-xl text-gray-600 font-semibold uppercase tracking-wide">
-          Entretenimiento premium, herramientas poderosas y soporte real, todo en un solo lugar.
+      <div className="mb-10 text-center lg:text-left">
+        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">Catálogo Digital</h2>
+        <p className="text-lg text-gray-500 font-medium">
+          Entretenimiento premium y herramientas poderosas.
         </p>
       </div>
-      <div className="space-y-16">
+
+      <div className="space-y-20 pb-20">
         {categoriesToRender.map(category => {
           const items = getFilteredItems(category);
           if (items.length === 0) return null;
@@ -128,21 +179,25 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
           if (category === Category.LIFESTYLE && selectedCategory === 'Todos los Productos') {
              return (
               <section key={category} id={category.replace(/\s/g, '-')}>
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-6 pb-2 border-b-2 border-gray-200">{category}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+                <div className="flex items-center space-x-4 mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900">{category}</h2>
+                    <div className="h-1 flex-grow bg-gradient-to-r from-gray-200 to-transparent rounded-full"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
                   <div className="md:col-span-1">
                     <Card item={items[0]} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                   </div>
-                  <div className="md:col-span-2 rounded-xl overflow-hidden shadow-lg relative group">
+                  <div className="md:col-span-2 rounded-2xl overflow-hidden shadow-xl relative group h-full min-h-[300px]">
                     <img 
                       src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop" 
                       alt="Promoción de Estilo de Vida" 
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 p-6">
-                      <h3 className="text-2xl font-bold text-white">Lleva tu estilo de vida al siguiente nivel</h3>
-                      <p className="text-white/90 mt-2">Descubre ofertas exclusivas en bienestar y fitness.</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-8 max-w-lg">
+                      <h3 className="text-3xl font-extrabold text-white mb-2 leading-tight">Lleva tu estilo de vida al siguiente nivel</h3>
+                      <p className="text-white/90 text-lg">Descubre ofertas exclusivas en bienestar y fitness.</p>
                     </div>
                   </div>
                 </div>
@@ -152,8 +207,11 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
 
           return (
             <section key={category} id={category.replace(/\s/g, '-')}>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-6 pb-2 border-b-2 border-gray-200">{category}</h2>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+               <div className="flex items-center space-x-4 mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900">{category}</h2>
+                    <div className="h-1 flex-grow bg-gradient-to-r from-gray-200 to-transparent rounded-full"></div>
+                </div>
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}
