@@ -34,7 +34,7 @@ const SOCIAL_LINKS = [
     },
     {
         name: 'WhatsApp',
-        url: 'https://wa.link/c6s284',
+        url: `https://wa.me/${WHATSAPP_NUMBER}`,
         icon: WhatsAppIcon,
         colorClass: 'bg-[#25D366] hover:bg-[#22bf5b]'
     }

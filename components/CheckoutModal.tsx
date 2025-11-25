@@ -19,7 +19,8 @@ const CheckoutModal = ({ isOpen, onClose, cartItems }: CheckoutModalProps) => {
 
     const total = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);
     const productNames = cartItems.map(item => `${item.name} (x${item.quantity})`).join(', ');
-    const whatsappMessage = `Hola STREAMIX, ya realicé mi pago de ${total.toFixed(2)} USD por: ${productNames}. Adjunto mi comprobante.`;
+    // Mensaje actualizado para solicitar el pedido
+    const whatsappMessage = `Hola STREAMIX, deseo pagar el monto de ${total.toFixed(2)} USD por: ${productNames}.`;
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
@@ -52,14 +53,14 @@ const CheckoutModal = ({ isOpen, onClose, cartItems }: CheckoutModalProps) => {
                         </ul>
                         <p className="font-bold text-lg mt-2 text-right">Total: ${total.toFixed(2)} USD</p>
                     </div>
-                     <p className="text-sm text-gray-600 mb-4">Después de pagar, por favor envíanos el recibo vía WhatsApp para activar tus productos.</p>
+                     <p className="text-sm text-gray-600 mb-4">Envíanos tu pedido vía WhatsApp para coordinar el pago y la entrega.</p>
                      <a
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full inline-block py-3 px-4 bg-green-500 text-white font-bold rounded-xl shadow-md hover:bg-green-600 transition-colors"
                      >
-                        💬 Pagar y Enviar Recibo por WhatsApp
+                        💬 Realizar Pedido por WhatsApp
                     </a>
                 </main>
                  <footer className="p-4 text-center text-xs text-gray-500 border-t border-gray-200 flex-shrink-0 bg-white rounded-b-2xl">

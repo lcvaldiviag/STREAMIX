@@ -7,6 +7,7 @@ import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
 import SideNav from './components/SideNav';
 import ProductDetail from './components/ProductDetail';
+import Toast from './components/Toast';
 import { Product, Combo, CartItem, Category } from './types';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
@@ -34,7 +36,8 @@ const App = () => {
 
     const handleQuickAddToCart = (itemToAdd: Product | Combo) => {
         handleAddToCart(itemToAdd);
-        setIsCartOpen(true);
+        // Mostrar notificación sutil en lugar de abrir el modal
+        setToast({ message: `¡${itemToAdd.name} añadido al carrito!`, visible: true });
     };
 
     const handleUpdateQuantity = (itemId: string, newQuantity: number) => {
@@ -69,6 +72,10 @@ const App = () => {
 
     const handleCloseDetail = () => {
         setSelectedProduct(null);
+    };
+
+    const handleHideToast = () => {
+        setToast(prev => ({ ...prev, visible: false }));
     };
 
     return (
@@ -129,6 +136,7 @@ const App = () => {
                 cartItems={cart}
             />
             <ChatBot visible={!isCartOpen && !isCheckoutOpen} />
+            <Toast message={toast.message} isVisible={toast.visible} onClose={handleHideToast} />
         </div>
     );
 };

@@ -22,6 +22,9 @@ export interface Product {
   logo: string;
   description?: string;
   brandColor?: string;
+  soldOut?: boolean;
+  specialOffer?: boolean;
+  originalPriceUSD?: number;
 }
 
 export interface Combo {

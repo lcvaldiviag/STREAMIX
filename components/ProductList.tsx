@@ -12,15 +12,24 @@ const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
 const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
   const brandColor = isProduct(item) ? item.brandColor : undefined;
+  const isSoldOut = isProduct(item) ? item.soldOut : false;
+  const isSpecialOffer = isProduct(item) ? item.specialOffer : false;
+  const originalPriceUSD = isProduct(item) ? item.originalPriceUSD : undefined;
 
   return (
     <div 
       onClick={() => onProductSelect(item)}
-      className="bg-white rounded-xl border border-slate-200 overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col h-full group cursor-pointer"
+      className="bg-white rounded-xl border border-slate-200 overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col h-full group cursor-pointer relative"
       style={{ borderTop: `4px solid ${brandColor || 'transparent'}` }}
     >
+      {isSpecialOffer && (
+         <div className="absolute -top-3 -right-3 z-20 pointer-events-none animate-bounce">
+            <span className="text-4xl filter drop-shadow-md" role="img" aria-label="Oferta especial">🎁</span>
+         </div>
+      )}
+
       {isProduct(item) ? (
-        <div className="p-4 sm:p-5 flex-grow flex flex-col">
+        <div className="p-4 sm:p-5 flex-grow flex flex-col relative">
           <div className="flex items-center space-x-4 mb-2">
             <PlaceholderIcon icon={item.logo} color={brandColor} />
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{item.name}</h3>
@@ -28,7 +37,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
           <p className="text-sm text-gray-500 mt-1 flex-grow line-clamp-2">{item.description || `Obtén la mejor oferta para ${item.name}.`}</p>
         </div>
       ) : (
-        <div className="flex-grow flex flex-col">
+        <div className="flex-grow flex flex-col relative">
           <div className="overflow-hidden">
             <img className="h-32 w-full object-cover group-hover:scale-105 transition-transform duration-300" src={item.image} alt={item.name} />
           </div>
@@ -40,6 +49,11 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
       )}
       <div className="p-4 sm:p-5 bg-slate-50 flex items-center justify-between mt-auto border-t border-slate-200">
         <div>
+          {originalPriceUSD && (
+             <p className="text-xs text-gray-400 line-through font-medium leading-none mb-1">
+               ${originalPriceUSD.toFixed(2)}
+             </p>
+          )}
           <p className="text-lg sm:text-xl font-bold text-indigo-600">${item.priceUSD.toFixed(2)}</p>
           <p className="text-sm text-gray-500">BS. {item.priceBS.toFixed(2)}</p>
         </div>
@@ -48,9 +62,14 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             e.stopPropagation(); // Prevent card click when adding to cart
             onAddToCart(item);
           }}
-          className="px-4 sm:px-5 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg shadow-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-indigo-500 transition-all"
+          disabled={isSoldOut}
+          className={`px-4 sm:px-5 py-2 text-white text-sm font-bold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 transition-all ${
+            isSoldOut 
+            ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
+            : 'bg-indigo-600 hover:bg-indigo-500 focus:ring-indigo-500'
+          }`}
         >
-          Añadir
+          {isSoldOut ? 'Agotado' : 'Añadir'}
         </button>
       </div>
     </div>

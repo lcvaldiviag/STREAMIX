@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const StreamixLogo = () => (
     <div className="flex items-center space-x-4 group cursor-pointer select-none">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105 group-hover:rotate-3 shadow-sm group-hover:shadow-md">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-6 shadow-sm group-hover:shadow-md">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
         <h1 className="text-3xl font-bold text-gray-800 tracking-wider transition-colors duration-300 group-hover:text-indigo-600">STREAMIX</h1>
@@ -36,6 +36,19 @@ interface HeaderProps {
 }
 
 const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle }: HeaderProps) => {
+    const [isAnimating, setIsAnimating] = useState(false);
+    const prevCountRef = useRef(cartItemCount);
+
+    useEffect(() => {
+        // Trigger animation only when items are added (count increases)
+        if (cartItemCount > prevCountRef.current) {
+            setIsAnimating(true);
+            const timer = setTimeout(() => setIsAnimating(false), 300);
+            return () => clearTimeout(timer);
+        }
+        prevCountRef.current = cartItemCount;
+    }, [cartItemCount]);
+
     return (
         <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,12 +85,12 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         </button>
                         <button
                             onClick={onCartClick}
-                            className="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500"
+                            className={`relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500 transition-all duration-300 ${isAnimating ? 'scale-125 bg-indigo-100 text-indigo-700' : ''}`}
                         >
                             <span className="sr-only">Abrir carrito</span>
                             <ShoppingCartIcon />
                             {cartItemCount > 0 && (
-                                <span className="absolute -top-1 -right-1 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-white">
+                                <span className={`absolute -top-1 -right-1 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-white transition-transform duration-300 ${isAnimating ? 'scale-110' : ''}`}>
                                     {cartItemCount}
                                 </span>
                             )}
