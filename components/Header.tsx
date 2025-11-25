@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const StreamixLogo = () => (
-    <div className="flex items-center space-x-4 group cursor-pointer select-none">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-6 shadow-sm group-hover:shadow-md">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <div className="flex items-center space-x-3 group cursor-pointer select-none">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105 group-hover:rotate-12 shadow-md group-hover:shadow-indigo-500/30">
+            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 tracking-wider transition-colors duration-300 group-hover:text-indigo-600">STREAMIX</h1>
+        <h1 className="text-2xl sm:text-3xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 group-hover:from-indigo-600 group-hover:via-purple-600 group-hover:to-pink-600 transition-all duration-300">
+            STREAMIX
+        </h1>
     </div>
 );
 
@@ -50,22 +52,22 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
     }, [cartItemCount]);
 
     return (
-        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm supports-[backdrop-filter]:bg-white/60">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center">
                         <button
                             onClick={onNavToggle}
-                            className="lg:hidden p-2 -ml-2 mr-2 rounded-md text-gray-600 hover:bg-slate-100"
+                            className="lg:hidden p-2 -ml-2 mr-2 rounded-xl text-gray-600 hover:bg-slate-100 transition-colors"
                             aria-label="Abrir menú de navegación"
                         >
                             <MenuIcon />
                         </button>
                         <StreamixLogo />
                     </div>
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                        <div className="hidden md:flex relative w-full max-w-sm">
-                             <span className="absolute left-4 top-1/2 -translate-y-1/2">
+                    <div className="flex items-center space-x-2 md:space-x-6">
+                        <div className="hidden md:flex relative w-full max-w-sm group">
+                             <span className="absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500">
                                 <SearchIcon />
                             </span>
                             <input
@@ -73,24 +75,24 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                                 placeholder="Buscar productos..."
                                 value={searchQuery}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                                className="w-64 focus:w-80 transition-all duration-300 bg-slate-50 border border-slate-200 rounded-full py-2.5 pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-transparent"
                             />
                         </div>
                         <button
                             onClick={onNavToggle}
-                            className="md:hidden p-2 rounded-full text-gray-600 hover:bg-gray-100"
+                            className="md:hidden p-2 rounded-full text-gray-600 hover:bg-slate-100"
                             aria-label="Buscar productos"
                         >
                             <SearchIcon className="h-6 w-6" />
                         </button>
                         <button
                             onClick={onCartClick}
-                            className={`relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500 transition-all duration-300 ${isAnimating ? 'scale-125 bg-indigo-100 text-indigo-700' : ''}`}
+                            className={`relative p-2.5 rounded-full text-gray-600 hover:bg-slate-100 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-indigo-500 transition-all duration-300 ${isAnimating ? 'scale-110 bg-indigo-50 text-indigo-600 ring-2 ring-indigo-200' : ''}`}
                         >
                             <span className="sr-only">Abrir carrito</span>
                             <ShoppingCartIcon />
                             {cartItemCount > 0 && (
-                                <span className={`absolute -top-1 -right-1 block h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center ring-2 ring-white transition-transform duration-300 ${isAnimating ? 'scale-110' : ''}`}>
+                                <span className={`absolute -top-0.5 -right-0.5 block h-5 w-5 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white shadow-sm transition-transform duration-300 ${isAnimating ? 'scale-125' : ''}`}>
                                     {cartItemCount}
                                 </span>
                             )}
