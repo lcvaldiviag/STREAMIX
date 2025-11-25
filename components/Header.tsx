@@ -23,9 +23,13 @@ const ShoppingCartIcon = () => (
     </svg>
 );
 
-const MenuIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {isOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        )}
     </svg>
 );
 
@@ -35,9 +39,10 @@ interface HeaderProps {
     searchQuery: string;
     onSearchChange: (query: string) => void;
     onNavToggle: () => void;
+    isNavOpen: boolean;
 }
 
-const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle }: HeaderProps) => {
+const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle, isNavOpen }: HeaderProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
     const prevCountRef = useRef(cartItemCount);
 
@@ -52,16 +57,16 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
     }, [cartItemCount]);
 
     return (
-        <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm supports-[backdrop-filter]:bg-white/60">
+        <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm supports-[backdrop-filter]:bg-white/60">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center">
                         <button
                             onClick={onNavToggle}
-                            className="lg:hidden p-2 -ml-2 mr-2 rounded-xl text-gray-600 hover:bg-slate-100 transition-colors"
-                            aria-label="Abrir menú de navegación"
+                            className="lg:hidden p-2 -ml-2 mr-2 rounded-xl text-gray-600 hover:bg-slate-100 transition-colors focus:outline-none"
+                            aria-label={isNavOpen ? "Cerrar menú" : "Abrir menú"}
                         >
-                            <MenuIcon />
+                            <MenuIcon isOpen={isNavOpen} />
                         </button>
                         <StreamixLogo />
                     </div>

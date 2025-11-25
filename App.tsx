@@ -86,11 +86,12 @@ const App = () => {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 onNavToggle={() => setIsNavOpen(!isNavOpen)}
+                isNavOpen={isNavOpen}
             />
             
             {isNavOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+                    className="fixed inset-0 top-20 bg-black bg-opacity-50 z-30 lg:hidden"
                     onClick={() => setIsNavOpen(false)}
                     aria-hidden="true"
                 ></div>

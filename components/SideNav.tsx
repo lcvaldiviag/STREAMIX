@@ -33,12 +33,12 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
     
     return (
         <aside className={`
-            fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200
-            transform transition-transform duration-300 ease-in-out
-            lg:relative lg:inset-auto lg:z-auto lg:w-60 lg:flex-shrink-0 lg:transform-none
+            fixed top-20 bottom-0 left-0 z-40 w-64 bg-white border-r border-gray-200
+            transform transition-transform duration-300 ease-in-out shadow-lg lg:shadow-none
+            lg:static lg:h-auto lg:w-60 lg:flex-shrink-0 lg:transform-none lg:border-r
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
-            <div className="py-8 px-4 lg:pr-6 lg:pl-0 h-full overflow-y-auto">
+            <div className="py-8 px-4 lg:pr-6 lg:pl-0 h-full overflow-y-auto custom-scrollbar">
                 <div className="px-2 mb-6 md:hidden">
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2">

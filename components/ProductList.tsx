@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
       )}
 
       {/* Main Card Container simulating the physical card + hanger */}
-      <div className="flex flex-col h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:shadow-indigo-500/10 transform group-hover:-translate-y-1 transition-all duration-300 bg-white border border-slate-100 ring-1 ring-slate-900/5">
+      <div className="flex flex-col h-full rounded-2xl overflow-hidden shadow-md hover:shadow-lg hover:shadow-indigo-500/5 transform group-hover:-translate-y-[2px] transition-all duration-500 ease-out bg-white border border-slate-100 ring-1 ring-slate-900/5">
         
         {/* TOP SECTION: The "Gift Card" itself */}
         <div 
@@ -60,7 +60,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             {/* Logo / Brand Content */}
             <div className="relative z-20 flex-grow flex items-center justify-center w-full pb-6">
                 {isProduct(item) ? (
-                    <div className="flex flex-col items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                    <div className="flex flex-col items-center justify-center transform group-hover:scale-105 transition-transform duration-500 ease-out">
                          {/* Text Logo with subtle backing */}
                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-[2px] border border-white/20 flex items-center justify-center shadow-lg">
                             <span className="text-2xl sm:text-3xl font-extrabold text-white drop-shadow-sm tracking-tighter filter">
@@ -69,7 +69,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                          </div>
                     </div>
                 ) : (
-                    <div className="bg-black/60 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10 shadow-md mx-4">
+                    <div className="bg-black/60 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10 shadow-md mx-4 transform group-hover:scale-105 transition-transform duration-500 ease-out">
                          <h3 className="text-white font-bold text-base sm:text-lg text-center tracking-wide leading-tight">{item.name}</h3>
                     </div>
                 )}
