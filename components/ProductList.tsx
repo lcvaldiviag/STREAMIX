@@ -164,10 +164,9 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
   return (
     <>
       <div className="mb-10 text-center lg:text-left">
-        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">Catálogo Digital</h2>
-        <p className="text-lg text-gray-500 font-medium">
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-500 tracking-tight mb-4 leading-tight">
           Entretenimiento premium y herramientas poderosas.
-        </p>
+        </h2>
       </div>
 
       <div className="space-y-20 pb-20">
