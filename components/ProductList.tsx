@@ -115,7 +115,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                     }}
                     disabled={isSoldOut}
                     className={`
-                        px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs font-bold shadow-sm transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 flex items-center justify-center
+                        px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold shadow-sm transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 flex items-center justify-center
                         ${isSoldOut 
                             ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200' 
                             : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1'

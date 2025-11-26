@@ -101,7 +101,8 @@ const App = () => {
                 ></div>
             )}
 
-            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex relative z-10">
+            {/* Mobile SideNav: Rendered outside the z-10 container to ensure it sits above the overlay (z-30) */}
+            <div className="lg:hidden">
                 <SideNav 
                     selectedCategory={selectedCategory}
                     onSelectCategory={(category) => {
@@ -112,6 +113,23 @@ const App = () => {
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                 />
+            </div>
+
+            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex relative z-10">
+                {/* Desktop SideNav: Rendered inside the flow for proper layout */}
+                <div className="hidden lg:block">
+                    <SideNav 
+                        selectedCategory={selectedCategory}
+                        onSelectCategory={(category) => {
+                            setSelectedCategory(category);
+                            setIsNavOpen(false);
+                        }}
+                        isOpen={isNavOpen}
+                        searchQuery={searchQuery}
+                        onSearchChange={setSearchQuery}
+                    />
+                </div>
+                
                 <main className="flex-grow py-8 pl-0 lg:pl-8 w-full">
                     <ProductList 
                         onAddToCart={handleQuickAddToCart}

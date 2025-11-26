@@ -33,9 +33,9 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
     
     return (
         <aside className={`
-            fixed top-20 bottom-0 left-0 z-40 w-64 bg-white/70 backdrop-blur-md border-r border-white/50
-            transform transition-transform duration-300 ease-in-out shadow-lg lg:shadow-none
-            lg:static lg:h-auto lg:w-60 lg:flex-shrink-0 lg:transform-none lg:bg-transparent lg:border-r lg:border-slate-200/50
+            fixed top-20 bottom-0 left-0 z-[60] w-64 bg-white border-r border-slate-200 shadow-2xl
+            transform transition-transform duration-300 ease-in-out
+            lg:static lg:h-auto lg:w-60 lg:flex-shrink-0 lg:transform-none lg:bg-transparent lg:border-r lg:border-slate-200/50 lg:shadow-none
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
             <div className="py-8 px-4 lg:pr-6 lg:pl-0 h-full overflow-y-auto custom-scrollbar">
@@ -49,7 +49,7 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
                             placeholder="Buscar productos..."
                             value={searchQuery}
                             onChange={(e) => onSearchChange(e.target.value)}
-                            className="w-full bg-white/80 border border-slate-200 rounded-full py-2.5 pl-10 pr-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                            className="w-full bg-white border border-slate-200 rounded-full py-2.5 pl-10 pr-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
                         />
                     </div>
                 </div>
@@ -63,8 +63,8 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
                                 onClick={() => onSelectCategory(category)}
                                 className={`w-full flex items-center space-x-3 px-3 py-2.5 text-left text-sm font-medium rounded-lg transition-all duration-200 group ${
                                     isSelected 
-                                    ? 'bg-white/80 text-indigo-700 border-l-4 border-indigo-600 rounded-l-none shadow-sm' 
-                                    : 'text-gray-600 hover:bg-white/50 hover:text-gray-900'
+                                    ? 'bg-indigo-50 text-indigo-700 border-l-4 border-indigo-600 rounded-l-none shadow-sm' 
+                                    : 'text-gray-600 hover:bg-slate-50 hover:text-gray-900'
                                 }`}
                             >
                                 <span className={`text-lg transition-transform duration-300 ${isSelected ? 'scale-110' : 'group-hover:scale-110'}`}>

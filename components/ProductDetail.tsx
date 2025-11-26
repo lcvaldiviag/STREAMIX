@@ -26,15 +26,15 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
 
     return (
         <>
-            {/* Overlay - Increased z-index to 90 */}
+            {/* Overlay - Very High z-index to sit above everything */}
             <div 
-                className={`fixed inset-0 bg-black z-[90] transition-opacity duration-300 ${isVisible ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 bg-black z-[190] transition-opacity duration-300 ${isVisible ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
                 onClick={onClose}
             ></div>
 
-            {/* Panel - Increased z-index to 100 to be above ChatBot (z-80) */}
+            {/* Panel - Highest z-index to ensure it covers ChatBot (z-80) and any other floating elements */}
             <aside 
-                className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[200] transform transition-transform duration-300 ease-in-out ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
             >
                 <div className="flex flex-col h-full">
                     <header className="p-4 flex justify-between items-center border-b border-gray-200 flex-shrink-0">

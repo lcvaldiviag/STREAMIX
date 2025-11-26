@@ -52,7 +52,8 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
         if (e.key === 'Enter') handleSend();
     };
 
-    if (!visible && !isOpen) return null;
+    // Ensure component is completely unmounted/hidden if visible is false, preventing overlap
+    if (!visible) return null;
 
     return (
         <>
