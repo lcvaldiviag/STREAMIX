@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
 
   return (
     <div 
-      className="relative h-full group cursor-pointer select-none"
+      className="relative h-full group cursor-pointer select-none perspective-1000"
       onClick={() => onProductSelect(item)}
     >
       {/* Flying +1 Animation - Appears when item is added */}
@@ -45,23 +45,34 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
          </div>
       )}
 
-      {/* Special Offer Badge - Floating outside slightly */}
+      {/* Special Offer Badge */}
       {isSpecialOffer && (
-         <div className="absolute -top-3 -right-3 z-30 pointer-events-none animate-bounce">
-            <span className="text-4xl filter drop-shadow-md" role="img" aria-label="Oferta especial">🎁</span>
+         <div className="absolute -top-4 -right-4 z-30 pointer-events-none animate-bounce">
+            <span className="text-5xl filter drop-shadow-lg" role="img" aria-label="Oferta especial">🎁</span>
          </div>
       )}
 
-      {/* Main Card Container - Glassmorphism Style (Adaptive) */}
-      <div className={`flex flex-col h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-indigo-500/10 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200/60 dark:border-white/5 ring-1 ring-black/5 dark:ring-white/5 transition-all duration-500 ease-out ${isAdded ? 'scale-95 ring-2 ring-indigo-500' : 'transform group-hover:-translate-y-[2px] group-hover:border-slate-300 dark:group-hover:border-white/10'}`}>
+      {/* Main Card Container - Gift Card Style */}
+      <div className={`
+          flex flex-col h-full 
+          rounded-[2rem] 
+          overflow-hidden 
+          shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]
+          hover:shadow-[0_20px_40px_-10px_rgba(99,102,241,0.2)] dark:hover:shadow-[0_20px_40px_-10px_rgba(99,102,241,0.3)]
+          bg-white dark:bg-slate-800 
+          border border-slate-200 dark:border-slate-700 
+          transition-all duration-500 ease-out 
+          transform-gpu
+          ${isAdded ? 'scale-95' : 'group-hover:-translate-y-2 group-hover:rotate-1'}
+      `}>
         
-        {/* TOP SECTION: The "Gift Card" itself */}
+        {/* TOP SECTION: The "Gift Card" body */}
         <div 
-            className="relative h-40 sm:h-44 flex flex-col items-center pt-3 shrink-0 overflow-hidden"
+            className="relative h-48 flex flex-col items-center pt-4 shrink-0 overflow-hidden"
             style={{ 
                 backgroundColor: isProduct(item) ? brandColor : '#1e293b',
                 backgroundImage: isProduct(item) 
-                  ? `radial-gradient(circle at top, rgba(255,255,255,0.2), transparent 70%)` 
+                  ? `radial-gradient(circle at 50% 0%, rgba(255,255,255,0.25), transparent 60%), radial-gradient(circle at 50% 100%, rgba(0,0,0,0.1), transparent 50%)` 
                   : undefined,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
@@ -70,64 +81,63 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             {/* Combo Image Background if applicable */}
             {!isProduct(item) && (
                 <div 
-                    className="absolute inset-0 z-0 opacity-80 transition-transform duration-700 group-hover:scale-105"
+                    className="absolute inset-0 z-0 opacity-80 transition-transform duration-700 group-hover:scale-110"
                     style={{ backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                 />
             )}
 
-            {/* Subtle Plastic/Paper Gloss Effect Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/15 to-transparent z-10 pointer-events-none mix-blend-overlay" />
+            {/* Glossy Overlays for Plastic Effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-black/10 z-10 pointer-events-none mix-blend-overlay" />
             
-            {/* The "Hanger Hole" */}
-            <div className="relative z-20 w-12 h-3 bg-slate-100/30 dark:bg-slate-950/50 rounded-full shadow-inner mb-3 mx-auto backdrop-blur-sm border border-white/10"></div>
+            {/* THE HANGER HOLE (Ranura) - Simulating transparency */}
+            <div className="relative z-20 w-16 h-4 bg-slate-50 dark:bg-slate-950 rounded-full shadow-[inset_0_2px_3px_rgba(0,0,0,0.6),0_1px_1px_rgba(255,255,255,0.2)] mb-4 mx-auto border border-black/5 dark:border-white/5"></div>
 
             {/* Logo / Brand Content */}
             <div className="relative z-20 flex-grow flex items-center justify-center w-full pb-6">
                 {isProduct(item) ? (
-                    <div className="flex flex-col items-center justify-center transform group-hover:scale-105 transition-transform duration-500 ease-out">
-                         {/* Text Logo with subtle backing */}
-                         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black/20 backdrop-blur-[4px] border border-white/15 flex items-center justify-center shadow-xl">
-                            <span className="text-2xl sm:text-3xl font-extrabold text-white drop-shadow-md tracking-tighter filter">
+                    <div className="transform transition-transform duration-500 group-hover:scale-110 filter drop-shadow-lg">
+                         <div className="w-20 h-20 rounded-2xl bg-black/20 backdrop-blur-[2px] border border-white/20 flex items-center justify-center shadow-2xl">
+                            <span className="text-4xl font-black text-white tracking-tighter">
                                 {item.logo}
                             </span>
                          </div>
                     </div>
                 ) : (
-                    <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/15 shadow-lg mx-4 transform group-hover:scale-105 transition-transform duration-500 ease-out">
-                         <h3 className="text-white font-bold text-base sm:text-lg text-center tracking-wide leading-tight">{item.name}</h3>
+                    <div className="bg-black/60 backdrop-blur-md px-5 py-3 rounded-xl border border-white/10 shadow-xl mx-6 text-center transform transition-transform duration-500 group-hover:scale-105">
+                         <h3 className="text-white font-bold text-lg tracking-wide leading-tight">{item.name}</h3>
                     </div>
                 )}
             </div>
         </div>
 
-        {/* BOTTOM SECTION: Info / Price Tag - Adaptive Theme */}
-        <div className="flex flex-col flex-grow p-4 bg-white/80 dark:bg-slate-900/60 relative border-t border-slate-200 dark:border-white/5">
-            {/* Subtle separator */}
-            <div className="absolute top-0 left-6 right-6 border-t border-dashed border-slate-300 dark:border-white/10"></div>
+        {/* BOTTOM SECTION: Info / Price Tag */}
+        <div className="flex flex-col flex-grow p-5 bg-white dark:bg-slate-800 relative">
+            {/* Dashed line separator */}
+            <div className="absolute top-0 left-4 right-4 border-t-2 border-dashed border-slate-200 dark:border-slate-700"></div>
 
-            <div className="mt-2 mb-3 flex-grow">
-                <h3 className={`text-base sm:text-lg font-bold leading-tight mb-1 text-slate-800 dark:text-slate-100`}>
+            <div className="mt-3 mb-4 flex-grow">
+                <h3 className="text-lg font-bold leading-tight mb-2 text-slate-900 dark:text-white">
                     {item.name}
                 </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed font-medium">
+                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
                     {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
                 </p>
             </div>
 
-            <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-200 dark:border-white/5 gap-2">
+            <div className="flex items-end justify-between mt-auto gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
                 <div className="flex flex-col min-w-0">
                      {originalPriceUSD && (
-                        <span className="text-[10px] text-red-500 dark:text-red-400 line-through font-semibold mb-0.5 ml-0.5">
+                        <span className="text-xs text-red-500 dark:text-red-400 line-through font-bold mb-0.5">
                             ${originalPriceUSD.toFixed(2)}
                         </span>
                     )}
                     <div className="flex items-baseline space-x-1">
-                        <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
+                        <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                             ${item.priceUSD.toFixed(2)}
                         </span>
-                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">USD</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">USD</span>
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium ml-0.5">
+                    <span className="text-xs text-slate-500 font-semibold">
                         BS. {item.priceBS.toFixed(2)}
                     </span>
                 </div>
@@ -136,10 +146,10 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                     onClick={handleAddClick}
                     disabled={isSoldOut}
                     className={`
-                        px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 flex items-center justify-center min-w-[80px]
+                        px-4 py-2.5 rounded-xl text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 min-w-[90px]
                         ${isSoldOut 
-                            ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-300 dark:border-slate-700' 
-                            : 'bg-gradient-to-r from-indigo-700 to-purple-700 dark:from-indigo-600 dark:to-purple-600 text-white hover:from-indigo-600 hover:to-purple-600 dark:hover:from-indigo-500 dark:hover:to-purple-500 border border-transparent dark:border-white/10'
+                            ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed' 
+                            : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white hover:shadow-lg hover:shadow-indigo-500/30'
                         }
                     `}
                 >
@@ -188,7 +198,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
   return (
     <>
       <div className="mb-10 text-center lg:text-left">
-        <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-500 dark:from-slate-200 dark:to-slate-500 tracking-tight mb-4 leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-500 dark:from-white dark:to-slate-400 tracking-tight mb-4 leading-tight">
           Entretenimiento premium y herramientas poderosas.
         </h2>
       </div>
@@ -231,10 +241,10 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
           return (
             <section key={category} id={category.replace(/\s/g, '-')}>
                <div className="flex items-center space-x-4 mb-8">
-                    <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">{category}</h2>
-                    <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-300/50 to-transparent dark:from-white/20 dark:to-transparent rounded-full"></div>
+                    <h2 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{category}</h2>
+                    <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-300 to-transparent dark:from-white/20 rounded-full"></div>
                 </div>
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-8 sm:gap-y-12">
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}
