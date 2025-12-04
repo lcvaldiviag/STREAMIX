@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { WHATSAPP_NUMBER } from '../constants';
 
@@ -43,38 +44,41 @@ const SOCIAL_LINKS = [
 const Footer = () => {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
     return (
-        <footer className="bg-slate-100 text-gray-800 border-t border-slate-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <footer className="bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-white/10 relative z-10">
+             {/* Subtle Glow at the top of footer */}
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent opacity-50"></div>
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div className="flex flex-col md:flex-row justify-between items-center">
-                    <div className="text-sm text-gray-600 text-center md:text-left">
-                        <p>Teléfono: +{WHATSAPP_NUMBER}</p>
+                    <div className="text-sm text-slate-600 dark:text-slate-400 text-center md:text-left">
+                        <p>Teléfono: <span className="text-slate-800 dark:text-slate-200 font-medium">+{WHATSAPP_NUMBER}</span></p>
                         <p className="mt-2">&copy; {new Date().getFullYear()} STREAMIX. Todos los derechos reservados.</p>
                     </div>
-                    <div className="flex items-center space-x-6 mt-4 md:mt-0">
-                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-800 transition-colors">
-                            <span className="sr-only">Soporte por WhatsApp</span>
-                            <WhatsAppIcon />
+                    <div className="flex items-center space-x-6 mt-6 md:mt-0">
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                             <WhatsAppIcon className="w-5 h-5" />
+                             <span className="sr-only md:not-sr-only text-xs font-medium">Soporte</span>
                         </a>
-                        <a href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">Términos de Servicio</a>
+                        <a href="#" className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-300">Términos de Servicio</a>
                     </div>
                 </div>
                 
-                <div className="flex flex-col items-center mt-12 mb-6">
-                    <div className="flex space-x-6 mb-4">
+                <div className="flex flex-col items-center mt-12 mb-4">
+                    <div className="flex space-x-6 mb-6">
                         {SOCIAL_LINKS.map((link) => (
                             <a 
                                 key={link.name}
                                 href={link.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 transition-all duration-300 ${link.colorClass}`}
+                                className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 hover:shadow-xl transition-all duration-300 ${link.colorClass} ring-2 ring-white dark:ring-slate-900`}
                                 aria-label={`Visítanos en ${link.name}`}
                             >
                                 <link.icon className="w-6 h-6" />
                             </a>
                         ))}
                     </div>
-                    <p className="text-center text-lg font-bold text-gray-800">
+                    <p className="text-center text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-500 dark:from-slate-200 dark:to-slate-500 tracking-wide">
                         Streaming confiable, como debe ser.
                     </p>
                 </div>

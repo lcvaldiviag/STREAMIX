@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import Header from './components/Header';
 import ProductList from './components/ProductList';
@@ -19,6 +20,9 @@ const App = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
+    
+    // DEFINICIÓN: Modo Light por defecto (false)
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
@@ -36,7 +40,6 @@ const App = () => {
 
     const handleQuickAddToCart = (itemToAdd: Product | Combo) => {
         handleAddToCart(itemToAdd);
-        // Mostrar notificación sutil en lugar de abrir el modal
         setToast({ message: `¡${itemToAdd.name} añadido al carrito!`, visible: true });
     };
 
@@ -63,7 +66,7 @@ const App = () => {
 
     const handleCloseCheckout = () => {
         setIsCheckoutOpen(false);
-        setCart([]); // Clear cart after successful checkout simulation
+        setCart([]); 
     };
 
     const handleProductSelect = (product: Product | Combo) => {
@@ -78,46 +81,37 @@ const App = () => {
         setToast(prev => ({ ...prev, visible: false }));
     };
 
+    const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     return (
-        <div className="font-sans flex flex-col min-h-screen streamix-glass-bg relative text-gray-800">
-            {/* Background Orbs for Fractal Effect */}
-            <div className="glass-orb-1"></div>
-            <div className="glass-orb-2"></div>
+        <div className={isDarkMode ? 'dark' : ''}>
+            <div className="font-sans flex flex-col min-h-screen streamix-glass-bg relative bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-200 transition-colors duration-500">
+                {/* Background Orbs for Fractal Effect */}
+                <div className="glass-orb-1"></div>
+                <div className="glass-orb-2"></div>
 
-            <Header 
-                cartItemCount={cartItemCount} 
-                onCartClick={() => setIsCartOpen(true)}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                onNavToggle={() => setIsNavOpen(!isNavOpen)}
-                isNavOpen={isNavOpen}
-            />
-            
-            {isNavOpen && (
-                <div 
-                    className="fixed inset-0 top-20 bg-black/30 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
-                    onClick={() => setIsNavOpen(false)}
-                    aria-hidden="true"
-                ></div>
-            )}
-
-            {/* Mobile SideNav: Rendered outside the z-10 container to ensure it sits above the overlay (z-30) */}
-            <div className="lg:hidden">
-                <SideNav 
-                    selectedCategory={selectedCategory}
-                    onSelectCategory={(category) => {
-                        setSelectedCategory(category);
-                        setIsNavOpen(false);
-                    }}
-                    isOpen={isNavOpen}
+                <Header 
+                    cartItemCount={cartItemCount} 
+                    onCartClick={() => setIsCartOpen(true)}
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
+                    onNavToggle={() => setIsNavOpen(!isNavOpen)}
+                    isNavOpen={isNavOpen}
+                    isDarkMode={isDarkMode}
+                    onToggleTheme={toggleTheme}
                 />
-            </div>
+                
+                {isNavOpen && (
+                    <div 
+                        className="fixed inset-0 top-20 bg-black/60 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
+                        onClick={() => setIsNavOpen(false)}
+                        aria-hidden="true"
+                    ></div>
+                )}
 
-            <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex relative z-10">
-                {/* Desktop SideNav: Rendered inside the flow for proper layout */}
-                <div className="hidden lg:block">
+                <div className="lg:hidden">
                     <SideNav 
                         selectedCategory={selectedCategory}
                         onSelectCategory={(category) => {
@@ -129,37 +123,52 @@ const App = () => {
                         onSearchChange={setSearchQuery}
                     />
                 </div>
-                
-                <main className="flex-grow py-8 pl-0 lg:pl-8 w-full">
-                    <ProductList 
-                        onAddToCart={handleQuickAddToCart}
-                        onProductSelect={handleProductSelect}
-                        selectedCategory={selectedCategory}
-                        searchQuery={searchQuery}
-                    />
-                </main>
+
+                <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex relative z-10">
+                    <div className="hidden lg:block">
+                        <SideNav 
+                            selectedCategory={selectedCategory}
+                            onSelectCategory={(category) => {
+                                setSelectedCategory(category);
+                                setIsNavOpen(false);
+                            }}
+                            isOpen={isNavOpen}
+                            searchQuery={searchQuery}
+                            onSearchChange={setSearchQuery}
+                        />
+                    </div>
+                    
+                    <main className="flex-grow py-8 pl-0 lg:pl-8 w-full">
+                        <ProductList 
+                            onAddToCart={handleQuickAddToCart}
+                            onProductSelect={handleProductSelect}
+                            selectedCategory={selectedCategory}
+                            searchQuery={searchQuery}
+                        />
+                    </main>
+                </div>
+                 <ProductDetail
+                    product={selectedProduct}
+                    onClose={handleCloseDetail}
+                    onAddToCart={handleQuickAddToCart}
+                />
+                <Footer />
+                <CartModal
+                    isOpen={isCartOpen}
+                    onClose={() => setIsCartOpen(false)}
+                    cartItems={cart}
+                    onUpdateQuantity={handleUpdateQuantity}
+                    onRemoveItem={handleRemoveItem}
+                    onCheckout={handleProceedToCheckout}
+                />
+                <CheckoutModal
+                    isOpen={isCheckoutOpen}
+                    onClose={handleCloseCheckout}
+                    cartItems={cart}
+                />
+                <ChatBot visible={!isCartOpen && !isCheckoutOpen && !selectedProduct} />
+                <Toast message={toast.message} isVisible={toast.visible} onClose={handleHideToast} />
             </div>
-             <ProductDetail
-                product={selectedProduct}
-                onClose={handleCloseDetail}
-                onAddToCart={handleQuickAddToCart}
-            />
-            <Footer />
-            <CartModal
-                isOpen={isCartOpen}
-                onClose={() => setIsCartOpen(false)}
-                cartItems={cart}
-                onUpdateQuantity={handleUpdateQuantity}
-                onRemoveItem={handleRemoveItem}
-                onCheckout={handleProceedToCheckout}
-            />
-            <CheckoutModal
-                isOpen={isCheckoutOpen}
-                onClose={handleCloseCheckout}
-                cartItems={cart}
-            />
-            <ChatBot visible={!isCartOpen && !isCheckoutOpen && !selectedProduct} />
-            <Toast message={toast.message} isVisible={toast.visible} onClose={handleHideToast} />
         </div>
     );
 };

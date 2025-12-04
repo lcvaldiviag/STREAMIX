@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { CartItem, Product } from '../types';
 import { PlaceholderIcon } from '../constants';
@@ -29,37 +30,37 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
     const subtotal = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] transition-opacity" onClick={onClose}>
+        <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[60] transition-opacity" onClick={onClose}>
             <div 
-                className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl flex flex-col text-gray-800"
+                className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-white/10 shadow-2xl flex flex-col text-slate-800 dark:text-slate-200"
                 onClick={e => e.stopPropagation()}
             >
-                <header className="p-4 flex justify-between items-center border-b border-gray-200">
-                    <h2 className="text-xl font-semibold">Carrito de Compras</h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100">
+                <header className="p-4 flex justify-between items-center border-b border-slate-200 dark:border-white/10">
+                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Carrito de Compras</h2>
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors">
                         <CloseIcon />
                     </button>
                 </header>
-                <main className="flex-1 overflow-y-auto p-4 bg-slate-50">
+                <main className="flex-1 overflow-y-auto p-4 custom-scrollbar">
                     {cartItems.length === 0 ? (
-                        <p className="text-gray-500 text-center mt-8">Tu carrito está vacío.</p>
+                        <p className="text-slate-500 text-center mt-8">Tu carrito está vacío.</p>
                     ) : (
-                        <ul className="divide-y divide-gray-200">
+                        <ul className="divide-y divide-slate-200 dark:divide-white/5">
                             {cartItems.map(item => (
                                 <li key={item.id} className="py-4 flex items-center space-x-4">
                                     <div className="flex-shrink-0">
-                                        {'logo' in item ? <PlaceholderIcon icon={item.logo} color={(item as Product).brandColor} /> : <img src={(item as any).image} alt={item.name} className="w-16 h-16 rounded-md object-cover" />}
+                                        {'logo' in item ? <PlaceholderIcon icon={item.logo} color={(item as Product).brandColor} /> : <img src={(item as any).image} alt={item.name} className="w-16 h-16 rounded-md object-cover border border-slate-200 dark:border-white/10" />}
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-semibold">{item.name}</p>
-                                        <p className="text-sm text-gray-500">${item.priceUSD.toFixed(2)}</p>
+                                        <p className="font-semibold text-slate-900 dark:text-slate-200">{item.name}</p>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400">${item.priceUSD.toFixed(2)}</p>
                                         <div className="flex items-center mt-2">
-                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)} className="px-2.5 py-1 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 transition-colors">-</button>
-                                            <span className="px-3 font-medium text-gray-800">{item.quantity}</span>
-                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} className="px-2.5 py-1 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 transition-colors">+</button>
+                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)} className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">-</button>
+                                            <span className="px-3 font-medium text-slate-800 dark:text-slate-200">{item.quantity}</span>
+                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">+</button>
                                         </div>
                                     </div>
-                                    <button onClick={() => onRemoveItem(item.id)} className="flex items-center text-sm text-red-600 hover:text-red-500 transition-colors">
+                                    <button onClick={() => onRemoveItem(item.id)} className="flex items-center text-sm text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors">
                                         <TrashIcon />
                                         Eliminar
                                     </button>
@@ -69,14 +70,14 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                     )}
                 </main>
                 {cartItems.length > 0 && (
-                    <footer className="p-4 border-t border-gray-200 bg-white">
+                    <footer className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950">
                         <div className="flex justify-between items-center mb-4">
-                            <span className="text-lg font-semibold">Subtotal:</span>
-                            <span className="text-xl font-bold text-indigo-600">${subtotal.toFixed(2)}</span>
+                            <span className="text-lg font-semibold text-slate-600 dark:text-slate-400">Subtotal:</span>
+                            <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400 drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(129,140,248,0.3)]">${subtotal.toFixed(2)}</span>
                         </div>
                         <button 
                             onClick={onCheckout}
-                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-md hover:opacity-90 transition-opacity"
+                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:shadow-md hover:opacity-90 transition-all"
                         >
                             Proceder al Pago
                         </button>

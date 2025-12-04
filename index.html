@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -9,36 +10,77 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
       }
-      /* Custom scrollbar for light theme */
+      
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
+        height: 8px;
       }
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: #0f172a; /* slate-900 */
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #334155; /* slate-700 */
+        border-radius: 4px;
+        border: 1px solid #0f172a;
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: #475569; /* slate-600 */
+      }
+      
+      /* Light mode scrollbar */
       ::-webkit-scrollbar-track {
         background: #f1f5f9; /* slate-100 */
       }
       ::-webkit-scrollbar-thumb {
         background: #cbd5e1; /* slate-300 */
         border-radius: 4px;
+        border: 1px solid #f1f5f9;
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #94a3b8; /* slate-400 */
       }
 
-      /* --- STREAMIX GLASS FRACTAL EFFECT --- */
+      /* --- STREAMIX DARK GLASS FRACTAL EFFECT --- */
       .streamix-glass-bg {
-        background-color: #f8fafc; /* Base Slate-50 to maintain text contrast */
         position: relative;
-        overflow-x: hidden; /* Prevent horizontal scroll from blurs */
+        overflow-x: hidden; 
         z-index: 0;
+        min-height: 100vh;
+        transition: background-color 0.5s ease;
       }
 
-      /* The "Ribbed/Fluted" Glass Texture Overlay */
+      /* The "Ribbed/Digital" Grid Texture Overlay - Dark */
+      .dark .streamix-glass-bg::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        /* Subtle grid/noise texture for depth */
+        background-image: 
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+      }
+      
+      /* The "Ribbed/Digital" Grid Texture Overlay - Light */
       .streamix-glass-bg::before {
         content: "";
         position: fixed;
@@ -48,42 +90,51 @@
         height: 100%;
         pointer-events: none;
         z-index: -1;
-        /* Simulates vertical ribbed glass lines */
-        background-image: repeating-linear-gradient(
-          90deg,
-          transparent 0px,
-          transparent 2px,
-          rgba(99, 102, 241, 0.03) 2px, /* Very subtle Indigo hint */
-          rgba(99, 102, 241, 0.03) 4px
-        );
-        backdrop-filter: contrast(105%);
+        background-image: 
+          linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
       }
 
-      /* Ambient Moving Orbs (Fractal Light Effect) */
+      /* Ambient Moving Orbs (Neon/Plasma Effect) */
       .glass-orb-1, .glass-orb-2 {
         position: fixed;
         border-radius: 50%;
-        filter: blur(80px);
+        filter: blur(100px); /* Softer, deeper blur */
         z-index: -2;
-        opacity: 0.6;
-        animation: floatOrb 20s infinite alternate ease-in-out;
+        opacity: 0.45; /* Slightly reduced opacity for dark mode elegance */
+        animation: floatOrb 25s infinite alternate ease-in-out;
+        transition: opacity 0.5s ease;
+      }
+      
+      .dark .glass-orb-1, .dark .glass-orb-2 {
+         mix-blend-mode: screen;
+      }
+      
+      /* Light mode mix blend adjustment */
+      .glass-orb-1, .glass-orb-2 {
+         mix-blend-mode: multiply;
+         opacity: 0.25;
       }
 
       .glass-orb-1 {
-        top: -10%;
+        top: -15%;
         left: -10%;
-        width: 50vw;
-        height: 50vw;
-        background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(139, 92, 246, 0) 70%); /* Purple */
+        width: 60vw;
+        height: 60vw;
+        /* Deep Violet/Indigo Plasma */
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.4) 0%, rgba(79, 70, 229, 0) 70%);
         animation-delay: 0s;
       }
 
       .glass-orb-2 {
-        bottom: -10%;
+        bottom: -15%;
         right: -10%;
-        width: 60vw;
-        height: 60vw;
-        background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 70%); /* Blue */
+        width: 70vw;
+        height: 70vw;
+        /* Cyan/Blue Electric */
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(37, 99, 235, 0) 70%);
         animation-delay: -5s;
         animation-direction: alternate-reverse;
       }
@@ -93,11 +144,37 @@
           transform: translate(0, 0) scale(1);
         }
         50% {
-          transform: translate(10%, 15%) scale(1.1);
+          transform: translate(5%, 10%) scale(1.1);
         }
         100% {
-          transform: translate(-5%, -10%) scale(0.95);
+          transform: translate(-5%, -5%) scale(0.95);
         }
+      }
+
+      /* Add to Cart Flying Animation */
+      @keyframes flyToCart {
+        0% {
+          transform: translate(0, 0) scale(0.5);
+          opacity: 0;
+        }
+        20% {
+           transform: translate(0, -20px) scale(1.1);
+           opacity: 1;
+        }
+        100% {
+          transform: translate(40px, -150px) scale(0.2);
+          opacity: 0;
+        }
+      }
+      .animate-add-to-cart {
+        animation: flyToCart 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      
+      /* Glassmorphism Utility Class */
+      .glass-panel {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
       }
     </style>
   <script type="importmap">
@@ -111,7 +188,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50 text-gray-800">
+  <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
