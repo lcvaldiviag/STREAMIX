@@ -47,15 +47,15 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
 
       {/* Special Offer Badge */}
       {isSpecialOffer && (
-         <div className="absolute -top-4 -right-4 z-30 pointer-events-none animate-bounce">
-            <span className="text-5xl filter drop-shadow-lg" role="img" aria-label="Oferta especial">🎁</span>
+         <div className="absolute -top-3 -right-3 min-[600px]:-top-4 min-[600px]:-right-4 z-30 pointer-events-none animate-bounce">
+            <span className="text-3xl min-[600px]:text-5xl filter drop-shadow-lg" role="img" aria-label="Oferta especial">🎁</span>
          </div>
       )}
 
       {/* Main Card Container - Gift Card Style */}
       <div className={`
           flex flex-col h-full 
-          rounded-[2rem] 
+          rounded-xl min-[600px]:rounded-[2rem] 
           overflow-hidden 
           shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]
           hover:shadow-[0_20px_40px_-10px_rgba(99,102,241,0.2)] dark:hover:shadow-[0_20px_40px_-10px_rgba(99,102,241,0.3)]
@@ -68,7 +68,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
         
         {/* TOP SECTION: The "Gift Card" body */}
         <div 
-            className="relative h-48 flex flex-col items-center pt-4 shrink-0 overflow-hidden"
+            className="relative h-28 min-[600px]:h-48 flex flex-col items-center pt-2 min-[600px]:pt-4 shrink-0 overflow-hidden"
             style={{ 
                 backgroundColor: isProduct(item) ? brandColor : '#1e293b',
                 backgroundImage: isProduct(item) 
@@ -90,54 +90,54 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
             <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-black/10 z-10 pointer-events-none mix-blend-overlay" />
             
             {/* THE HANGER HOLE (Ranura) - Simulating transparency */}
-            <div className="relative z-20 w-16 h-4 bg-slate-50 dark:bg-slate-950 rounded-full shadow-[inset_0_2px_3px_rgba(0,0,0,0.6),0_1px_1px_rgba(255,255,255,0.2)] mb-4 mx-auto border border-black/5 dark:border-white/5"></div>
+            <div className="relative z-20 w-10 h-2.5 min-[600px]:w-16 min-[600px]:h-4 bg-slate-50 dark:bg-slate-950 rounded-full shadow-[inset_0_2px_3px_rgba(0,0,0,0.6),0_1px_1px_rgba(255,255,255,0.2)] mb-1.5 min-[600px]:mb-4 mx-auto border border-black/5 dark:border-white/5"></div>
 
             {/* Logo / Brand Content */}
-            <div className="relative z-20 flex-grow flex items-center justify-center w-full pb-6">
+            <div className="relative z-20 flex-grow flex items-center justify-center w-full pb-2 min-[600px]:pb-6">
                 {isProduct(item) ? (
                     <div className="transform transition-transform duration-500 group-hover:scale-110 filter drop-shadow-lg">
-                         <div className="w-20 h-20 rounded-2xl bg-black/20 backdrop-blur-[2px] border border-white/20 flex items-center justify-center shadow-2xl">
-                            <span className="text-4xl font-black text-white tracking-tighter">
+                         <div className="w-12 h-12 min-[600px]:w-20 min-[600px]:h-20 rounded-xl min-[600px]:rounded-2xl bg-black/20 backdrop-blur-[2px] border border-white/20 flex items-center justify-center shadow-2xl">
+                            <span className="text-xl min-[600px]:text-4xl font-black text-white tracking-tighter">
                                 {item.logo}
                             </span>
                          </div>
                     </div>
                 ) : (
-                    <div className="bg-black/60 backdrop-blur-md px-5 py-3 rounded-xl border border-white/10 shadow-xl mx-6 text-center transform transition-transform duration-500 group-hover:scale-105">
-                         <h3 className="text-white font-bold text-lg tracking-wide leading-tight">{item.name}</h3>
+                    <div className="bg-black/60 backdrop-blur-md px-2 py-1.5 min-[600px]:px-5 min-[600px]:py-3 rounded-lg min-[600px]:rounded-xl border border-white/10 shadow-xl mx-3 min-[600px]:mx-6 text-center transform transition-transform duration-500 group-hover:scale-105">
+                         <h3 className="text-white font-bold text-xs min-[600px]:text-lg tracking-wide leading-tight">{item.name}</h3>
                     </div>
                 )}
             </div>
         </div>
 
         {/* BOTTOM SECTION: Info / Price Tag */}
-        <div className="flex flex-col flex-grow p-5 bg-white dark:bg-slate-800 relative">
+        <div className="flex flex-col flex-grow p-2.5 min-[600px]:p-5 bg-white dark:bg-slate-800 relative">
             {/* Dashed line separator */}
-            <div className="absolute top-0 left-4 right-4 border-t-2 border-dashed border-slate-200 dark:border-slate-700"></div>
+            <div className="absolute top-0 left-2 right-2 min-[600px]:left-4 min-[600px]:right-4 border-t-2 border-dashed border-slate-200 dark:border-slate-700"></div>
 
-            <div className="mt-3 mb-4 flex-grow">
-                <h3 className="text-lg font-bold leading-tight mb-2 text-slate-900 dark:text-white">
+            <div className="mt-1.5 min-[600px]:mt-3 mb-1.5 min-[600px]:mb-4 flex-grow">
+                <h3 className="text-xs min-[600px]:text-lg font-bold leading-tight mb-0.5 min-[600px]:mb-2 text-slate-900 dark:text-white line-clamp-1">
                     {item.name}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                <p className="text-[10px] min-[600px]:text-sm text-slate-600 dark:text-slate-400 line-clamp-2 min-[600px]:line-clamp-3 leading-relaxed">
                     {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
                 </p>
             </div>
 
-            <div className="flex items-end justify-between mt-auto gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+            <div className="flex items-end justify-between mt-auto gap-1.5 min-[600px]:gap-3 pt-1.5 min-[600px]:pt-4 border-t border-slate-100 dark:border-slate-700/50">
                 <div className="flex flex-col min-w-0">
                      {originalPriceUSD && (
-                        <span className="text-xs text-red-500 dark:text-red-400 line-through font-bold mb-0.5">
+                        <span className="text-[9px] min-[600px]:text-xs text-red-500 dark:text-red-400 line-through font-bold mb-0.5">
                             ${originalPriceUSD.toFixed(2)}
                         </span>
                     )}
-                    <div className="flex items-baseline space-x-1">
-                        <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                    <div className="flex items-baseline space-x-0.5 min-[600px]:space-x-1">
+                        <span className="text-base min-[600px]:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                             ${item.priceUSD.toFixed(2)}
                         </span>
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">USD</span>
+                        <span className="text-[9px] min-[600px]:text-xs font-bold text-slate-400 uppercase tracking-wider">USD</span>
                     </div>
-                    <span className="text-xs text-slate-500 font-semibold">
+                    <span className="text-[9px] min-[600px]:text-xs text-slate-500 font-semibold truncate">
                         BS. {item.priceBS.toFixed(2)}
                     </span>
                 </div>
@@ -146,7 +146,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                     onClick={handleAddClick}
                     disabled={isSoldOut}
                     className={`
-                        px-4 py-2.5 rounded-xl text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 min-w-[90px]
+                        px-2 py-1.5 min-[600px]:px-4 min-[600px]:py-2.5 rounded-md min-[600px]:rounded-xl text-[10px] min-[600px]:text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 min-w-[65px] min-[600px]:min-w-[90px]
                         ${isSoldOut 
                             ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed' 
                             : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white hover:shadow-lg hover:shadow-indigo-500/30'
@@ -217,7 +217,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
                     <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-300/50 to-transparent dark:from-white/20 dark:to-transparent rounded-full"></div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                <div className="grid grid-cols-1 min-[600px]:grid-cols-3 gap-8 items-stretch">
                   <div className="md:col-span-1">
                     <Card item={items[0]} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                   </div>
@@ -244,7 +244,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
                     <h2 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{category}</h2>
                     <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-300 to-transparent dark:from-white/20 rounded-full"></div>
                 </div>
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
+              <div className="grid grid-cols-2 min-[600px]:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-5 min-[600px]:gap-x-6 min-[600px]:gap-y-10 lg:gap-x-8 lg:gap-y-12">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}
