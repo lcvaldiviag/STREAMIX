@@ -75,7 +75,7 @@ export const PRODUCTS: Product[] = [
   { id: 'prod-27', name: 'Xbox Game Pass', category: Category.GAMING_SUBS, priceUSD: 5.00, priceBS: 50, logo: "X", brandColor: '#107C10', description: 'Acceso ilimitado a más de 100 juegos de alta calidad para consola y PC.' },
 
   // --- Live TV & Sports ---
-  { id: 'prod-28', name: 'MagisTV', category: Category.LIVE_TV_SPORTS, priceUSD: 4.60, priceBS: 46, logo: "Mag", brandColor: '#FF6F00', description: 'La mejor app de TV en vivo con cientos de canales y contenido VOD.' },
+  { id: 'prod-28', name: 'MagisTV', category: Category.LIVE_TV_SPORTS, priceUSD: 5.00, priceBS: 50, logo: "Mag", brandColor: '#FF6F00', description: 'La mejor app de TV en vivo con cientos de canales y contenido VOD.' },
   { id: 'prod-iptv', name: 'IPTV', category: Category.LIVE_TV_SPORTS, priceUSD: 2.50, priceBS: 25, logo: "IP", brandColor: '#607D8B', description: 'Acceso económico a canales de televisión globales por internet.' },
   { id: 'prod-panel', name: 'Panel IPTV', category: Category.LIVE_TV_SPORTS, priceUSD: 4.20, priceBS: 42, logo: "PI", brandColor: '#455A64', description: 'Solución completa para gestionar y revender servicios de IPTV.' },
 

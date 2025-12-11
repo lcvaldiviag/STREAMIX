@@ -244,7 +244,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
                     <h2 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{category}</h2>
                     <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-300 to-transparent dark:from-white/20 rounded-full"></div>
                 </div>
-              <div className="grid grid-cols-2 min-[600px]:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-5 min-[600px]:gap-x-6 min-[600px]:gap-y-10 lg:gap-x-8 lg:gap-y-12">
+              <div className="grid grid-cols-2 min-[600px]:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-5 min-[600px]:gap-x-6 min-[600px]:gap-y-10 lg:gap-x-8 lg:gap-y-12">
                 {items.map(item => (
                   <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} />
                 ))}
