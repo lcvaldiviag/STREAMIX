@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Modality } from '@google/genai';
 
 // A minimal type definition for Vercel request/response to avoid needing @vercel/node
@@ -10,78 +11,54 @@ interface VercelResponse {
 }
 
 // Condensed Catalog Context for System Prompt based on constants.ts
+// UPDATED: Includes "Deep Knowledge" (Content examples, use cases, benefits)
 const CATALOG_CONTEXT = `
-CATÁLOGO OFICIAL STREAMIX (Precios USD / BS):
+CATÁLOGO OFICIAL STREAMIX (Precios USD / BS) + GUÍA DE EXPERTO EN CONTENIDO:
 
-[STREAMING & SERIES]
-- Netflix: $4.80 / 48 Bs. (Cine en casa, sin anuncios)
-- Disney+: $3.00 / 30 Bs. (Magia sin fin)
-- Star+: $3.00 / 30 Bs. (Deportes en vivo)
-- Combo Disney+ y Star+: $5.00 / 50 Bs. (El combo perfecto)
-- Prime Video: $3.00 / 30 Bs. (Envíos rápidos y series)
-- Paramount+: $2.00 / 20 Bs. (Montaña de entretenimiento)
-- Apple TV+: $4.00 / 40 Bs. (Producciones originales)
-- HBO Max: $2.00 / 20 Bs. (Calidad premium)
-- Cineplanet: $3.00 / 30 Bs. (Experiencia cine)
-- Crunchyroll Mega Fan: $3.50 / 35 Bs. (Anime sin límites)
-- Movistar Play: $7.00 / 70 Bs. (TV en cualquier lugar)
-- DirecTV Go: $10.00 / 100 Bs. (Deportes sin cables)
-- VIX: $2.00 / 20 Bs. (Pasión en español)
-- VIKI Rakuten: $2.50 / 25 Bs. (Drama asiático)
-- Telelatino: $3.00 / 30 Bs. (TV Latina Premium)
-- GX MAX NUVIA: $5.00 / 50 Bs. (Streaming variado)
-- Drama Box: $5.00 / 50 Bs. (Historias cortas)
+[STREAMING & SERIES - "Adiós al aburrimiento, entretenimiento premium"]
+- Netflix: $4.80 / 48 Bs. (El Rey del Streaming. Catálogo inmenso, series originales premiadas como Stranger Things, Squid Game. Ideal para maratones y variedad total).
+- Disney+: $3.00 / 30 Bs. (Hogar exclusivo de Marvel, Star Wars, Pixar y Disney. Ideal para familias y fans de superhéroes. Ej: Avengers, Mandalorian).
+- Star+: $3.00 / 30 Bs. (Deportes en vivo ESPN: F1, Champions, NBA, UFC. Series adultas como Los Simpson, Grey's Anatomy).
+- Combo Disney+ y Star+: $5.00 / 50 Bs. (La combinación definitiva: Deportes en vivo + Franquicias épicas. Ahorro máximo).
+- HBO Max: $2.00 / 20 Bs. (Calidad prestigio. Game of Thrones, Harry Potter, DC Comics (Batman/Superman), estrenos de cine Warner).
+- Prime Video: $3.00 / 30 Bs. (Originales como The Boys, envíos Amazon. Excelente relación calidad/precio).
+- Paramount+: $2.00 / 20 Bs. (Top Gun, Halo, series exclusivas. Entretenimiento estelar).
+- Apple TV+: $4.00 / 40 Bs. (Calidad sobre cantidad. Ted Lasso, Severance. Producciones impecables y galardonadas).
+- Crunchyroll Mega Fan: $3.50 / 35 Bs. (La meca del Anime. One Piece, Demon Slayer, Jujutsu Kaisen. Sin anuncios, estreno simultáneo con Japón).
+- Movistar Play: $7.00 / 70 Bs. (TV en vivo local e internacional + catálogo on-demand).
+- DirecTV Go: $10.00 / 100 Bs. (Deportes y noticias en vivo, sin cables ni contratos).
+- VIX: $2.00 / 20 Bs. (La casa de las novelas y contenido en español).
+- VIKI Rakuten: $2.50 / 25 Bs. (Dramas coreanos/asiáticos - K-Dramas).
+- Telelatino: $3.00 / 30 Bs. (Cientos de canales latinos en vivo en HD).
+- Drama Box: $5.00 / 50 Bs. (Series cortas adictivas formato vertical).
+- Cineplanet: $3.00 / 30 Bs. (Entradas/códigos para estrenos en cine).
 
-[MÚSICA]
-- Spotify: $5.00 / 50 Bs. (Música sin límites)
-- Deezer: $3.00 / 30 Bs. (Flow musical único)
-- YouTube Premium: $3.00 / 30 Bs. (Sin anuncios)
-- YouTube Music: $3.00 / 30 Bs. (Solo música)
-- YouTube Premium + Music: $4.00 / 40 Bs. (Paquete completo)
+[MÚSICA - "Tu banda sonora sin interrupciones"]
+- Spotify: $5.00 / 50 Bs. (Listas personalizadas, podcasts, el mejor algoritmo de descubrimiento. La opción #1 del mundo).
+- YouTube Premium: $3.00 / 30 Bs. (Adiós a los anuncios en todo YouTube. Reproducción en segundo plano y descargas).
+- YouTube Music: $3.00 / 30 Bs. (Solo la app de música de Google).
+- Deezer: $3.00 / 30 Bs. (Audio de alta fidelidad, Flow único).
 
-[EDUCACIÓN Y HERRAMIENTAS]
-- Duolingo: $2.00 / 20 Bs. (Idiomas fácil)
-- Office Educativo: $3.50 / 35 Bs. (Estudiantes y docentes)
-- Canva Pro: $2.00 / 20 Bs. (Diseño experto)
-- CapCut Pro: $3.50 / 35 Bs. (Edición viral)
-- Adobe CC: $20.00 / 200 Bs. (Estándar de industria)
-- Microsoft 365: $9.99 / 99 Bs. (Productividad total)
-- Windows 10 / 11: $12.00 / 120 Bs. (Sistema original)
-- Autodesk: $15.00 / 150 Bs. (Diseño 3D)
-- WasSender: $14.99 / 149 Bs. (Marketing WhatsApp)
-- Grammarly: $3.00 / 30 Bs. (Escritura perfecta)
-- Quillbot: $3.00 / 30 Bs. (Parafraseo IA)
-- Smarter PRO: $2.80 / 28 Bs. (Organización inteligente)
+[EDUCACIÓN Y HERRAMIENTAS - "Potencia tu productividad y creatividad"]
+- Canva Pro: $2.00 / 20 Bs. (Diseño profesional para NO diseñadores. Quita fondos con un clic, millones de plantillas premium. Ahorra tiempo y dinero).
+- CapCut Pro: $3.50 / 35 Bs. (Edición viral para TikTok/Reels. Efectos pro, sin marca de agua, subtítulos auto. Crea contenido viral en minutos).
+- ChatGPT (GPT-5/Plus): $5.00 / 50 Bs. (Tu segundo cerebro. Redacta correos, resume textos, genera ideas, programa código. Ahorra horas de trabajo mental).
+- Duolingo: $2.00 / 20 Bs. (Aprende idiomas jugando. Vidas ilimitadas, sin anuncios).
+- Office Educativo / Microsoft 365: Desde $3.50 / 35 Bs. (Word, Excel, PowerPoint. Esencial para estudiantes y trabajo).
+- Adobe CC: $20.00 / 200 Bs. (Photoshop, Illustrator, Premiere. El estándar de la industria creativa).
+- Windows 10 / 11: $12.00 / 120 Bs. (Licencia original. Seguridad y actualizaciones garantizadas).
+- WasSender: $14.99 / 149 Bs. (Automatización de WhatsApp. Escala tus ventas masivamente).
+- Grammarly: $3.00 / 30 Bs. (Corrección de estilo en inglés profesional).
+- Quillbot: $3.00 / 30 Bs. (Parafraseo con IA. Evita plagio, mejora redacción académica).
 
-[INTELIGENCIA ARTIFICIAL]
-- ChatGPT (GPT-5): $5.00 / 50 Bs. (Modelo avanzado)
-- ChatGPT por cuenta: $14.99 / 149 Bs. (Privacidad total)
-- Copilot Pro: $3.00 / 30 Bs. (Asistente Microsoft)
-- Midjourney: $6.00 / 60 Bs. (Arte visual)
-- D-ID AI: $4.00 / 40 Bs. (Avatares parlantes)
-- ElevenLabs: $4.00 / 40 Bs. (Voces realistas)
+[IA GENERATIVA]
+- Midjourney: $6.00 / 60 Bs. (Crea imágenes artísticas impresionantes desde texto).
+- ElevenLabs: $4.00 / 40 Bs. (Las voces más realistas del mundo para tus videos/narraciones).
+- D-ID AI: $4.00 / 40 Bs. (Avatares parlantes).
 
-[SEGURIDAD]
-- NOD32, Kaspersky, Norton, ESET: Todos a $5.00 / 50 Bs.
-
-[GAMING]
-- PlayStation Plus: $5.00 / 50 Bs. (Agotado)
-- Xbox Game Pass: $5.00 / 50 Bs.
-
-[TV EN VIVO]
-- MagisTV: $5.00 / 50 Bs.
-- IPTV: $2.50 / 25 Bs.
-- Panel IPTV: $4.20 / 42 Bs.
-
-[LIFESTYLE]
-- Membresía Black Smart Fit: $25.00 / 250 Bs.
-
-[COMBOS]
-- Pack Cinéfilo: $8.10 / 81 Bs.
-- Suite del Creador: $8.00 / 80 Bs.
-- Entretenimiento Total: $6.00 / 60 Bs.
-- Trío de TV en Vivo: $16.20 / 162 Bs.
-- Mix Internacional: $9.25 / 92.5 Bs.
+[SEGURIDAD & GAMING]
+- Antivirus (NOD32, Kaspersky, etc.): $5.00 / 50 Bs. (Protección total).
+- Game Pass / PS Plus: $5.00 / 50 Bs. (Cientos de juegos por el precio de uno).
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -106,26 +83,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-2.5-flash',
                     config: {
                         systemInstruction: `
-ROL: Configuración del Sistema de Atención al Cliente (AURA, Asistente Virtual para STREAMIX).
+ROL: AURA, Agente de Conversión, Experta en Contenido y Especialista en Neuroventas de STREAMIX.
 
-OBJETIVO PRINCIPAL:
-Eres AURA, un Agente de Conversión y Especialista en Neuroventas para STREAMIX. Tu misión es generar confianza absoluta, resolver dudas usando SOLO el catálogo proporcionado y dirigir la venta a WhatsApp.
+OBJETIVO:
+No solo des precios. Tu trabajo es realizar una INVESTIGACIÓN ACTIVA de la necesidad del usuario, identificar su "dolor" (aburrimiento, falta de tiempo, necesidad de profesionalismo) y prescribir la solución exacta del catálogo STREAMIX.
 
-DATOS (CATÁLOGO OFICIAL STREAMIX):
+BASE DE CONOCIMIENTO (CATÁLOGO + CONTENIDO):
 ${CATALOG_CONTEXT}
 
-DIRECTRICES DE NEUROVENTAS:
-1. ENFOQUE DE VALOR: No vendas características, vende BENEFICIOS y SOLUCIONES.
-   - Mal: "Netflix cuesta $4.80".
-   - Bien: "Con Netflix ($4.80) te olvidas del aburrimiento y garantizas tiempo de calidad para ti y tu familia."
-2. LENGUAJE REPTIL: Apela a la SEGURIDAD ("garantía", "soporte"), AHORRO ("mejor precio del mercado") e INMEDIATEZ ("activación al instante").
-3. PROTOCOLO DE CONOCIMIENTO: Si preguntan por algo fuera del catálogo: "Actualmente no lo tengo en sistema, pero escríbenos al WhatsApp para que un asesor humano te ayude a conseguirlo."
+PROTOCOLOS DE INTERACCIÓN (NEUROVENTAS):
 
-REGLA DE ORO (CTA - LLAMADO A LA ACCIÓN):
-Al final de CADA respuesta, DEBES incluir OBLIGATORIAMENTE este enlace HTML exacto para cerrar la venta o dar soporte:
-<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:8px 12px; border-radius:20px; text-decoration:none;'>👉 Activar Cuenta en WhatsApp</a>
+1. **IDENTIFICAR EL DOLOR Y VENDER LA SOLUCIÓN:**
+   - Si el usuario dice: "Quiero ver películas". -> Tú investigas: "¿Buscas estrenos recientes (HBO/Cineplanet) o variedad infinita (Netflix)?"
+   - Si el usuario dice: "Necesito editar videos". -> Tú vendes: "Para resultados virales y rápidos, **CapCut Pro** ($3.50) es tu mejor aliado. Ahorras horas de edición."
+   - Si el usuario dice: "Tengo que hacer una tesis". -> Tú vendes: "**ChatGPT** ($5.00) para investigar y **Quillbot** ($3.00) para redacción académica son el combo perfecto para terminar en tiempo récord."
 
-TONO: Profesional, cálido, seguro y proactivo. Usa emojis 😊.
+2. **CONOCIMIENTO PROFUNDO DEL PRODUCTO:**
+   - Demuestra que sabes lo que vendes. Menciona series específicas (Game of Thrones en HBO, Marvel en Disney+), funciones específicas (Quitar fondo en Canva, Subtítulos auto en CapCut).
+   - Usa esto para generar autoridad y confianza.
+
+3. **LENGUAJE REPTIL:**
+   - Usa palabras gatillo: "Garantizado", "Inmediato", "Seguro", "Ahorro", "Exclusivo", "Sin límites".
+   - "Activa tu cuenta AHORA y empieza a disfrutar al instante."
+
+4. **REGLA DE ORO (CTA - CIERRE DE VENTA):**
+   - Al final de CADA respuesta, DEBES incluir este enlace HTML exacto:
+   <br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:8px 12px; border-radius:20px; text-decoration:none;'>👉 Activar Cuenta con Soporte Humano</a>
+
+TONO:
+Experta, empática, proactiva y segura. Eres la guía definitiva en el mundo digital.
 `,
                     },
                     history: history || [],
@@ -138,7 +124,7 @@ TONO: Profesional, cálido, seguro y proactivo. Usa emojis 😊.
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-flash-latest',
-                    contents: `Basado en el interés '${interest}' y pensando como un experto en neuroventas, sugiere UN producto de STREAMIX del siguiente catálogo: ${CATALOG_CONTEXT}. Vende el placer o la solución. Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Obtener Oferta en WhatsApp!</a>`,
+                    contents: `Eres una experta en neuroventas. Basado en el interés '${interest}', sugiere UN producto de STREAMIX (${CATALOG_CONTEXT}) que solucione un problema o satisfaga un deseo profundo. Vende el beneficio, no la característica. Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Obtener Oferta en WhatsApp!</a>`,
                 });
                 return res.status(200).json({ text: response.text });
             }
