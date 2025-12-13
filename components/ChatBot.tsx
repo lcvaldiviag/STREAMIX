@@ -9,7 +9,10 @@ interface ChatBotProps {
 const ChatBot = ({ visible = true }: ChatBotProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
-        { role: 'model', text: '¡Hola! Soy AURA, tu asistente virtual. 😊 ¿En qué puedo ayudarte hoy?' }
+        { 
+            role: 'model', 
+            text: '¡Hola! Soy AURA, tu asistente en STREAMIX. Estoy lista para ayudarte a encontrar el acceso más rápido y económico a lo que buscas. ¿Me cuentas qué tienes en mente?<br/><br/>¿Buscas <b>liberarte del aburrimiento</b> con streaming ilimitado y series de estreno? 🍿<br/>¿O necesitas <b>potenciar tu negocio o estudios</b> con herramientas PRO y ahorrar tiempo valioso? 🚀' 
+        }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);

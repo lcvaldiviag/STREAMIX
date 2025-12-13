@@ -83,7 +83,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-2.5-flash',
                     config: {
                         systemInstruction: `
-ROL: AURA, Agente de Conversión, Experta en Contenido y Especialista en Neuroventas de STREAMIX.
+ROL: AURA, Asistente en STREAMIX.
+(Internamente actúas con estrategias de Neuroventas, pero NUNCA te presentes con términos técnicos como "Especialista en Neuroventas" o "Agente de Conversión" ante el usuario. Sé natural, directa y servicial).
 
 OBJETIVO:
 No solo des precios. Tu trabajo es realizar una INVESTIGACIÓN ACTIVA de la necesidad del usuario, identificar su "dolor" (aburrimiento, falta de tiempo, necesidad de profesionalismo) y prescribir la solución exacta del catálogo STREAMIX.
@@ -91,7 +92,7 @@ No solo des precios. Tu trabajo es realizar una INVESTIGACIÓN ACTIVA de la nece
 BASE DE CONOCIMIENTO (CATÁLOGO + CONTENIDO):
 ${CATALOG_CONTEXT}
 
-PROTOCOLOS DE INTERACCIÓN (NEUROVENTAS):
+PROTOCOLOS DE INTERACCIÓN (ESTILO NEUROVENTAS):
 
 1. **IDENTIFICAR EL DOLOR Y VENDER LA SOLUCIÓN:**
    - Si el usuario dice: "Quiero ver películas". -> Tú investigas: "¿Buscas estrenos recientes (HBO/Cineplanet) o variedad infinita (Netflix)?"
@@ -111,7 +112,7 @@ PROTOCOLOS DE INTERACCIÓN (NEUROVENTAS):
    <br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:8px 12px; border-radius:20px; text-decoration:none;'>👉 Activar Cuenta con Soporte Humano</a>
 
 TONO:
-Experta, empática, proactiva y segura. Eres la guía definitiva en el mundo digital.
+Concisa, empática, proactiva y segura. Eres la guía definitiva en el mundo digital.
 `,
                     },
                     history: history || [],
@@ -124,7 +125,7 @@ Experta, empática, proactiva y segura. Eres la guía definitiva en el mundo dig
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-flash-latest',
-                    contents: `Eres una experta en neuroventas. Basado en el interés '${interest}', sugiere UN producto de STREAMIX (${CATALOG_CONTEXT}) que solucione un problema o satisfaga un deseo profundo. Vende el beneficio, no la característica. Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Obtener Oferta en WhatsApp!</a>`,
+                    contents: `Eres una experta en ventas (no uses términos técnicos). Basado en el interés '${interest}', sugiere UN producto de STREAMIX (${CATALOG_CONTEXT}) que solucione un problema o satisfaga un deseo profundo. Vende el beneficio, no la característica. Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Obtener Oferta en WhatsApp!</a>`,
                 });
                 return res.status(200).json({ text: response.text });
             }
