@@ -43,6 +43,8 @@ CATÁLOGO OFICIAL STREAMIX (Precios USD / BS) + GUÍA DE EXPERTO EN CONTENIDO:
 - Canva Pro: $2.00 / 20 Bs. (Diseño profesional para NO diseñadores. Quita fondos con un clic, millones de plantillas premium. Ahorra tiempo y dinero).
 - CapCut Pro: $3.50 / 35 Bs. (Edición viral para TikTok/Reels. Efectos pro, sin marca de agua, subtítulos auto. Crea contenido viral en minutos).
 - ChatGPT (GPT-5/Plus): $5.00 / 50 Bs. (Tu segundo cerebro. Redacta correos, resume textos, genera ideas, programa código. Ahorra horas de trabajo mental).
+- Gemini (AI): $5.00 / 50 Bs. (El modelo multimodal más capaz de Google. Razonamiento, código y colaboración creativa).
+- Bing AI Pro: $3.00 / 30 Bs. (Búsqueda conversacional y creación de contenido impulsada por la tecnología de OpenAI).
 - Duolingo: $2.00 / 20 Bs. (Aprende idiomas jugando. Vidas ilimitadas, sin anuncios).
 - Office Educativo / Microsoft 365: Desde $3.50 / 35 Bs. (Word, Excel, PowerPoint. Esencial para estudiantes y trabajo).
 - Adobe CC: $20.00 / 200 Bs. (Photoshop, Illustrator, Premiere. El estándar de la industria creativa).
