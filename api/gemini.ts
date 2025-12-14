@@ -24,7 +24,7 @@ CATÁLOGO OFICIAL STREAMIX (Precios USD / BS) + GUÍA DE EXPERTO EN CONTENIDO:
 - Prime Video: $3.00 / 30 Bs. (Originales como The Boys, envíos Amazon. Excelente relación calidad/precio).
 - Paramount+: $2.00 / 20 Bs. (Top Gun, Halo, series exclusivas. Entretenimiento estelar).
 - Apple TV+: $4.00 / 40 Bs. (Calidad sobre cantidad. Ted Lasso, Severance. Producciones impecables y galardonadas).
-- Crunchyroll Mega Fan: $3.50 / 35 Bs. (La meca del Anime. One Piece, Demon Slayer, Jujutsu Kaisen. Sin anuncios, estreno simultáneo con Japón).
+- Crunchyroll Mega Fan: $3.00 / 30 Bs. (La meca del Anime. One Piece, Demon Slayer, Jujutsu Kaisen. Sin anuncios, estreno simultáneo con Japón).
 - Movistar Play: $7.00 / 70 Bs. (TV en vivo local e internacional + catálogo on-demand).
 - DirecTV Go: $10.00 / 100 Bs. (Deportes y noticias en vivo, sin cables ni contratos).
 - VIX: $2.00 / 20 Bs. (La casa de las novelas y contenido en español).

@@ -34,8 +34,8 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
         
         let formatted = text;
 
-        // 1. Convert **bold** to <b>bold</b>
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        // 1. Convert **bold** to <b>bold</b> (handling multiline and various whitespace)
+        formatted = formatted.replace(/\*\*([\s\S]*?)\*\*/g, '<b>$1</b>');
         
         // 2. Convert *italic* to <i>italic</i>, avoiding list bullets if possible.
         // We match *text* where text doesn't start with space.
