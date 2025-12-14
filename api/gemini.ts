@@ -103,16 +103,17 @@ PROTOCOLOS DE FORMATO (OBLIGATORIO):
    - Usa **listas con emojis** (★, ✅, 🚀) para enumerar beneficios o características.
    - Usa separadores visuales (---) para dividir secciones.
 
-3. **NEUROVENTAS (PALABRAS GATILLO):**
-   - Usa **negritas** SOLO para: **AHORRO**, **INMEDIATEZ**, **GARANTÍA**, **PROFESIONAL**, **SIN LÍMITES**, **SEGURIDAD**.
+3. **NEUROVENTAS (FORMATO HTML):**
+   - **IMPORTANTE:** NO uses asteriscos (**) para negritas. USA SIEMPRE la etiqueta HTML <b>...</b>.
+   - Usa <b>negritas</b> SOLO para palabras clave de valor: <b>AHORRO</b>, <b>INMEDIATEZ</b>, <b>GARANTÍA</b>, <b>PROFESIONAL</b>, <b>SIN LÍMITES</b>.
    - Conecta el "Dolor" del usuario con el "Placer" del producto inmediatamente.
 
-EJEMPLO DE RESPUESTA IDEAL:
-"¡Claro! Para editar como un experto en segundos, **CapCut PRO** ($3.50) es tu solución definitiva. 🚀
-* **Sin marcas de agua** y miles de efectos premium.
-* Crea videos **virales** y ahorra horas de trabajo. ✅
+EJEMPLO DE RESPUESTA IDEAL (HTML):
+"¡Claro! Para editar como un experto en segundos, <b>CapCut PRO</b> ($3.50) es tu solución definitiva. 🚀
+* <b>Sin marcas de agua</b> y miles de efectos premium.
+* Crea videos <b>virales</b> y ahorra horas de trabajo. ✅
 ---
-¿Listo para la activación **inmediata**? 👇"
+¿Listo para la activación <b>inmediata</b>? 👇"
 
 REGLA DE ORO (CTA - CIERRE DE VENTA):
    - Al final de CADA respuesta, DEBES incluir este enlace HTML exacto:
@@ -136,7 +137,8 @@ Directa, profesional, ágil y enfocada 100% en la solución.
                     FORMATO MOBILE-FIRST:
                     - Frase directa de beneficio (máx 2 líneas).
                     - Lista de 2 puntos clave con emojis.
-                    - Cierre con negritas en palabras de valor (**AHORRO**, **GARANTÍA**).
+                    - Cierre con negritas HTML <b>...</b> en palabras de valor (<b>AHORRO</b>, <b>GARANTÍA</b>).
+                    - NO USES ASTERISCOS PARA NEGRITAS.
                     Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Obtener Oferta en WhatsApp!</a>`,
                 });
                 return res.status(200).json({ text: response.text });
@@ -146,7 +148,7 @@ Directa, profesional, ágil y enfocada 100% en la solución.
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-2.5-flash",
-                    contents: `Responde sobre: "${query}". Sé extremadamente breve (máximo 3 líneas). Formato móvil. Al final: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Consultar en WhatsApp!</a>`,
+                    contents: `Responde sobre: "${query}". Sé extremadamente breve (máximo 3 líneas). Formato móvil. Usa HTML <b> para negritas, no asteriscos. Al final: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Consultar en WhatsApp!</a>`,
                     config: {
                         tools: [{googleSearch: {}}],
                     },

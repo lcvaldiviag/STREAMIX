@@ -28,6 +28,27 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
         scrollToBottom();
     }, [messages, isOpen]);
 
+    // Helper to process markdown-style formatting to HTML
+    const formatText = (text: string) => {
+        if (!text) return '';
+        
+        let formatted = text;
+
+        // 1. Convert **bold** to <b>bold</b>
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        
+        // 2. Convert *italic* to <i>italic</i>, avoiding list bullets if possible.
+        // We match *text* where text doesn't start with space.
+        formatted = formatted.replace(/([^\\]|^)\*([^\s*][^*]*?)\*/g, '$1<i>$2</i>');
+
+        // 3. Convert newlines to <br> if the text contains \n and not <br> tags already (basic check)
+        // If the text comes from the API, it might have mixed content. 
+        // We replace \n with <br> globally.
+        formatted = formatted.replace(/\n/g, '<br />');
+
+        return formatted;
+    };
+
     const handleSend = async () => {
         if (!input.trim()) return;
 
@@ -91,8 +112,8 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                                     ? 'bg-gradient-to-br from-purple-700 to-indigo-700 text-white rounded-tr-none shadow-md' 
                                     : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/10 rounded-tl-none'
                                 }`}>
-                                   {/* Render HTML content safely for links */}
-                                   <div dangerouslySetInnerHTML={{ __html: msg.text }} />
+                                   {/* Render HTML content safely for links, applying formatter */}
+                                   <div dangerouslySetInnerHTML={{ __html: formatText(msg.text) }} />
                                 </div>
                             </div>
                         ))}
