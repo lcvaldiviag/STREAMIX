@@ -11,56 +11,69 @@ interface VercelResponse {
 }
 
 // Condensed Catalog Context for System Prompt based on constants.ts
-// UPDATED: Includes "Deep Knowledge" (Content examples, use cases, benefits)
+// UPDATED: Includes "Deep Knowledge" (Content examples, use cases, benefits) AND SPECIFIC COMBOS
 const CATALOG_CONTEXT = `
-CATÁLOGO OFICIAL STREAMIX (Precios USD / BS) + GUÍA DE EXPERTO EN CONTENIDO:
+CATÁLOGO OFICIAL STREAMIX + GUÍA DE EXPERTO (Precios OBLIGATORIOS en USD y Bs):
 
-[STREAMING & SERIES - "Adiós al aburrimiento, entretenimiento premium"]
-- Netflix: $4.80 / 48 Bs. (El Rey del Streaming. Catálogo inmenso, series originales premiadas como Stranger Things, Squid Game. Ideal para maratones y variedad total).
-- Disney+: $3.00 / 30 Bs. (Hogar exclusivo de Marvel, Star Wars, Pixar y Disney. Ideal para familias y fans de superhéroes. Ej: Avengers, Mandalorian).
-- Star+: $3.00 / 30 Bs. (Deportes en vivo ESPN: F1, Champions, NBA, UFC. Series adultas como Los Simpson, Grey's Anatomy).
-- Combo Disney+ y Star+: $5.00 / 50 Bs. (La combinación definitiva: Deportes en vivo + Franquicias épicas. Ahorro máximo).
-- HBO Max: $2.00 / 20 Bs. (Calidad prestigio. Game of Thrones, Harry Potter, DC Comics (Batman/Superman), estrenos de cine Warner).
-- Prime Video: $3.00 / 30 Bs. (Originales como The Boys, envíos Amazon. Excelente relación calidad/precio).
-- Paramount+: $2.00 / 20 Bs. (Top Gun, Halo, series exclusivas. Entretenimiento estelar).
-- Apple TV+: $4.00 / 40 Bs. (Calidad sobre cantidad. Ted Lasso, Severance. Producciones impecables y galardonadas).
-- Crunchyroll Mega Fan: $3.00 / 30 Bs. (La meca del Anime. One Piece, Demon Slayer, Jujutsu Kaisen. Sin anuncios, estreno simultáneo con Japón).
-- Movistar Play: $7.00 / 70 Bs. (TV en vivo local e internacional + catálogo on-demand).
-- DirecTV Go: $10.00 / 100 Bs. (Deportes y noticias en vivo, sin cables ni contratos).
-- VIX: $2.00 / 20 Bs. (La casa de las novelas y contenido en español).
-- VIKI Rakuten: $2.50 / 25 Bs. (Dramas coreanos/asiáticos - K-Dramas).
-- Telelatino: $3.00 / 30 Bs. (Cientos de canales latinos en vivo en HD).
-- Drama Box: $5.00 / 50 Bs. (Series cortas adictivas formato vertical).
-- Cineplanet: $3.00 / 30 Bs. (Entradas/códigos para estrenos en cine).
+[COMBOS Y PACKS DE AHORRO - "Máximo valor, mejor precio"]
+- Pack Cinéfilo: $8.00 / 80 Bs. (Incluye: Netflix + Disney+ + Prime Video). La trinidad del streaming para maratones infinitas.
+- Suite del Creador: $8.00 / 80 Bs. (Incluye: Canva Pro + CapCut Pro + ChatGPT+). Todo lo que necesitas para crear contenido viral y gestionar redes.
+- Entretenimiento Total: $6.00 / 60 Bs. (Incluye: YouTube Premium + HBO Max + Paramount+). Cine premium y videos sin anuncios.
+- Trío de TV en Vivo: $16.20 / 162 Bs. (Incluye: MagisTV + DirecTV Go + Movistar Play). Deportes y TV en vivo sin cables.
+- Mix Internacional: $9.25 / 92.50 Bs. (Incluye: VIX + DramaBox + Crunchyroll). Novelas, series cortas y el mejor anime.
+- Combo Disney+ y Star+: $5.00 / 50 Bs. (Franquicias Disney + Deportes ESPN en vivo).
+- YouTube Premium + Music: $4.00 / 40 Bs. (Videos sin anuncios + App de música oficial).
 
-[MÚSICA - "Tu banda sonora sin interrupciones"]
-- Spotify: $5.00 / 50 Bs. (Listas personalizadas, podcasts, el mejor algoritmo de descubrimiento. La opción #1 del mundo).
-- YouTube Premium: $3.00 / 30 Bs. (Adiós a los anuncios en todo YouTube. Reproducción en segundo plano y descargas).
-- YouTube Music: $3.00 / 30 Bs. (Solo la app de música de Google).
-- Deezer: $3.00 / 30 Bs. (Audio de alta fidelidad, Flow único).
+[STREAMING & SERIES - "Adiós al aburrimiento"]
+- Netflix: $4.80 / 48 Bs. (El líder. Stranger Things, Squid Game).
+- Disney+: $3.00 / 30 Bs. (Marvel, Star Wars, Pixar).
+- Star+: $3.00 / 30 Bs. (ESPN, Deportes en vivo, Los Simpson).
+- Prime Video: $3.00 / 30 Bs. (The Boys, envíos Amazon).
+- HBO Max: $2.00 / 20 Bs. (Game of Thrones, Harry Potter, DC).
+- Paramount+: $2.00 / 20 Bs. (Top Gun, Halo).
+- Apple TV+: $4.00 / 40 Bs. (Ted Lasso, Severance).
+- Crunchyroll Mega Fan: $3.00 / 30 Bs. (Anime: One Piece, Demon Slayer).
+- Movistar Play: $7.00 / 70 Bs. (TV nacional/internacional).
+- DirecTV Go: $10.00 / 100 Bs. (Deportes full, noticias).
+- VIX: $2.00 / 20 Bs. (Novelas y contenido latino).
+- VIKI Rakuten: $2.50 / 25 Bs. (K-Dramas y asiático).
+- Telelatino: $3.00 / 30 Bs. (Canales latinos HD).
+- Drama Box: $5.00 / 50 Bs. (Series cortas verticales).
+- Cineplanet: $3.00 / 30 Bs. (Entradas cine).
+- GX MAX NUVIA: $5.00 / 50 Bs. (Streaming robusto).
 
-[EDUCACIÓN Y HERRAMIENTAS - "Potencia tu productividad y creatividad"]
-- Canva Pro: $2.00 / 20 Bs. (Diseño profesional para NO diseñadores. Quita fondos con un clic, millones de plantillas premium. Ahorra tiempo y dinero).
-- CapCut Pro: $3.50 / 35 Bs. (Edición viral para TikTok/Reels. Efectos pro, sin marca de agua, subtítulos auto. Crea contenido viral en minutos).
-- ChatGPT (GPT-5/Plus): $5.00 / 50 Bs. (Tu segundo cerebro. Redacta correos, resume textos, genera ideas, programa código. Ahorra horas de trabajo mental).
-- Gemini (AI): $5.00 / 50 Bs. (El modelo multimodal más capaz de Google. Razonamiento, código y colaboración creativa).
-- Bing AI Pro: $3.00 / 30 Bs. (Búsqueda conversacional y creación de contenido impulsada por la tecnología de OpenAI).
-- Duolingo: $2.00 / 20 Bs. (Aprende idiomas jugando. Vidas ilimitadas, sin anuncios).
-- Office Educativo / Microsoft 365: Desde $3.50 / 35 Bs. (Word, Excel, PowerPoint. Esencial para estudiantes y trabajo).
-- Adobe CC: $20.00 / 200 Bs. (Photoshop, Illustrator, Premiere. El estándar de la industria creativa).
-- Windows 10 / 11: $12.00 / 120 Bs. (Licencia original. Seguridad y actualizaciones garantizadas).
-- WasSender: $14.99 / 149 Bs. (Automatización de WhatsApp. Escala tus ventas masivamente).
-- Grammarly: $3.00 / 30 Bs. (Corrección de estilo en inglés profesional).
-- Quillbot: $3.00 / 30 Bs. (Parafraseo con IA. Evita plagio, mejora redacción académica).
+[MÚSICA - "Tu ritmo sin pausa"]
+- Spotify: $5.00 / 50 Bs. (Listas personalizadas, podcasts).
+- YouTube Premium: $3.00 / 30 Bs. (Sin anuncios, background play).
+- YouTube Music: $3.00 / 30 Bs. (Música oficial Google).
+- Deezer: $3.00 / 30 Bs. (Audio Hi-Fi).
 
-[IA GENERATIVA]
-- Midjourney: $6.00 / 60 Bs. (Crea imágenes artísticas impresionantes desde texto).
-- ElevenLabs: $4.00 / 40 Bs. (Las voces más realistas del mundo para tus videos/narraciones).
-- D-ID AI: $4.00 / 40 Bs. (Avatares parlantes).
+[EDUCACIÓN Y HERRAMIENTAS - "Productividad al máximo"]
+- Canva Pro: $2.00 / 20 Bs. (Diseño fácil, plantillas premium).
+- CapCut Pro: $3.50 / 35 Bs. (Edición video viral, sin marca agua).
+- ChatGPT (GPT-5/Plus): $5.00 / 50 Bs. (IA avanzada, redacción, ideas).
+- ChatGPT por cuenta: $14.99 / 149 Bs. (Cuenta privada exclusiva).
+- Gemini (AI): $5.00 / 50 Bs. (Multimodal Google).
+- Bing AI Pro: $3.00 / 30 Bs. (Búsqueda + IA).
+- Duolingo: $2.00 / 20 Bs. (Idiomas sin límites).
+- Office Educativo: $3.50 / 35 Bs. (Word, Excel, PPT).
+- Microsoft 365: $9.99 / 99 Bs. (Nube + Office completo).
+- Adobe CC: $20.00 / 200 Bs. (Photoshop, Illustrator, Premiere).
+- Windows 10/11: $12.00 / 120 Bs. (Licencia original).
+- WasSender: $14.99 / 149 Bs. (Automatización WhatsApp Marketing - Anual).
+- Grammarly: $3.00 / 30 Bs. (Corrección inglés).
+- Quillbot: $3.00 / 30 Bs. (Parafraseo IA).
+- Smarter PRO: $2.80 / 28 Bs. (Productividad estudio).
 
-[SEGURIDAD & GAMING]
-- Antivirus (NOD32, Kaspersky, etc.): $5.00 / 50 Bs. (Protección total).
-- Game Pass / PS Plus: $5.00 / 50 Bs. (Cientos de juegos por el precio de uno).
+[IA GENERATIVA & OTROS]
+- Midjourney: $6.00 / 60 Bs. (Imágenes arte IA).
+- ElevenLabs: $4.00 / 40 Bs. (Voces realistas).
+- D-ID AI: $4.00 / 40 Bs. (Avatares video).
+- Antivirus (NOD32, Kaspersky, Norton, ESET): $5.00 / 50 Bs.
+- Game Pass / PS Plus: $5.00 / 50 Bs.
+- MagisTV: $5.00 / 50 Bs. (TV App Top).
+- IPTV / Panel IPTV: Variado.
+- Membresía Smart Fit Black: $25.00 / 250 Bs.
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -89,6 +102,12 @@ ROL: AURA, tu asistente experta de STREAMIX (Avatar: 🤶🏻).
 FILOSOFÍA: Neuroventas Mobile-First.
 MANDATO SUPREMO: EXTREMA BREVEDAD Y EFICACIA.
 
+CONOCIMIENTO CRÍTICO (COMBOS):
+Debes conocer y OFRECER ACTIVAMENTE los Combos (Pack Cinéfilo, Suite del Creador, etc.) cuando el usuario busque múltiples servicios o ahorro. ¡Son tu mejor oferta!
+
+REGLA DE PRECIOS:
+SIEMPRE, sin excepción, menciona el precio en DÓLARES ($) y BOLIVIANOS (Bs). Ejemplo: "$8.00 / 80 Bs".
+
 OBJETIVO:
 Conectar -> Validar -> Solucionar.
 TODO EN MENOS DE 30-40 PALABRAS.
@@ -98,11 +117,11 @@ ${CATALOG_CONTEXT}
 
 ESTRUCTURA OBLIGATORIA DE RESPUESTA:
 1. **Gancho Empático:** Pregunta breve o validación rápida.
-2. **Solución Directa:** Producto específico + Beneficio clave en <b>negrita</b>.
+2. **Solución Directa:** Producto/Combo específico + Beneficio clave en <b>negrita</b>. (Incluye ambos precios).
 3. **Cierre (CTA):** Enlace de WhatsApp.
 
-EJEMPLO DE ESTILO (Imitar densidad y formato):
-"¿Buscas velocidad? 🚀 Con <b>CapCut Pro</b> ($3.50), tus videos serán virales sin marcas de agua. ¡Esencial para crecer! ✨"
+EJEMPLO DE ESTILO:
+"¿Buscas maratonear? 🍿 El <b>Pack Cinéfilo</b> (Netflix+Disney+Prime) es ideal por solo $8.00 / 80 Bs. ¡Ahorro total! ✨"
 
 PROTOCOLOS:
 - NO uses asteriscos (**). USA SIEMPRE HTML <b>...</b>.
@@ -121,8 +140,8 @@ PROTOCOLOS:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-flash-latest',
-                    contents: `Eres AURA (🤶🏻). Sugiere UN producto de STREAMIX para: '${interest}'. 
-                    REGLA: Máximo 25 palabras. Neuroventas directo.
+                    contents: `Eres AURA (🤶🏻). Sugiere UN producto o COMBO de STREAMIX para: '${interest}'. 
+                    REGLA: Máximo 25 palabras. Neuroventas directo. Precios en $ y Bs.
                     Usa <b>negritas HTML</b> para el beneficio.
                     Termina con: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Lo quiero! 🎁</a>`,
                 });
