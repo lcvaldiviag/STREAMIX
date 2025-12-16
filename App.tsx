@@ -21,8 +21,12 @@ const App = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
     
-    // DEFINICIÓN: Modo Light por defecto (false)
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    // DEFINICIÓN: Detección automática de tema basado en horario local
+    // Si es de noche (18:00 - 06:00), se activa el modo oscuro por defecto.
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const hour = new Date().getHours();
+        return hour >= 18 || hour < 6;
+    });
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
