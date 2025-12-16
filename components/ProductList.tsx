@@ -124,7 +124,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                 </p>
             </div>
 
-            <div className="flex items-end justify-between mt-auto gap-1.5 min-[600px]:gap-3 pt-1.5 min-[600px]:pt-4 border-t border-slate-100 dark:border-slate-700/50">
+            <div className="flex items-end justify-between mt-auto gap-1.5 min-[600px]:gap-2 pt-1.5 min-[600px]:pt-4 border-t border-slate-100 dark:border-slate-700/50">
                 <div className="flex flex-col min-w-0">
                      {originalPriceUSD && (
                         <span className="text-[9px] min-[600px]:text-xs text-red-500 dark:text-red-400 line-through font-bold mb-0.5">
@@ -146,7 +146,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect }) => {
                     onClick={handleAddClick}
                     disabled={isSoldOut}
                     className={`
-                        px-2 py-1.5 min-[600px]:px-4 min-[600px]:py-2.5 rounded-md min-[600px]:rounded-xl text-[10px] min-[600px]:text-sm font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 min-w-[65px] min-[600px]:min-w-[90px]
+                        px-2 py-1.5 min-[600px]:px-2.5 min-[600px]:py-1.5 rounded-md min-[600px]:rounded-xl text-[10px] min-[600px]:text-xs font-bold shadow-md transform active:scale-95 transition-all whitespace-nowrap flex-shrink-0 min-w-[60px] min-[600px]:min-w-[70px] z-10
                         ${isSoldOut 
                             ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed' 
                             : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white hover:shadow-lg hover:shadow-indigo-500/30'

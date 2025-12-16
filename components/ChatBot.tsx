@@ -11,12 +11,20 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
     const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
         { 
             role: 'model', 
-            text: '¡Hola! Soy AURA, tu asistente en STREAMIX. Estoy lista para ayudarte a encontrar el acceso más rápido y económico a lo que buscas. ¿Me cuentas qué tienes en mente?<br/><br/>¿Buscas <b>liberarte del aburrimiento</b> con streaming ilimitado y series de estreno? 🍿<br/>¿O necesitas <b>potenciar tu negocio o estudios</b> con herramientas PRO y ahorrar tiempo valioso? 🚀' 
+            text: '¡Hola! Soy AURA. 👋 ¿Buscas <b>liberarte del aburrimiento</b> con streaming ilimitado? 🍿 ¿O <b>potenciar tu negocio</b> con herramientas PRO? 🚀' 
         }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Auto-open chat after 7 seconds
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsOpen(true);
+        }, 7000);
+        return () => clearTimeout(timer);
+    }, []);
 
     const toggleChat = () => setIsOpen(!isOpen);
 
@@ -88,12 +96,16 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                     {/* Header */}
                     <div className="bg-gradient-to-r from-purple-700 to-indigo-700 p-4 rounded-t-2xl flex justify-between items-center text-white shadow-lg border-b border-white/10">
                         <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20 shadow-inner">
-                                <span className="text-xl">🤖</span>
+                            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 shadow-inner relative bg-white flex items-center justify-center">
+                                {/* Applied contrast and saturation filters for optimal icon perceptibility */}
+                                <span className="text-3xl filter drop-shadow-sm contrast-125 saturate-150" role="img" aria-label="AURA Avatar">🤶🏻</span>
                             </div>
                             <div>
-                                <span className="font-bold block leading-none tracking-wide">AURA</span>
-                                <span className="text-xs text-purple-200">En línea</span>
+                                <span className="font-bold block leading-none tracking-wide text-lg">AURA</span>
+                                <span className="text-xs text-purple-200 flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                    En línea
+                                </span>
                             </div>
                         </div>
                         <button onClick={toggleChat} className="p-1.5 hover:bg-white/20 rounded-full transition-colors">
@@ -167,9 +179,9 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                  ) : (
                     <>
                         <div className="relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
+                            <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center bg-white/20 backdrop-blur-sm">
+                                <span className="text-xl filter drop-shadow-sm contrast-125 saturate-150" role="img" aria-label="AURA">🤶🏻</span>
+                            </div>
                             <span className="absolute -top-1 -right-1 flex h-3 w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
