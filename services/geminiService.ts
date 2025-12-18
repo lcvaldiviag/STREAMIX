@@ -1,7 +1,7 @@
-// The Gemini SDK is no longer used on the client-side.
-const API_ENDPOINT = '/api/gemini'; // The new serverless function endpoint
 
-// A generic helper to call our backend endpoint
+// El SDK de Gemini ya no se usa directamente en el cliente por seguridad.
+const API_ENDPOINT = '/api/gemini'; 
+
 const callApi = async (action: string, payload: object): Promise<any> => {
     try {
         const response = await fetch(API_ENDPOINT, {
@@ -13,39 +13,37 @@ const callApi = async (action: string, payload: object): Promise<any> => {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ error: 'No se pudo analizar la respuesta de error del servidor.' }));
-            console.error(`API Error (${action}):`, errorData.error);
-            return { error: errorData.error || `¡Error HTTP! Estado: ${response.status}`};
+            const errorData = await response.json().catch(() => ({ error: 'Error inesperado.' }));
+            return { error: errorData.error || `Error ${response.status}`};
         }
         return await response.json();
     } catch (error) {
-        console.error(`Network or fetch error (${action}):`, error);
-        return { error: 'Ocurrió un error de red.' };
+        console.error(`Network error (${action}):`, error);
+        return { error: 'Error de red al conectar con AURA.' };
     }
 };
 
-// --- Text Generation ---
-
 export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
     const result = await callApi('chat', { history, newMessage });
-    return result.error ? `Lo siento, ocurrió un error: ${result.error}` : result.text;
+    if (result.error) {
+        return `¡Hola! Mil disculpas, parece que tuve un pequeño tropiezo técnico. 🤶🏻 Pero no te preocupes, puedes consultarme lo que gustes de nuevo o podemos seguir la charla directamente por WhatsApp para darte una atención VIP. 🎁`;
+    }
+    return result.text;
 };
 
 export const getQuickSuggestion = async (interest: string): Promise<string> => {
     const result = await callApi('suggest', { interest });
-    return result.error ? `Lo siento, ocurrió un error: ${result.error}` : result.text;
+    return result.error ? `¿Te gustaría conocer nuestras mejores ofertas en ${interest}?` : result.text;
 };
 
-// --- Search with Grounding ---
 export const getGroundedSearch = async (query: string): Promise<{ text: string; sources: { uri: string; title: string }[] }> => {
     const result = await callApi('groundedSearch', { query });
     if (result.error) {
-        return { text: `Lo siento, no pude realizar la búsqueda. El tema podría estar restringido o hubo un error de red. Error: ${result.error}`, sources: [] };
+        return { text: `No pude realizar la búsqueda en este momento, pero puedo darte info de nuestro catálogo.`, sources: [] };
     }
     return { text: result.text, sources: result.sources || [] };
 };
 
-// --- Image Editing ---
 export const editImage = async (base64ImageData: string, mimeType: string, prompt: string): Promise<string | null> => {
     const result = await callApi('editImage', { base64ImageData, mimeType, prompt });
     return result.error ? null : result.text;

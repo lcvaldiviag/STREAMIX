@@ -1,7 +1,6 @@
 
 import { GoogleGenAI, Modality } from '@google/genai';
 
-// A minimal type definition for Vercel request/response
 interface VercelRequest {
     method?: string;
     body: any;
@@ -10,7 +9,6 @@ interface VercelResponse {
     status: (code: number) => { json: (data: any) => void };
 }
 
-// Catalog Context for AURA
 const CATALOG_CONTEXT = `
 CATÁLOGO OFICIAL STREAMIX (Precios en USD y Bs):
 
@@ -24,7 +22,7 @@ CATÁLOGO OFICIAL STREAMIX (Precios en USD y Bs):
 
 [PRODUCTOS INDIVIDUALES]
 - Netflix: $4.80 / 48 Bs.
-- Disney+, Star+, Prime Video, Crunchyroll, HBO Max: $3.00 / 30 Bs (promedio).
+- Disney+, Star+, Prime Video, Crunchyroll, HBO Max: $3.00 / 30 Bs.
 - YouTube Premium: $3.00 / 30 Bs.
 - Spotify: $5.00 / 50 Bs.
 - ChatGPT Pro / Gemini: $5.00 / 50 Bs.
@@ -40,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (!process.env.API_KEY) {
-        return res.status(500).json({ error: 'AI service not configured.' });
+        return res.status(500).json({ error: 'Falta configuración de API.' });
     }
     
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -51,40 +49,62 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         switch (action) {
             case 'chat': {
                 const { history, newMessage } = payload;
+                
+                // --- LIMPIEZA ROBUSTA DE HISTORIAL PARA EVITAR ERRORES ---
+                // 1. Asegurar que el historial alterne estrictamente User -> Model
+                // 2. Eliminar mensajes iniciales si son del 'model'
+                let sanitizedHistory = (history || []).filter((msg: any) => msg.role === 'user' || msg.role === 'model');
+                
+                let finalHistory = [];
+                let lastRole = null;
+
+                for (const msg of sanitizedHistory) {
+                    if (msg.role !== lastRole) {
+                        finalHistory.push({
+                            role: msg.role,
+                            parts: msg.parts
+                        });
+                        lastRole = msg.role;
+                    }
+                }
+
+                // Si el primer mensaje es del modelo, lo quitamos (Gemini exige empezar con User)
+                if (finalHistory.length > 0 && finalHistory[0].role === 'model') {
+                    finalHistory.shift();
+                }
+
                 const chat = ai.chats.create({
-                    model: 'gemini-2.5-flash',
+                    model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROL: AURA (🤶🏻), tu guía experta en STREAMIX. Especialista en atención al cliente con Neuroventas.
-FILOSOFÍA: "Véndele a la mente, no a la gente". Usa el método AIDA.
+ROL: Eres AURA (🤶🏻), la concierge de STREAMIX. Escribes desde el corazón y la psicología del cliente.
+MISIÓN: Aplicar NEUROVENTAS ("Véndele a la mente") y el MÉTODO AIDA.
 
-TONO: Cálido, servicial, experto y amigable. No eres una vendedora agresiva, eres una consultora de entretenimiento y productividad.
+TONO: Dulce, profesional, empático y relajado. No presionas, invitas.
 
-MÉTODO AIDA EN TUS RESPUESTAS:
-1. **Atención:** Saludo amable que conecte con la necesidad del usuario.
-2. **Interés/Deseo:** Resalta el beneficio emocional (ej: "olvídate de los anuncios y disfruta", "lleva tu negocio al siguiente nivel").
-3. **Acción:** Invita a continuar la charla por WhatsApp de forma natural.
+PASOS AIDA PARA TUS RESPUESTAS:
+1. ATENCIÓN: Valida la emoción del cliente ("¡Qué buena elección!", "Entiendo perfectamente lo que buscas").
+2. INTERÉS: Menciona cómo el producto mejora su vida (confort, ahorro de tiempo, alegría familiar).
+3. DESEO: Usa palabras que evoquen placer ("Imagínate disfrutando...", "Olvida los límites con..."). Usa <b>negritas</b>.
+4. ACCIÓN: Invita a conversar por WhatsApp de forma natural.
 
-REGLAS DE ORO:
+REGLAS ESTRATÉGICAS:
 - Precios SIEMPRE en Dólares ($) y Bolivianos (Bs).
-- Usa <b>negritas HTML</b> para resaltar beneficios o productos.
-- Usa emojis para dar calidez.
-- Máximo 60-70 palabras para dar contexto pero mantener agilidad.
+- Longitud: 60-80 palabras para sonar humana y cercana.
+- Usa Emojis para transmitir calidez 🍿✨🎬.
+- Si piden algo específico, dales eso primero. No empujes los combos a menos que sea para ayudarles a ahorrar de verdad.
 
-LÓGICA DE PRODUCTO:
-- Prioriza lo que el cliente pide. 
-- Sugiere un **Combo** solo si realmente aporta más valor al problema del usuario (ahorro o variedad).
-
-BASE DE CONOCIMIENTO:
+DATOS:
 ${CATALOG_CONTEXT}
 
 IMPORTANTE:
-Al final de cada respuesta, incluye SIEMPRE este botón de WhatsApp optimizado:
-<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:12px 20px; border-radius:30px; text-decoration:none; font-size: 0.9em; box-shadow: 0 4px 15px rgba(37,211,102,0.3); transition: all 0.3s;'>Chatear por WhatsApp 🎁</a>
+Al final de tu respuesta, añade SIEMPRE este botón:
+<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:12px 24px; border-radius:30px; text-decoration:none; font-size: 0.95em; box-shadow: 0 4px 15px rgba(37,211,102,0.3);'>Chatear por WhatsApp 🎁</a>
 `,
                     },
-                    history: history || [],
+                    history: finalHistory,
                 });
+
                 const result = await chat.sendMessage({ message: newMessage });
                 return res.status(200).json({ text: result.text });
             }
@@ -92,8 +112,8 @@ Al final de cada respuesta, incluye SIEMPRE este botón de WhatsApp optimizado:
             case 'suggest': {
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
-                    model: 'gemini-flash-lite-latest',
-                    contents: `AURA (🤶🏻): Sugiere algo amigable para '${interest}'. Aplica neuroventas (placer/ahorro). Precios $ y Bs. Máximo 25 palabras.`,
+                    model: 'gemini-3-flash-preview',
+                    contents: `AURA (🤶🏻): Haz una sugerencia muy cálida y con neuroventas para alguien interesado en '${interest}'. Precios en $ y Bs. Máximo 35 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -101,8 +121,8 @@ Al final de cada respuesta, incluye SIEMPRE este botón de WhatsApp optimizado:
             case 'groundedSearch': {
                 const { query } = payload;
                 const response = await ai.models.generateContent({
-                    model: "gemini-2.5-flash",
-                    contents: `AURA (🤶🏻) explica con calidez: "${query}". Resalta beneficios en <b>negrita</b>. Máximo 40 palabras.`,
+                    model: "gemini-3-flash-preview",
+                    contents: `AURA (🤶🏻) explica con mucha paciencia y calidez: "${query}". Usa <b>negritas</b> para los beneficios. Máximo 50 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
@@ -112,9 +132,14 @@ Al final de cada respuesta, incluye SIEMPRE este botón de WhatsApp optimizado:
             }
 
             default:
-                return res.status(400).json({ error: 'Invalid action' });
+                return res.status(400).json({ error: 'Acción inválida' });
         }
-    } catch (error) {
-        return res.status(500).json({ error: 'An error occurred.' });
+    } catch (error: any) {
+        console.error("Critical Gemini Error:", error);
+        // Si hay un error de "safety", damos una respuesta amable
+        if (error.message?.includes('safety')) {
+            return res.status(200).json({ text: "¡Hola! Como tu concierge, prefiero mantener nuestra charla enfocada en cómo STREAMIX puede mejorar tu día con el mejor entretenimiento. 😊 ¿Hablamos de alguna suscripción?" });
+        }
+        return res.status(500).json({ error: 'AURA está tomando un respiro técnico. Por favor, intenta de nuevo en un momento.' });
     }
 }
