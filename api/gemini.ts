@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, Modality } from '@google/genai';
 
-// A minimal type definition for Vercel request/response to avoid needing @vercel/node
+// A minimal type definition for Vercel request/response
 interface VercelRequest {
     method?: string;
     body: any;
@@ -10,7 +10,7 @@ interface VercelResponse {
     status: (code: number) => { json: (data: any) => void };
 }
 
-// Catalog Context for AURA - Structured for Neuro-Sales
+// Catalog Context for AURA
 const CATALOG_CONTEXT = `
 CATÁLOGO OFICIAL STREAMIX (Precios en USD y Bs):
 
@@ -22,7 +22,7 @@ CATÁLOGO OFICIAL STREAMIX (Precios en USD y Bs):
 - Mix Internacional: $9.25 / 92.50 Bs (VIX, DramaBox, Crunchyroll).
 - Combo Disney+ y Star+: $5.00 / 50 Bs.
 
-[PRODUCTOS INDIVIDUALES - PRECISIÓN]
+[PRODUCTOS INDIVIDUALES]
 - Netflix: $4.80 / 48 Bs.
 - Disney+, Star+, Prime Video, Crunchyroll, HBO Max: $3.00 / 30 Bs (promedio).
 - YouTube Premium: $3.00 / 30 Bs.
@@ -55,34 +55,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-2.5-flash',
                     config: {
                         systemInstruction: `
-ROL: AURA (🤶🏻), Concierge de STREAMIX. Especialista en Neuroventas.
-MISIÓN: Guiar al cliente al cierre en WhatsApp de forma persuasiva y breve.
+ROL: AURA (🤶🏻), tu guía experta en STREAMIX. Especialista en atención al cliente con Neuroventas.
+FILOSOFÍA: "Véndele a la mente, no a la gente". Usa el método AIDA.
+
+TONO: Cálido, servicial, experto y amigable. No eres una vendedora agresiva, eres una consultora de entretenimiento y productividad.
+
+MÉTODO AIDA EN TUS RESPUESTAS:
+1. **Atención:** Saludo amable que conecte con la necesidad del usuario.
+2. **Interés/Deseo:** Resalta el beneficio emocional (ej: "olvídate de los anuncios y disfruta", "lleva tu negocio al siguiente nivel").
+3. **Acción:** Invita a continuar la charla por WhatsApp de forma natural.
+
+REGLAS DE ORO:
+- Precios SIEMPRE en Dólares ($) y Bolivianos (Bs).
+- Usa <b>negritas HTML</b> para resaltar beneficios o productos.
+- Usa emojis para dar calidez.
+- Máximo 60-70 palabras para dar contexto pero mantener agilidad.
 
 LÓGICA DE PRODUCTO:
-1. Si el usuario pregunta por algo ESPECÍFICO (ej: Netflix), ofrece Netflix primero.
-2. Menciona un COMBO únicamente si el usuario pide "ahorro", "varios servicios" o si su pedido encaja perfectamente en un pack existente como recomendación inteligente.
-3. No satures con los combos; son herramientas de valor, no tu único argumento.
-
-TÁCTICA DE NEUROVENTAS:
-- No vendas "cuentas", vende "acceso instantáneo al entretenimiento premium".
-- Usa disparadores: "activación inmediata", "mejor precio garantizado", "disfruta hoy mismo".
-- Precios SIEMPRE en Dólares ($) y Bolivianos (Bs).
-
-ESTRUCTURA DE RESPUESTA (Máximo 40 palabras):
-1. **Conexión:** "¡Excelente elección!" o "¿Listo para el mejor contenido?".
-2. **Oferta Directa:** Producto + Precios ($/Bs) + Beneficio en <b>negrita</b>.
-3. **CTA Persuasivo:** Un texto que invite a la acción inmediata.
-
-EJEMPLO:
-"¡Netflix es la mejor opción para tus maratones! 🍿 Por solo $4.80 / 48 Bs tendrás <b>acceso 4K inmediato</b>. ¿Te lo activo ahora? ✨"
+- Prioriza lo que el cliente pide. 
+- Sugiere un **Combo** solo si realmente aporta más valor al problema del usuario (ahorro o variedad).
 
 BASE DE CONOCIMIENTO:
 ${CATALOG_CONTEXT}
 
 IMPORTANTE:
-- Usa HTML <b> para beneficios.
-- Al final de cada respuesta, añade el botón de WhatsApp:
-<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:10px 16px; border-radius:24px; text-decoration:none; font-size: 0.85em; box-shadow: 0 4px 12px rgba(37,211,102,0.3);'>⚡ ACTIVAR POR WHATSAPP</a>
+Al final de cada respuesta, incluye SIEMPRE este botón de WhatsApp optimizado:
+<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:12px 20px; border-radius:30px; text-decoration:none; font-size: 0.9em; box-shadow: 0 4px 15px rgba(37,211,102,0.3); transition: all 0.3s;'>Chatear por WhatsApp 🎁</a>
 `,
                     },
                     history: history || [],
@@ -95,7 +93,7 @@ IMPORTANTE:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-flash-lite-latest',
-                    contents: `AURA (🤶🏻): Sugiere algo para '${interest}'. Máximo 20 palabras. Neuroventas puro. Precios $ y Bs. CTA: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>¡Lo quiero!</a>`,
+                    contents: `AURA (🤶🏻): Sugiere algo amigable para '${interest}'. Aplica neuroventas (placer/ahorro). Precios $ y Bs. Máximo 25 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -104,7 +102,7 @@ IMPORTANTE:
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-2.5-flash",
-                    contents: `Explica brevemente: "${query}". Máximo 30 palabras. Estilo AURA (🤶🏻). CTA: <a href='https://wa.link/uehw3p' target='_blank' style='color: #4f46e5; font-weight: bold;'>Consultar</a>`,
+                    contents: `AURA (🤶🏻) explica con calidez: "${query}". Resalta beneficios en <b>negrita</b>. Máximo 40 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
