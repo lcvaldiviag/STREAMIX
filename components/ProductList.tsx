@@ -106,7 +106,7 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
     <div className="max-w-screen-xl mx-auto px-4">
       <header className="mb-12">
         <h1 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-4">
-            Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-m3-primary to-m3-secondary">Marketplace</span>
+            Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-m3-primary to-m3-secondary">SHOP</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-lg font-medium max-w-2xl">
             Soluciones premium de streaming e inteligencia artificial para potenciar tu entretenimiento y productividad.
