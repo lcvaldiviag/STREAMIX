@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-const StreamixLogo = () => (
-    <a href="/" className="flex items-center group cursor-pointer select-none" onClick={(e) => e.preventDefault()}>
+const StreamixLogo = ({ isDarkMode }: { isDarkMode: boolean }) => (
+    <a href="/" className="relative flex items-center group cursor-pointer select-none" onClick={(e) => e.preventDefault()}>
         <div className="logo-wrapper transition-transform duration-300 group-hover:scale-105" style={{ width: '165px' }}>
+            {/* Contenedor con Aspect Ratio mantenido */}
             <div style={{ 
                 position: 'relative', 
                 width: '100%', 
@@ -12,22 +13,45 @@ const StreamixLogo = () => (
                 overflow: 'hidden', 
                 willChange: 'transform' 
             }}>
-                <iframe 
-                    loading="lazy" 
-                    style={{ 
-                        position: 'absolute', 
-                        width: '100%', 
-                        height: '100%', 
-                        top: '0', 
-                        left: '0', 
-                        border: 'none', 
-                        padding: '0', 
-                        margin: '0', 
-                        pointerEvents: 'none' 
-                    }}
-                    src="https://www.canva.com/design/DAG8QHpO2OI/egldNQwoS13TJaWXxcZUHw/view?embed"
-                    title="STREAMIX Brand Identity"
-                />
+                {/* Logo Modo Claro */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}>
+                    <iframe 
+                        loading="lazy" 
+                        style={{ 
+                            position: 'absolute', 
+                            width: '100%', 
+                            height: '100%', 
+                            top: '0', 
+                            left: '0', 
+                            border: 'none', 
+                            padding: '0', 
+                            margin: '0', 
+                            pointerEvents: 'none' 
+                        }}
+                        src="https://www.canva.com/design/DAG8QHpO2OI/egldNQwoS13TJaWXxcZUHw/view?embed"
+                        title="STREAMIX Light Logo"
+                    />
+                </div>
+
+                {/* Logo Modo Oscuro (DAG8QMGm2Y8) */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}>
+                    <iframe 
+                        loading="lazy" 
+                        style={{ 
+                            position: 'absolute', 
+                            width: '100%', 
+                            height: '100%', 
+                            top: '0', 
+                            left: '0', 
+                            border: 'none', 
+                            padding: '0', 
+                            margin: '0', 
+                            pointerEvents: 'none' 
+                        }}
+                        src="https://www.canva.com/design/DAG8QMGm2Y8/Vmb-gO9Quw-pZcmViXdiTw/view?embed"
+                        title="STREAMIX Dark Logo"
+                    />
+                </div>
             </div>
         </div>
     </a>
@@ -103,7 +127,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         >
                             <MenuIcon isOpen={isNavOpen} />
                         </button>
-                        <StreamixLogo />
+                        <StreamixLogo isDarkMode={isDarkMode} />
                     </div>
                     <div className="flex items-center space-x-2 md:space-x-4">
                         <div className="hidden md:flex relative w-full max-w-sm group">
