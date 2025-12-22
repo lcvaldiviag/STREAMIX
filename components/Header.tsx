@@ -2,14 +2,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const StreamixLogo = () => (
-    <div className="flex items-center space-x-3 group cursor-pointer select-none">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105 group-hover:rotate-6 shadow-[0_0_15px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] border border-white/10">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <a href="/" className="flex items-center group cursor-pointer select-none" onClick={(e) => e.preventDefault()}>
+        <div className="logo-wrapper transition-transform duration-300 group-hover:scale-105" style={{ width: '165px' }}>
+            <div style={{ 
+                position: 'relative', 
+                width: '100%', 
+                height: '0', 
+                paddingTop: '33.3333%', 
+                overflow: 'hidden', 
+                willChange: 'transform' 
+            }}>
+                <iframe 
+                    loading="lazy" 
+                    style={{ 
+                        position: 'absolute', 
+                        width: '100%', 
+                        height: '100%', 
+                        top: '0', 
+                        left: '0', 
+                        border: 'none', 
+                        padding: '0', 
+                        margin: '0', 
+                        pointerEvents: 'none' 
+                    }}
+                    src="https://www.canva.com/design/DAG8QHpO2OI/egldNQwoS13TJaWXxcZUHw/view?embed"
+                    title="STREAMIX Brand Identity"
+                />
+            </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 dark:from-white dark:via-slate-200 dark:to-slate-400 group-hover:from-indigo-500 group-hover:via-purple-500 group-hover:to-pink-500 dark:group-hover:from-indigo-400 dark:group-hover:via-purple-400 dark:group-hover:to-pink-400 transition-all duration-300 drop-shadow-sm">
-            STREAMIX
-        </h1>
-    </div>
+    </a>
 );
 
 const SearchIcon = ({ className = "h-5 w-5 text-slate-400" }: { className?: string }) => (
@@ -62,7 +83,6 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
     const prevCountRef = useRef(cartItemCount);
 
     useEffect(() => {
-        // Trigger animation only when items are added (count increases)
         if (cartItemCount > prevCountRef.current) {
             setIsAnimating(true);
             const timer = setTimeout(() => setIsAnimating(false), 300);
@@ -106,7 +126,6 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                             <SearchIcon className="h-6 w-6" />
                         </button>
 
-                        {/* Theme Toggle Button */}
                         <button
                             onClick={onToggleTheme}
                             className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-yellow-300 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
