@@ -79,6 +79,7 @@ const App = () => {
                             onProductSelect={setSelectedProduct}
                             selectedCategory={selectedCategory}
                             searchQuery={searchQuery}
+                            isDarkMode={isDarkMode}
                         />
                     </main>
 

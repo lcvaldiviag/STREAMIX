@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Product, Combo, Category } from '../types';
 import { PRODUCTS, COMBOS } from '../constants';
+import { StreamixLogo } from './Header';
 
 interface CardProps {
   item: Product | Combo;
@@ -89,9 +90,10 @@ interface ProductListProps {
   onProductSelect: (item: Product | Combo) => void;
   selectedCategory: Category | 'Todos los Productos';
   searchQuery: string;
+  isDarkMode: boolean;
 }
 
-const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQuery }: ProductListProps) => {
+const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQuery, isDarkMode }: ProductListProps) => {
   const allCategories = Object.values(Category);
   
   const getFilteredItems = (category: Category) => {
@@ -105,6 +107,9 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, searchQue
   return (
     <div className="max-w-screen-xl mx-auto px-4">
       <header className="mb-12">
+        {/* Streamix Logo added above the heading to fix the missing logo issue */}
+        <StreamixLogo isDarkMode={isDarkMode} className="w-56 mb-8 lg:w-64" />
+        
         <h1 className="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-4">
             Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-m3-primary to-m3-secondary">SHOP</span>
         </h1>

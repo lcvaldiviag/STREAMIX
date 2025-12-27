@@ -129,7 +129,7 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-20">
                     
-                    {/* Contenedor Izquierda: Menu & Logo (Visible si no hay búsqueda móvil) */}
+                    {/* Contenedor Izquierda: Menu (Visible si no hay búsqueda móvil) */}
                     <div className={`flex items-center transition-opacity duration-300 ${isMobileSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                         <button
                             onClick={onNavToggle}
@@ -138,6 +138,8 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         >
                             <MenuIcon isOpen={isNavOpen} />
                         </button>
+                        
+                        {/* Streamix Logo removed from Header per user request - only the ProductList one remains */}
                     </div>
 
                     {/* Barra de Búsqueda Móvil Expandible */}
