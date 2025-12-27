@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-const StreamixLogo = ({ isDarkMode }: { isDarkMode: boolean }) => (
-    <a href="/" className="relative flex items-center group cursor-pointer select-none" onClick={(e) => e.preventDefault()}>
-        <div className="logo-wrapper transition-transform duration-300 group-hover:scale-105" style={{ width: '165px' }}>
+// Exportamos StreamixLogo y se añade soporte para className para permitir un ajuste de tamaño flexible en el título principal.
+export const StreamixLogo = ({ isDarkMode, className }: { isDarkMode: boolean; className?: string }) => (
+    <div className={`relative flex items-center group cursor-pointer select-none ${className || ''}`}>
+        <div className="logo-wrapper transition-transform duration-300 group-hover:scale-105" style={{ width: '100%' }}>
             {/* Contenedor con Aspect Ratio mantenido */}
             <div style={{ 
                 position: 'relative', 
@@ -54,7 +55,7 @@ const StreamixLogo = ({ isDarkMode }: { isDarkMode: boolean }) => (
                 </div>
             </div>
         </div>
-    </a>
+    </div>
 );
 
 const SearchIcon = ({ className = "h-5 w-5 text-slate-400" }: { className?: string }) => (
@@ -104,7 +105,9 @@ interface HeaderProps {
 
 const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle, isNavOpen, isDarkMode, onToggleTheme }: HeaderProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
+    const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     const prevCountRef = useRef(cartItemCount);
+    const mobileSearchRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (cartItemCount > prevCountRef.current) {
@@ -115,11 +118,19 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
         prevCountRef.current = cartItemCount;
     }, [cartItemCount]);
 
+    useEffect(() => {
+        if (isMobileSearchOpen && mobileSearchRef.current) {
+            mobileSearchRef.current.focus();
+        }
+    }, [isMobileSearchOpen]);
+
     return (
         <header className="sticky top-0 z-50 w-full glass-panel border-b border-slate-200/50 dark:border-white/5 shadow-lg transition-all duration-300 bg-white/80 dark:bg-slate-900/65">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center">
+                <div className="relative flex items-center justify-between h-20">
+                    
+                    {/* Contenedor Izquierda: Menu & Logo (Visible si no hay búsqueda móvil) */}
+                    <div className={`flex items-center transition-opacity duration-300 ${isMobileSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                         <button
                             onClick={onNavToggle}
                             className="lg:hidden p-2 -ml-2 mr-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white transition-colors focus:outline-none"
@@ -127,10 +138,38 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                         >
                             <MenuIcon isOpen={isNavOpen} />
                         </button>
-                        <StreamixLogo isDarkMode={isDarkMode} />
                     </div>
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                        <div className="hidden md:flex relative w-full max-w-sm group">
+
+                    {/* Barra de Búsqueda Móvil Expandible */}
+                    <div className={`absolute inset-0 z-10 flex items-center bg-white dark:bg-slate-900 md:hidden transition-all duration-300 transform ${isMobileSearchOpen ? 'translate-y-0 opacity-100 visible' : '-translate-y-4 opacity-0 invisible pointer-events-none'}`}>
+                        <div className="flex items-center w-full px-2 space-x-2">
+                             <span className="pl-2">
+                                <SearchIcon />
+                            </span>
+                            <input
+                                ref={mobileSearchRef}
+                                type="text"
+                                placeholder="Buscar productos..."
+                                value={searchQuery}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                className="flex-1 bg-transparent border-none py-2 text-slate-800 dark:text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-0"
+                            />
+                            <button 
+                                onClick={() => { setIsMobileSearchOpen(false); onSearchChange(''); }}
+                                className="p-2 text-slate-500 hover:text-indigo-600"
+                                aria-label="Cerrar búsqueda"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Contenedor Derecha: Búsqueda, Temas y Carrito */}
+                    <div className={`flex items-center space-x-2 md:space-x-4 transition-opacity duration-300 ${isMobileSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                        {/* Búsqueda Escritorio (Desktop) */}
+                        <div className="hidden md:flex relative group">
                              <span className="absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400">
                                 <SearchIcon />
                             </span>
@@ -142,9 +181,11 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
                                 className="w-56 focus:w-64 lg:w-64 lg:focus:w-80 transition-all duration-300 bg-slate-100 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700/50 rounded-full py-2.5 pl-11 pr-4 text-slate-800 dark:text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 dark:focus:bg-slate-900 focus:bg-white focus:border-indigo-500/50 shadow-inner"
                             />
                         </div>
+
+                        {/* Botón Lupa Móvil (Mobile) */}
                         <button
-                            onClick={onNavToggle}
-                            className="md:hidden p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
+                            onClick={() => setIsMobileSearchOpen(true)}
+                            className="md:hidden p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
                             aria-label="Buscar productos"
                         >
                             <SearchIcon className="h-6 w-6" />
