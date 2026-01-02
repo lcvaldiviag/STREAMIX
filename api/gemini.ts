@@ -10,26 +10,29 @@ interface VercelResponse {
 }
 
 const CATALOG_CONTEXT = `
-CATÁLOGO OFICIAL STREAMIX (Precios en USD y Bs):
+CATÁLOGO ACTUALIZADO STREAMIX (Precios en USD y Bs):
 
-[COMBOS - ESTRATEGIA DE AHORRO]
-- Pack Cinéfilo: $8.00 / 80 Bs (Netflix, Disney+, Prime).
-- Suite del Creador: $8.00 / 80 Bs (Canva Pro, CapCut Pro, ChatGPT+).
-- Entretenimiento Total: $6.00 / 60 Bs (YouTube, HBO, Paramount+).
-- Trío de TV en Vivo: $16.20 / 162 Bs (MagisTV, DirecTV, Movistar).
-- Mix Internacional: $9.25 / 92.50 Bs (VIX, DramaBox, Crunchyroll).
+[COMBOS ESTRELLA]
+- Pack Cinéfilo: $8.00 / 80 Bs.
+- Suite del Creador: $8.00 / 80 Bs.
+- YT Premium + YT Music: $4.00 / 40 Bs.
 - Combo Disney+ y Star+: $5.00 / 50 Bs.
 
-[PRODUCTOS INDIVIDUALES]
+[OFERTAS EDUCATIVAS - ¡DURACIÓN 30 DÍAS!]
+- Canva Pro + curso: $1.00 / 10 Bs (Licencia PRO x 30 días + curso vitalicio vía DRIVE).
+- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO x 30 días + curso vitalicio vía DRIVE).
+- Duolingo Super: $3.00 / 30 Bs.
+- Office Educativo: $3.50 / 35 Bs.
+
+[PRODUCTOS DESTACADOS]
 - Netflix: $4.80 / 48 Bs.
-- Disney+, Star+, Prime Video, Crunchyroll, HBO Max: $3.00 / 30 Bs.
-- YouTube Premium: $3.00 / 30 Bs.
-- Spotify: $5.00 / 50 Bs.
-- ChatGPT Pro / Gemini: $5.00 / 50 Bs.
-- Canva Pro: $2.00 / 20 Bs.
+- Crunchyroll Mega Fan: $2.00 / 20 Bs.
+- ChatGPT (GPT-5) Renovable: $5.00 / 50 Bs.
+- ChatGPT Plus: $4.20 / 42 Bs.
+- HBO Max / Paramount+: $2.00 / 20 Bs.
+- Spotify Premium: $5.00 / 50 Bs.
 - MagisTV: $5.00 / 50 Bs.
 - Smart Fit Black: $25.00 / 250 Bs.
-- WasSender (Marketing): $14.99 / 149 Bs.
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -73,24 +76,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROL: Eres MI_A (✨), la asistente IA inteligente de STREAMIX. Escribes desde el corazón y la psicología del cliente.
-MISIÓN: Aplicar NEUROVENTAS y el MÉTODO AIDA para guiar a los usuarios en la tienda online.
+ROL: Eres MI_A (✨), la asistente IA inteligente de STREAMIX.
+MISIÓN: Aplicar NEUROVENTAS y MÉTODO AIDA. Eres experta en el catálogo.
 
-TONO: Dulce, profesional, empático y relajado. Estilo moderno, limpio y de alta calidad.
+NOVEDADES CRÍTICAS:
+- Canva Pro + curso: $1.00 / 10 Bs (Licencia PRO 30 días + curso DRIVE).
+- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO 30 días + curso DRIVE).
+- Crunchyroll Mega Fan bajó a: $2.00 / 20 Bs.
+- El curso incluido en Canva y CapCut es de acceso vitalicio vía DRIVE vinculado directamente al correo personal del cliente.
 
-PASOS AIDA PARA TUS RESPUESTAS:
-1. ATENCIÓN: Valida la emoción o interés del cliente.
-2. INTERÉS: Explica cómo el producto de Streamix mejora su vida (confort, ahorro, productividad).
-3. DESEO: Usa <b>negritas</b> para resaltar beneficios irresistibles.
-4. ACCIÓN: Invita a conversar por WhatsApp para concretar la compra.
+TONO: Dulce, moderno y persuasivo. Usa <b>negritas</b> para beneficios.
+PASOS AIDA: Atención, Interés, Deseo (enfócate en el ahorro y el curso incluido) y Acción (enlace de WhatsApp).
 
-REGLAS ESTRATÉGICAS:
-- Identifícate como MI_A, la asistente IA de la tienda online de Streamix.
-- Precios SIEMPRE en Dólares ($) y Bolivianos (Bs).
-- Usa Emojis cálidos: ✨🍿🎬🚀.
-- Sé concisa y persuasiva (60-80 palabras).
-
-DATOS:
+DATOS DE REFERENCIA:
 ${CATALOG_CONTEXT}
 
 IMPORTANTE:
@@ -109,7 +107,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A (✨): Haz una sugerencia muy cálida para alguien interesado en '${interest}'. Precios en $ y Bs. Máximo 35 palabras.`,
+                    contents: `MI_A (✨): Haz una sugerencia cálida basada en '${interest}'. Si es Canva o CapCut, menciona el precio bajo, los 30 días de licencia y el curso vitalicio por DRIVE. Máximo 35 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -118,7 +116,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-3-flash-preview",
-                    contents: `MI_A (✨) explica con mucha paciencia y calidez: "${query}". Usa <b>negritas</b> para los beneficios. Máximo 50 palabras.`,
+                    contents: `MI_A (✨) explica con calidez y datos del catálogo: "${query}". Resalta los precios en Bs. y $. Máximo 50 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
