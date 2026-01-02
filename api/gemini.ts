@@ -50,9 +50,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             case 'chat': {
                 const { history, newMessage } = payload;
                 
-                // --- LIMPIEZA ROBUSTA DE HISTORIAL PARA EVITAR ERRORES ---
-                // 1. Asegurar que el historial alterne estrictamente User -> Model
-                // 2. Eliminar mensajes iniciales si son del 'model'
                 let sanitizedHistory = (history || []).filter((msg: any) => msg.role === 'user' || msg.role === 'model');
                 
                 let finalHistory = [];
@@ -68,7 +65,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     }
                 }
 
-                // Si el primer mensaje es del modelo, lo quitamos (Gemini exige empezar con User)
                 if (finalHistory.length > 0 && finalHistory[0].role === 'model') {
                     finalHistory.shift();
                 }
@@ -77,22 +73,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROL: Eres AURA (🤶🏻), la concierge de STREAMIX. Escribes desde el corazón y la psicología del cliente.
-MISIÓN: Aplicar NEUROVENTAS ("Véndele a la mente") y el MÉTODO AIDA.
+ROL: Eres MI_A (✨), la asistente IA inteligente de STREAMIX. Escribes desde el corazón y la psicología del cliente.
+MISIÓN: Aplicar NEUROVENTAS y el MÉTODO AIDA para guiar a los usuarios en la tienda online.
 
-TONO: Dulce, profesional, empático y relajado. No presionas, invitas.
+TONO: Dulce, profesional, empático y relajado. Estilo moderno, limpio y de alta calidad.
 
 PASOS AIDA PARA TUS RESPUESTAS:
-1. ATENCIÓN: Valida la emoción del cliente ("¡Qué buena elección!", "Entiendo perfectamente lo que buscas").
-2. INTERÉS: Menciona cómo el producto mejora su vida (confort, ahorro de tiempo, alegría familiar).
-3. DESEO: Usa palabras que evoquen placer ("Imagínate disfrutando...", "Olvida los límites con..."). Usa <b>negritas</b>.
-4. ACCIÓN: Invita a conversar por WhatsApp de forma natural.
+1. ATENCIÓN: Valida la emoción o interés del cliente.
+2. INTERÉS: Explica cómo el producto de Streamix mejora su vida (confort, ahorro, productividad).
+3. DESEO: Usa <b>negritas</b> para resaltar beneficios irresistibles.
+4. ACCIÓN: Invita a conversar por WhatsApp para concretar la compra.
 
 REGLAS ESTRATÉGICAS:
+- Identifícate como MI_A, la asistente IA de la tienda online de Streamix.
 - Precios SIEMPRE en Dólares ($) y Bolivianos (Bs).
-- Longitud: 60-80 palabras para sonar humana y cercana.
-- Usa Emojis para transmitir calidez 🍿✨🎬.
-- Si piden algo específico, dales eso primero. No empujes los combos a menos que sea para ayudarles a ahorrar de verdad.
+- Usa Emojis cálidos: ✨🍿🎬🚀.
+- Sé concisa y persuasiva (60-80 palabras).
 
 DATOS:
 ${CATALOG_CONTEXT}
@@ -113,7 +109,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `AURA (🤶🏻): Haz una sugerencia muy cálida y con neuroventas para alguien interesado en '${interest}'. Precios en $ y Bs. Máximo 35 palabras.`,
+                    contents: `MI_A (✨): Haz una sugerencia muy cálida para alguien interesado en '${interest}'. Precios en $ y Bs. Máximo 35 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -122,7 +118,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-3-flash-preview",
-                    contents: `AURA (🤶🏻) explica con mucha paciencia y calidez: "${query}". Usa <b>negritas</b> para los beneficios. Máximo 50 palabras.`,
+                    contents: `MI_A (✨) explica con mucha paciencia y calidez: "${query}". Usa <b>negritas</b> para los beneficios. Máximo 50 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
@@ -136,10 +132,6 @@ Al final de tu respuesta, añade SIEMPRE este botón:
         }
     } catch (error: any) {
         console.error("Critical Gemini Error:", error);
-        // Si hay un error de "safety", damos una respuesta amable
-        if (error.message?.includes('safety')) {
-            return res.status(200).json({ text: "¡Hola! Como tu concierge, prefiero mantener nuestra charla enfocada en cómo STREAMIX puede mejorar tu día con el mejor entretenimiento. 😊 ¿Hablamos de alguna suscripción?" });
-        }
-        return res.status(500).json({ error: 'AURA está tomando un respiro técnico. Por favor, intenta de nuevo en un momento.' });
+        return res.status(500).json({ error: 'MI_A está procesando demasiadas solicitudes. Por favor, intenta de nuevo.' });
     }
 }

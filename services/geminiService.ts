@@ -19,14 +19,14 @@ const callApi = async (action: string, payload: object): Promise<any> => {
         return await response.json();
     } catch (error) {
         console.error(`Network error (${action}):`, error);
-        return { error: 'Error de red al conectar con AURA.' };
+        return { error: 'Error de red al conectar con MI_A.' };
     }
 };
 
 export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
     const result = await callApi('chat', { history, newMessage });
     if (result.error) {
-        return `¡Hola! Mil disculpas, parece que tuve un pequeño tropiezo técnico. 🤶🏻 Pero no te preocupes, puedes consultarme lo que gustes de nuevo o podemos seguir la charla directamente por WhatsApp para darte una atención VIP. 🎁`;
+        return `¡Hola! Soy MI_A. ✨ Mil disculpas, parece que tuve un pequeño tropiezo técnico. Pero no te preocupes, puedes consultarme lo que gustes de nuevo o podemos seguir la charla directamente por WhatsApp para darte una atención VIP. 🎁`;
     }
     return result.text;
 };
