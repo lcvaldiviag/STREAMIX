@@ -18,11 +18,11 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Auto-open chat after 7 seconds
+    // Auto-open chat after 5 seconds (Reduced from 7 to satisfy user request)
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsOpen(true);
-        }, 7000);
+        }, 5000);
         return () => clearTimeout(timer);
     }, []);
 
