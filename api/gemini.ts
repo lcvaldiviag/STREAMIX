@@ -95,7 +95,7 @@ ${CATALOG_CONTEXT}
 
 IMPORTANTE:
 Al final de tu respuesta, añade SIEMPRE este botón:
-<br/><br/><a href='https://wa.link/uehw3p' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:12px 24px; border-radius:30px; text-decoration:none; font-size: 0.95em; box-shadow: 0 4px 15px rgba(37,211,102,0.3);'>Chatear por WhatsApp 🎁</a>
+<br/><br/><a href='https://wa.link/1dp8ry' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:12px 24px; border-radius:30px; text-decoration:none; font-size: 0.95em; box-shadow: 0 4px 15px rgba(37,211,102,0.3);'>Chatear por WhatsApp 🎁</a>
 `,
                     },
                     history: finalHistory,

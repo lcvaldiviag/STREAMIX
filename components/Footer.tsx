@@ -20,6 +20,8 @@ const InstagramIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
     </svg>
 );
 
+const OFFICIAL_WHATSAPP_LINK = 'https://wa.link/1dp8ry';
+
 const SOCIAL_LINKS = [
     {
         name: 'Facebook',
@@ -35,14 +37,13 @@ const SOCIAL_LINKS = [
     },
     {
         name: 'WhatsApp',
-        url: `https://wa.me/${WHATSAPP_NUMBER}`,
+        url: OFFICIAL_WHATSAPP_LINK,
         icon: WhatsAppIcon,
         colorClass: 'bg-[#25D366] hover:bg-[#22bf5b]'
     }
 ];
 
 const Footer = () => {
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
     return (
         <footer className="bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-white/10 relative z-10">
              {/* Subtle Glow at the top of footer */}
@@ -55,7 +56,7 @@ const Footer = () => {
                         <p className="mt-2">&copy; {new Date().getFullYear()} STREAMIX. Todos los derechos reservados.</p>
                     </div>
                     <div className="flex items-center space-x-6 mt-6 md:mt-0">
-                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                        <a href={OFFICIAL_WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-300 flex items-center space-x-2">
                              <WhatsAppIcon className="w-5 h-5" />
                              <span className="sr-only md:not-sr-only text-xs font-medium">Soporte</span>
                         </a>

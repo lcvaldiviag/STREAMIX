@@ -26,7 +26,7 @@ const callApi = async (action: string, payload: object): Promise<any> => {
 export const getChatResponse = async (history: { role: string; parts: { text: string; }[]; }[], newMessage: string): Promise<string> => {
     const result = await callApi('chat', { history, newMessage });
     if (result.error) {
-        return `¡Hola! Soy MI_A. ✨ Mil disculpas, parece que tuve un pequeño tropiezo técnico. Pero no te preocupes, puedes consultarme lo que gustes de nuevo o podemos seguir la charla directamente por WhatsApp para darte una atención VIP. 🎁`;
+        return `¡Hola! Soy MI_A. ✨ Mil disculpas, parece que tuve un pequeño tropiezo técnico. Pero no te preocupes, puedes consultarme lo que gustes de nuevo o podemos seguir la charla directamente por WhatsApp para darte una atención VIP: <a href="https://wa.link/1dp8ry" target="_blank" style="color:#25D366; font-weight:bold;">Chatear Aquí 🎁</a>`;
     }
     return result.text;
 };
