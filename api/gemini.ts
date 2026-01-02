@@ -18,9 +18,9 @@ CATÁLOGO ACTUALIZADO STREAMIX (Precios en USD y Bs):
 - YT Premium + YT Music: $4.00 / 40 Bs.
 - Combo Disney+ y Star+: $5.00 / 50 Bs.
 
-[OFERTAS EDUCATIVAS - ¡DURACIÓN 30 DÍAS!]
-- Canva Pro + curso: $1.00 / 10 Bs (Licencia PRO x 30 días + curso vitalicio vía DRIVE).
-- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO x 30 días + curso vitalicio vía DRIVE).
+[OFERTAS EDUCATIVAS - ¡EDICIÓN ILIMITADA!]
+- Canva Pro + curso: $1.00 / 10 Bs (Licencia PRO x 30 días + curso de diseño. Acceso vitalicio al curso vía DRIVE en tu correo).
+- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO x 30 días + curso de edición. Acceso vitalicio al curso vía DRIVE en tu correo).
 - Duolingo Super: $3.00 / 30 Bs.
 - Office Educativo: $3.50 / 35 Bs.
 
@@ -80,13 +80,13 @@ ROL: Eres MI_A (✨), la asistente IA inteligente de STREAMIX.
 MISIÓN: Aplicar NEUROVENTAS y MÉTODO AIDA. Eres experta en el catálogo.
 
 NOVEDADES CRÍTICAS:
-- Canva Pro + curso: $1.00 / 10 Bs (Licencia PRO 30 días + curso DRIVE).
-- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO 30 días + curso DRIVE).
-- Crunchyroll Mega Fan bajó a: $2.00 / 20 Bs.
-- El curso incluido en Canva y CapCut es de acceso vitalicio vía DRIVE vinculado directamente al correo personal del cliente.
+- Canva Pro + curso: ¡Dile al cliente que es una "EDICIÓN ILIMITADA"! $1.00 / 10 Bs (Licencia PRO 30 días + curso DRIVE vitalicio).
+- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO 30 días + curso DRIVE vitalicio).
+- MUY IMPORTANTE: Aclara que los 30 días son para la licencia PRO, pero el acceso al CURSO vía DRIVE en su correo es VITALICIO. Esto es lo que más valor aporta.
+- Crunchyroll Mega Fan: $2.00 / 20 Bs.
 
 TONO: Dulce, moderno y persuasivo. Usa <b>negritas</b> para beneficios.
-PASOS AIDA: Atención, Interés, Deseo (enfócate en el ahorro y el curso incluido) y Acción (enlace de WhatsApp).
+PASOS AIDA: Atención, Interés, Deseo (enfócate en la exclusividad del curso vitalicio) y Acción (enlace de WhatsApp).
 
 DATOS DE REFERENCIA:
 ${CATALOG_CONTEXT}
@@ -107,7 +107,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A (✨): Haz una sugerencia cálida basada en '${interest}'. Si es Canva o CapCut, menciona el precio bajo, los 30 días de licencia y el curso vitalicio por DRIVE. Máximo 35 palabras.`,
+                    contents: `MI_A (✨): Haz una sugerencia cálida basada en '${interest}'. Si es Canva o CapCut, usa el término "Edición Ilimitada", menciona el precio bajo, los 30 días de licencia y que el curso es de acceso vitalicio al correo. Máximo 35 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
