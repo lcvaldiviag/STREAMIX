@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Product, Combo, Category } from '../types';
 import { PRODUCTS, COMBOS } from '../constants';
@@ -74,7 +75,8 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
           </div>
         </div>
 
-        <p className="text-luxury-muted text-[10px] md:text-xs leading-relaxed line-clamp-2 mb-3 md:mb-6 h-6 md:h-8">
+        {/* Ajuste de descripción para evitar cortes en móvil */}
+        <p className="text-luxury-muted text-[10px] md:text-xs leading-relaxed line-clamp-3 mb-4 md:mb-6 min-h-[2.5rem] md:min-h-[3rem]">
           {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
         </p>
 
