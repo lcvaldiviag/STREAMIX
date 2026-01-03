@@ -17,14 +17,15 @@ const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkMode }) => {
   const brandColor = isProduct(item) ? item.brandColor : (isDarkMode ? '#ffffff' : '#000000');
   const isSoldOut = isProduct(item) ? item.soldOut : false;
-  const [ghosts, setGhosts] = useState<{ id: number }[]>([]);
+  const [ghosts, setGhosts] = useState<{ id: number; x: number; y: number }[]>([]);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isSoldOut) return;
 
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const ghostId = Date.now();
-    setGhosts(prev => [...prev, { id: ghostId }]);
+    setGhosts(prev => [...prev, { id: ghostId, x: e.clientX, y: e.clientY }]);
     setTimeout(() => setGhosts(prev => prev.filter(g => g.id !== ghostId)), 800);
 
     onAddToCart(item);
@@ -32,21 +33,19 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
 
   return (
     <div className="product-card" onClick={() => onProductSelect(item)}>
-      {/* Partículas Ghost */}
       {ghosts.map(ghost => (
         <div 
           key={ghost.id} 
           className="ghost-particle" 
-          style={{ top: '50%', left: '50%', background: brandColor }}
+          style={{ top: '50%', left: '50%' }}
         />
       ))}
 
-      {/* Contenedor de Imagen de Lujo */}
       <div className="product-image-container">
         <div className="content-wrapper">
           {isProduct(item) ? (
             <span 
-              className="text-4xl md:text-7xl font-black tracking-tighter" 
+              className="text-5xl md:text-7xl font-black tracking-tighter" 
               style={{ color: item.brandColor === '#000000' ? (isDarkMode ? '#ffffff' : '#000000') : item.brandColor }}
             >
               {item.logo}
@@ -63,33 +62,32 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
         )}
       </div>
 
-      {/* Información Blindada */}
       <div className="p-3 md:p-6 flex flex-col flex-grow">
         <div className="mb-2 md:mb-4">
-          <h3 className="text-luxury-text text-sm md:text-lg font-bold leading-tight tracking-tight mb-1 truncate">
+          <h3 className="text-luxury-text text-sm md:text-lg font-bold leading-tight tracking-tight mb-1">
             {item.name}
           </h3>
           <div className="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
             <span className="text-luxury-text text-lg md:text-2xl font-black">${item.priceUSD.toFixed(2)}</span>
-            <span className="text-luxury-muted text-[9px] md:text-xs font-bold uppercase tracking-wider">/ {item.priceBS.toFixed(0)} Bs.</span>
+            <span className="text-luxury-muted text-[10px] md:text-xs font-bold uppercase tracking-wider">/ {item.priceBS.toFixed(0)} Bs.</span>
           </div>
         </div>
 
-        {/* Ajuste de descripción para evitar cortes en móvil */}
-        <p className="text-luxury-muted text-[10px] md:text-xs leading-relaxed line-clamp-3 mb-4 md:mb-6 min-h-[2.5rem] md:min-h-[3rem]">
+        {/* Optimización de texto para móviles: Evitar cortes bruscos */}
+        <p className="text-luxury-muted text-[11px] md:text-xs leading-relaxed line-clamp-2 md:line-clamp-3 mb-4 flex-grow min-h-[32px] md:min-h-[48px]">
           {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
         </p>
 
         {!isSoldOut && (
-          <button className="add-btn" onClick={handleAdd}>
+          <button className="add-btn mt-auto" onClick={handleAdd}>
             Añadir
           </button>
         )}
       </div>
 
       {isSoldOut && (
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-20">
-          <span className="border border-white text-white text-[8px] md:text-[10px] font-black px-4 md:px-6 py-1 md:py-2 tracking-[0.2em] md:tracking-[0.3em] uppercase">
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] flex items-center justify-center z-20">
+          <span className="border border-white/50 text-white text-[9px] md:text-[10px] font-black px-4 md:px-6 py-1 md:py-2 tracking-widest uppercase">
             Agotado
           </span>
         </div>
@@ -124,9 +122,9 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
     <div className="max-w-7xl mx-auto px-4 md:px-6">
       <header className="mb-10 md:mb-20 text-center flex flex-col items-center">
         <StreamixLogo isDarkMode={isDarkMode} className="w-48 md:w-64 mb-8 md:mb-16" />
-        <h1 className={`text-4xl md:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-6 uppercase transition-colors duration-400 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <h1 className={`text-4xl md:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-6 uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           DIGITAL <br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400" style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400">
             EXPERIENCE
           </span>
         </h1>
@@ -151,11 +149,11 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
           return (
             <section key={category} id={category.replace(/\s/g, '-')} className="relative">
               <div className="flex flex-col items-center mb-8 md:mb-16">
-                  <span className="text-indigo-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
-                  <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-400 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <span className="text-indigo-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
+                  <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       {category}
                   </h2>
-                  <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-400 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
+                  <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-500 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
               </div>
 
               <div className="product-grid">

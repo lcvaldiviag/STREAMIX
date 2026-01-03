@@ -31,8 +31,8 @@
     </script>
     <style>
       :root {
-        /* Modo Oscuro (Default - Blindado) */
-        --luxury-bg: #050505; /* Un poco más profundo para el efecto partículas */
+        /* Modo Oscuro (Noche) */
+        --luxury-bg: #050505;
         --luxury-card: rgba(18, 18, 18, 0.8);
         --luxury-card-gradient: linear-gradient(145deg, rgba(24, 24, 24, 0.9), rgba(10, 10, 10, 0.9));
         --luxury-text: #e0e0e0;
@@ -40,24 +40,26 @@
         --luxury-text-muted: #808080;
         --luxury-border: rgba(255, 255, 255, 0.05);
         --luxury-shadow-color: rgba(0, 0, 0, 0.9);
+        /* Gradiente Ultra Vibrante estilo MI_A */
         --luxury-btn-bg: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
         --luxury-btn-text: #ffffff;
         --luxury-mesh-opacity: 0.6;
       }
 
       body:not(.dark) {
-        /* Modo Claro (Premium - Apple Style) */
-        --luxury-bg: #f8f8fa;
-        --luxury-card: rgba(255, 255, 255, 0.7);
-        --luxury-card-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 250, 0.8));
+        /* Modo Claro (Día) */
+        --luxury-bg: #fdfdfd;
+        --luxury-card: rgba(255, 255, 255, 0.9);
+        --luxury-card-gradient: linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(248, 248, 255, 1));
         --luxury-text: #1d1d1f;
         --luxury-text-pure: #000000;
         --luxury-text-muted: #6e6e73;
-        --luxury-border: rgba(0, 0, 0, 0.08);
+        --luxury-border: rgba(0, 0, 0, 0.06);
         --luxury-shadow-color: rgba(0, 0, 0, 0.05);
+        /* Gradiente igual de vibrante en modo claro */
         --luxury-btn-bg: linear-gradient(135deg, #4f46e5 0%, #9333ea 50%, #db2777 100%);
         --luxury-btn-text: #ffffff;
-        --luxury-mesh-opacity: 0.25;
+        --luxury-mesh-opacity: 0.15;
       }
 
       *, *::before, *::after {
@@ -71,10 +73,9 @@
         margin: 0;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
-        transition: background-color 0.4s ease, color 0.4s ease;
+        transition: background-color 0.6s ease, color 0.6s ease;
       }
 
-      /* Mesh Gradient Lujo */
       .mesh-bg {
         position: fixed;
         top: 0;
@@ -87,15 +88,13 @@
                     radial-gradient(at 50% 50%, hsla(220,10%,5%,1) 0, transparent 100%);
         filter: blur(120px);
         opacity: var(--luxury-mesh-opacity);
-        transition: opacity 0.4s ease;
+        transition: opacity 0.6s ease;
       }
 
-      /* Grid Blindado */
       .product-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
-        align-items: stretch;
       }
 
       @media (min-width: 640px) {
@@ -105,7 +104,6 @@
         }
       }
 
-      /* Card Maestro Blindado */
       .product-card {
         background: var(--luxury-card-gradient);
         backdrop-filter: blur(20px);
@@ -114,54 +112,28 @@
         border-radius: 20px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         overflow: hidden;
-        height: 100%;
         position: relative;
-      }
-
-      @media (min-width: 640px) {
-        .product-card {
-          border-radius: 28px;
-        }
+        height: 100%;
       }
 
       .product-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        border-color: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 30px 60px -12px var(--luxury-shadow-color);
+        transform: translateY(-5px);
+        border-color: rgba(168, 85, 247, 0.3);
+        box-shadow: 0 20px 40px -15px var(--luxury-shadow-color);
       }
 
       .product-image-container {
         aspect-ratio: 1 / 1;
-        background: radial-gradient(circle at center, rgba(50,50,50,0.5) 0%, rgba(0,0,0,0) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         position: relative;
+        background: rgba(0,0,0,0.02);
       }
 
-      body:not(.dark) .product-image-container {
-        background: radial-gradient(circle at center, rgba(230,230,240,0.5) 0%, rgba(255,255,255,0) 100%);
-      }
-
-      .product-image-container .content-wrapper {
-        width: 70%;
-        height: 70%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
-        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .product-card:hover .content-wrapper {
-        transform: scale(1.15) rotate(2deg);
-      }
-
-      /* Botón AURA - Rediseñado para ser vibrante y llamativo */
       .add-btn {
         background: var(--luxury-btn-bg);
         color: var(--luxury-btn-text);
@@ -169,85 +141,77 @@
         padding: 14px;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
-        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        font-size: 0.7rem;
         cursor: pointer;
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         width: 100%;
-        margin-top: auto;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+      }
+
+      @media (max-width: 640px) {
+        .add-btn {
+          padding: 12px;
+          font-size: 0.6rem;
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
       }
 
       @media (min-width: 768px) {
         .add-btn {
           padding: 20px;
-          font-size: 0.7rem;
+          font-size: 0.75rem;
+          opacity: 0;
+          transform: translateY(20px);
         }
-      }
-
-      @media (hover: hover) {
-        .add-btn { 
-          opacity: 0; 
-          transform: translateY(20px); 
+        .product-card:hover .add-btn {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .product-card:hover .add-btn { 
-          opacity: 1; 
-          transform: translateY(0); 
-        }
-      }
-
-      .add-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: 0.5s;
-      }
-
-      .add-btn:hover::before {
-        left: 100%;
       }
 
       .add-btn:hover {
-        letter-spacing: 0.35em;
-        box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
         filter: brightness(1.1);
+        letter-spacing: 0.25em;
+        box-shadow: 0 15px 30px -5px rgba(236, 72, 153, 0.5);
       }
 
-      .add-btn:active {
-        transform: scale(0.96);
+      .add-btn::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s;
       }
 
-      /* Ghost Particle */
+      .add-btn:active::after {
+        opacity: 1;
+      }
+
       .ghost-particle {
         pointer-events: none;
         position: absolute;
         z-index: 1000;
-        width: 40px;
-        height: 40px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         background: var(--luxury-btn-bg);
-        animation: ghost-fly 0.9s cubic-bezier(0.2, 0, 0.2, 1) forwards;
-        filter: blur(5px);
+        animation: ghost-fly 0.8s ease-out forwards;
       }
 
       @keyframes ghost-fly {
-        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-        100% { transform: translate(50px, -200px) scale(0); opacity: 0; }
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+        100% { transform: translate(0, -100px) scale(0); opacity: 0; }
       }
 
-      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar { width: 5px; }
       .custom-scrollbar::-webkit-scrollbar-thumb {
         background: var(--luxury-border);
         border-radius: 10px;

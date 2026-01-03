@@ -11,10 +11,10 @@ import Toast from './components/Toast';
 import { Product, Combo, CartItem, Category } from './types';
 
 const App = () => {
-    // Función para detectar si debe iniciar en modo oscuro (Noche: 6pm a 6am)
-    const detectInitialTheme = () => {
+    // Función para detectar el tema basado en la hora local (6 AM a 6 PM = Claro)
+    const getSystemTheme = () => {
         const hour = new Date().getHours();
-        return hour < 6 || hour >= 18;
+        return hour < 6 || hour >= 18; // Noche = True (Oscuro), Día = False (Claro)
     };
 
     const [cart, setCart] = useState<CartItem[]>([]);
@@ -26,8 +26,8 @@ const App = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
     
-    // Estado inicial automatizado por la hora del sistema
-    const [isDarkMode, setIsDarkMode] = useState(detectInitialTheme());
+    // El tema se inicializa automáticamente según la hora
+    const [isDarkMode, setIsDarkMode] = useState(getSystemTheme());
 
     useEffect(() => {
         if (isDarkMode) {
@@ -35,6 +35,17 @@ const App = () => {
         } else {
             document.body.classList.remove('dark');
         }
+    }, [isDarkMode]);
+
+    // Opcional: Escuchar cambios de hora si la pestaña se queda abierta mucho tiempo
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const shouldBeDark = getSystemTheme();
+            if (shouldBeDark !== isDarkMode) {
+                setIsDarkMode(shouldBeDark);
+            }
+        }, 60000); // Revisar cada minuto
+        return () => clearInterval(interval);
     }, [isDarkMode]);
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
@@ -57,9 +68,7 @@ const App = () => {
 
     return (
         <div className={isDarkMode ? 'dark' : ''}>
-            <div className="flex flex-col min-h-screen relative">
-                {/* El fondo decorativo está controlado por CSS en index.html */}
-                
+            <div className="flex flex-col min-h-screen relative overflow-x-hidden">
                 <Header 
                     cartItemCount={cartItemCount} 
                     onCartClick={toggleCart}
