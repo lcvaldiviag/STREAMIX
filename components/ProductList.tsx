@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
 
   return (
     <div 
-      className={`group relative flex flex-col ${isDarkMode ? 'bg-white/5 backdrop-blur-md border-white/10' : 'bg-white border-slate-200'} rounded-2xl md:rounded-m3-l overflow-hidden border shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer h-full ${isEdu ? 'edu-glow' : ''}`}
+      className={`group relative flex flex-col ${isDarkMode ? 'bg-white/5 backdrop-blur-md border-white/10' : 'bg-white border-slate-200'} rounded-2xl md:rounded-m3-l overflow-hidden border shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer h-full ${isEdu ? 'edu-glow' : ''}`}
       onClick={() => onProductSelect(item)}
     >
       {/* Media Content */}
@@ -45,8 +45,25 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
         
         {isProduct(item) ? (
             <div className="relative z-10 transition-transform duration-700 group-hover:scale-110">
-                <div className={`w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-3xl ${isDarkMode ? 'bg-white/5 backdrop-blur-lg border-white/20' : 'bg-white border-slate-100 shadow-sm'} flex items-center justify-center border shadow-xl`}>
-                    <span className="text-4xl md:text-6xl font-black tracking-tighter filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" style={{ color: logoTextColor }}>{item.logo}</span>
+                <div className={`
+                  w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-3xl flex items-center justify-center border transition-all duration-500
+                  ${isDarkMode 
+                    ? 'bg-white/10 backdrop-blur-xl border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]' 
+                    : 'bg-white border-slate-100 shadow-lg shadow-slate-200/50'
+                  }
+                `}>
+                    <span 
+                      className="text-4xl md:text-6xl font-black tracking-tighter transition-all" 
+                      style={{ 
+                        color: logoTextColor,
+                        textShadow: isDarkMode ? `0 0 20px ${brandColor}40` : 'none'
+                      }}
+                    >
+                      {item.logo}
+                    </span>
+                    
+                    {/* Interior Glow Effect for elegance */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
                 </div>
             </div>
         ) : (
@@ -69,15 +86,15 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
                 <p className={`text-sm md:text-xl font-black ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>${item.priceUSD.toFixed(2)}</p>
             </div>
 
-            {/* Optimized "+" Button - Positioned next to the price, appearing only on hover */}
+            {/* Optimized "+" Button */}
             {!isSoldOut && (
               <div className="opacity-0 scale-75 md:opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 transform-gpu flex-shrink-0">
                   <button 
                       onClick={handleAdd}
                       className={`
-                        w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-white shadow-lg transition-all duration-300
-                        bg-indigo-600 dark:bg-indigo-500/80 backdrop-blur-md border border-white/20
-                        hover:bg-indigo-500 dark:hover:bg-indigo-400 hover:scale-110 active:scale-90
+                        w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-white shadow-xl transition-all duration-300
+                        bg-indigo-600/30 dark:bg-indigo-500/30 backdrop-blur-xl border border-white/10
+                        hover:bg-indigo-600/50 dark:hover:bg-indigo-500/50 hover:scale-110 active:scale-90
                         ${isAnimating ? 'ring-4 ring-indigo-400/50 scale-125' : ''}
                       `}
                       title="Añadir al Carrito"
@@ -90,7 +107,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
             )}
         </div>
 
-        {/* Short Description - Expands below price area on hover */}
+        {/* Short Description */}
         <div className="mt-3 overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 w-full">
             <p className={`text-[10px] md:text-xs leading-relaxed line-clamp-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 {shortDescription}

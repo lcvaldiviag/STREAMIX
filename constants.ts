@@ -5,13 +5,19 @@ import { Product, Combo, Category } from './types';
 // Generic SVG Icon for placeholders
 export const PlaceholderIcon = ({ icon, color }: { icon: string, color?: string }): React.ReactElement => (
   React.createElement('div', { 
-    className: "w-12 h-12 flex items-center justify-center bg-slate-100 rounded-lg",
-    style: { backgroundColor: color ? `${color}1A` : undefined }
+    className: "w-12 h-12 flex items-center justify-center rounded-xl border border-white/10 shadow-sm transition-all overflow-hidden relative",
+    style: { 
+      backgroundColor: color ? `${color}22` : 'rgba(255,255,255,0.05)',
+      borderColor: color ? `${color}44` : 'rgba(255,255,255,0.1)'
+    }
   },
     React.createElement('span', { 
-      className: "text-xl font-bold text-slate-600",
-      style: { color: color || undefined }
-    }, icon)
+      className: "text-lg font-black tracking-tighter relative z-10",
+      style: { color: color || '#6366F1' }
+    }, icon),
+    React.createElement('div', {
+      className: "absolute inset-0 bg-white/5 backdrop-blur-sm pointer-events-none"
+    })
   )
 );
 
