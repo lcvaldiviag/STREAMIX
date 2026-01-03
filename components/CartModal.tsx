@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { CartItem, Product } from '../types';
 import { PlaceholderIcon } from '../constants';
 
@@ -14,6 +13,29 @@ const TrashIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
     </svg>
 );
+
+const CartImage = ({ src, alt, logo, color }: { src?: string; alt: string; logo?: string; color?: string }) => {
+    const [error, setError] = useState(false);
+    
+    if (logo) return <PlaceholderIcon icon={logo} color={color} />;
+    
+    if (error || !src) {
+        return (
+            <div className="w-16 h-16 rounded-md bg-slate-200 dark:bg-slate-800 flex items-center justify-center border border-slate-300 dark:border-white/10">
+                <span className="text-[10px] font-bold text-slate-400 uppercase">SMIX</span>
+            </div>
+        );
+    }
+
+    return (
+        <img 
+            src={src} 
+            alt={alt} 
+            onError={() => setError(true)}
+            className="w-16 h-16 rounded-md object-cover border border-slate-200 dark:border-white/10" 
+        />
+    );
+};
 
 interface CartModalProps {
     isOpen: boolean;
@@ -30,7 +52,7 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
     const subtotal = cartItems.reduce((sum, item) => sum + item.priceUSD * item.quantity, 0);
 
     return (
-        <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[60] transition-opacity" onClick={onClose}>
+        <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[200] transition-opacity" onClick={onClose}>
             <div 
                 className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-white/10 shadow-2xl flex flex-col text-slate-800 dark:text-slate-200"
                 onClick={e => e.stopPropagation()}
@@ -49,15 +71,30 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                             {cartItems.map(item => (
                                 <li key={item.id} className="py-4 flex items-center space-x-4">
                                     <div className="flex-shrink-0">
-                                        {'logo' in item ? <PlaceholderIcon icon={item.logo} color={(item as Product).brandColor} /> : <img src={(item as any).image} alt={item.name} className="w-16 h-16 rounded-md object-cover border border-slate-200 dark:border-white/10" />}
+                                        <CartImage 
+                                            src={'image' in item ? (item as any).image : undefined} 
+                                            alt={item.name}
+                                            logo={'logo' in item ? (item as any).logo : undefined}
+                                            color={'brandColor' in item ? (item as any).brandColor : undefined}
+                                        />
                                     </div>
                                     <div className="flex-1">
                                         <p className="font-semibold text-slate-900 dark:text-slate-200">{item.name}</p>
                                         <p className="text-sm text-slate-500 dark:text-slate-400">${item.priceUSD.toFixed(2)}</p>
                                         <div className="flex items-center mt-2">
-                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)} className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">-</button>
+                                            <button 
+                                                onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))} 
+                                                className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                            >
+                                                -
+                                            </button>
                                             <span className="px-3 font-medium text-slate-800 dark:text-slate-200">{item.quantity}</span>
-                                            <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">+</button>
+                                            <button 
+                                                onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} 
+                                                className="px-2.5 py-1 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                            >
+                                                +
+                                            </button>
                                         </div>
                                     </div>
                                     <button onClick={() => onRemoveItem(item.id)} className="flex items-center text-sm text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors">

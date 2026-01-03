@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { Product, Combo, Category } from '../types';
-import { PRODUCTS, COMBOS } from '../constants';
+import { PRODUCTS, COMBOS, PlaceholderIcon } from '../constants';
 import { StreamixLogo } from './Header';
 import SideNav from './SideNav';
 
@@ -14,17 +13,51 @@ interface CardProps {
 
 const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
+const SafeImage: React.FC<{ src: string; alt: string; className?: string }> = ({ src, alt, className }) => {
+  const [error, setError] = useState(false);
+  
+  if (error || !src) {
+    return (
+      <div className={`flex items-center justify-center bg-slate-200 dark:bg-slate-800 ${className}`}>
+        <span className="text-slate-400 font-bold text-xs uppercase tracking-widest">Streamix</span>
+      </div>
+    );
+  }
+
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      onError={() => setError(true)} 
+      className={className} 
+    />
+  );
+};
+
 const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkMode }) => {
   const brandColor = isProduct(item) ? item.brandColor : '#6366F1';
   const isSoldOut = isProduct(item) ? item.soldOut : false;
   const isEdu = isProduct(item) && item.category === Category.STREAMIX_EDU;
   const [isAnimating, setIsAnimating] = useState(false);
+  const [ghosts, setGhosts] = useState<{ id: number }[]>([]);
   
   const logoTextColor = (isProduct(item) && item.brandColor === '#000000') ? (isDarkMode ? '#FFFFFF' : '#1e293b') : brandColor;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
+    
+    // Trigger local animation
     setIsAnimating(true);
+    
+    // Trigger ghost fly animation
+    const ghostId = Date.now();
+    setGhosts(prev => [...prev, { id: ghostId }]);
+    
+    // Clean up ghost after animation
+    setTimeout(() => {
+      setGhosts(prev => prev.filter(g => g.id !== ghostId));
+    }, 800);
+
     onAddToCart(item);
     setTimeout(() => setIsAnimating(false), 300);
   };
@@ -33,11 +66,33 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
 
   return (
     <div 
-      className={`group relative flex flex-col ${isDarkMode ? 'bg-white/5 backdrop-blur-md border-white/10' : 'bg-white border-slate-200'} rounded-2xl md:rounded-m3-l overflow-hidden border shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer h-full ${isEdu ? 'edu-glow' : ''}`}
+      className={`group relative flex flex-col h-full ${isDarkMode ? 'bg-white/5 backdrop-blur-md border-white/10' : 'bg-white border-slate-200'} rounded-2xl md:rounded-m3-l overflow-hidden border shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer ${isEdu ? 'edu-glow' : ''}`}
       onClick={() => onProductSelect(item)}
     >
+      {/* Ghost particles container */}
+      {ghosts.map(ghost => (
+        <div 
+          key={ghost.id} 
+          className="ghost-particle flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white shadow-xl z-[1000]"
+          style={{ 
+            backgroundColor: brandColor,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }}
+        >
+          {isProduct(item) ? (
+            <span className="font-black text-sm">{item.logo}</span>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+            </svg>
+          )}
+        </div>
+      ))}
+
       {/* Media Content */}
-      <div className={`relative aspect-square w-full overflow-hidden flex items-center justify-center ${isDarkMode ? 'bg-slate-900/40' : 'bg-slate-50'}`}>
+      <div className={`relative aspect-square w-full overflow-hidden flex items-center justify-center flex-shrink-0 ${isDarkMode ? 'bg-slate-900/40' : 'bg-slate-50'}`}>
         <div 
             className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity duration-700"
             style={{ background: `radial-gradient(circle at center, ${brandColor}, transparent 70%)` }}
@@ -61,13 +116,15 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
                     >
                       {item.logo}
                     </span>
-                    
-                    {/* Interior Glow Effect for elegance */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
                 </div>
             </div>
         ) : (
-            <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+            <SafeImage 
+              src={item.image} 
+              alt={item.name} 
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+            />
         )}
 
         {/* Badges */}
@@ -79,14 +136,13 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
       </div>
 
       {/* Info Section */}
-      <div className="p-4 md:p-6 flex flex-col items-start text-left relative flex-1 transition-all duration-500">
-        <div className="w-full flex justify-between items-start">
-            <div className="flex-1 pr-2">
-                <h3 className={`text-[13px] md:text-lg font-extrabold transition-colors mb-0.5 tracking-tight line-clamp-1 leading-tight ${isDarkMode ? 'text-white group-hover:text-indigo-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>{item.name}</h3>
+      <div className="p-4 md:p-6 flex flex-col flex-grow items-start text-left relative transition-all duration-500">
+        <div className="w-full flex justify-between items-start mb-2">
+            <div className="flex-1 pr-2 min-w-0">
+                <h3 className={`text-[13px] md:text-lg font-extrabold transition-colors mb-0.5 tracking-tight truncate leading-tight ${isDarkMode ? 'text-white group-hover:text-indigo-400' : 'text-slate-800 group-hover:text-indigo-600'}`}>{item.name}</h3>
                 <p className={`text-sm md:text-xl font-black ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>${item.priceUSD.toFixed(2)}</p>
             </div>
 
-            {/* Optimized "+" Button */}
             {!isSoldOut && (
               <div className="opacity-0 scale-75 md:opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 transform-gpu flex-shrink-0">
                   <button 
@@ -95,20 +151,26 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
                         w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-white shadow-xl transition-all duration-300
                         bg-indigo-600/30 dark:bg-indigo-500/30 backdrop-blur-xl border border-white/10
                         hover:bg-indigo-600/50 dark:hover:bg-indigo-500/50 hover:scale-110 active:scale-90
-                        ${isAnimating ? 'ring-4 ring-indigo-400/50 scale-125' : ''}
+                        ${isAnimating ? 'ring-4 ring-indigo-400/50 scale-125 bg-green-500/50' : ''}
                       `}
                       title="Añadir al Carrito"
                   >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
-                      </svg>
+                      {isAnimating ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+                        </svg>
+                      )}
                   </button>
               </div>
             )}
         </div>
 
         {/* Short Description */}
-        <div className="mt-3 overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 w-full">
+        <div className="mt-auto w-full overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100">
             <p className={`text-[10px] md:text-xs leading-relaxed line-clamp-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 {shortDescription}
             </p>
