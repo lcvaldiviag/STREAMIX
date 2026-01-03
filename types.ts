@@ -1,7 +1,9 @@
+
 import type { ReactNode } from 'react';
 
 export enum Category {
   STREAMING_SERIES = 'Streaming y Series',
+  STREAMIX_EDU = 'CURSOS',
   COMBOS = 'Combos',
   MUSIC = 'Música',
   EDUCATION_LEARNING = 'Educación y Aprendizaje',

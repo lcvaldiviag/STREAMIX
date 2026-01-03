@@ -12,8 +12,9 @@ interface SideNavProps {
 
 const categoryIcons: Record<Category | 'Todos los Productos', string> = {
     'Todos los Productos': '🌐',
-    [Category.COMBOS]: '✨',
     [Category.STREAMING_SERIES]: '🎬',
+    [Category.STREAMIX_EDU]: '🎓',
+    [Category.COMBOS]: '✨',
     [Category.MUSIC]: '🎵',
     [Category.AI]: '🤖',
     [Category.EDUCATION_LEARNING]: '📚',
@@ -24,7 +25,20 @@ const categoryIcons: Record<Category | 'Todos los Productos', string> = {
 };
 
 const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSearchChange }: SideNavProps) => {
-    const categories: (Category | 'Todos los Productos')[] = ['Todos los Productos', ...Object.values(Category)];
+    // Explicitly define the order of categories as requested in the screenshot
+    const categories: (Category | 'Todos los Productos')[] = [
+        'Todos los Productos',
+        Category.STREAMING_SERIES,
+        Category.STREAMIX_EDU,
+        Category.COMBOS,
+        Category.MUSIC,
+        Category.EDUCATION_LEARNING,
+        Category.AI,
+        Category.SECURITY,
+        Category.GAMING_SUBS,
+        Category.LIVE_TV_SPORTS,
+        Category.LIFESTYLE,
+    ];
     
     return (
         <>

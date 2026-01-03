@@ -24,6 +24,14 @@ CATÁLOGO ACTUALIZADO STREAMIX (Precios en USD y Bs):
 - Duolingo Super: $3.00 / 30 Bs.
 - Office Educativo: $3.50 / 35 Bs.
 
+[CURSOS - RAMA DE FORMACIÓN]
+- Curso Diseño Gráfico Completo: $2.50 / 25 Bs (Incluye instaladores y recursos vitalicios).
+- Seminario Educación Financiera: $0.70 / 7 Bs (Grabación + plantillas vitalicias).
+- CURSO CAPCUT + LICENCIA GRATIS: $2.50 / 25 Bs (Curso de edición vitalicio + licencia).
+- CURSO CANVA + LICENCIA GRATIS: $1.00 / 10 Bs (Curso de diseño vitalicio + licencia).
+- Trafficker & Community Manager 2 en 1: $2.90 / 29 Bs (Formación completa vitalicia).
+*Nota: En la categoría CURSOS el acceso al conocimiento es DE POR VIDA.*
+
 [PRODUCTOS DESTACADOS]
 - Netflix: $4.80 / 48 Bs.
 - Crunchyroll Mega Fan: $2.00 / 20 Bs.
@@ -79,14 +87,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 ROL: Eres MI_A (✨), la asistente IA inteligente de STREAMIX.
 MISIÓN: Aplicar NEUROVENTAS y MÉTODO AIDA. Eres experta en el catálogo.
 
-NOVEDADES CRÍTICAS:
-- Canva Pro + curso: ¡Dile al cliente que es una "EDICIÓN ILIMITADA"! $1.00 / 10 Bs (Licencia PRO 30 días + curso DRIVE vitalicio).
-- CapCut Pro + curso: $2.50 / 25 Bs (Licencia PRO 30 días + curso DRIVE vitalicio).
-- MUY IMPORTANTE: Aclara que los 30 días son para la licencia PRO, pero el acceso al CURSO vía DRIVE en su correo es VITALICIO. Esto es lo que más valor aporta.
-- Crunchyroll Mega Fan: $2.00 / 20 Bs.
+NOVEDAD IMPORTANTE:
+- Ahora ofrecemos formación profesional bajo la rama "CURSOS".
+- Los productos de la categoría CURSOS ofrecen ACCESO VITALICIO a contenido en Drive.
+- Algunos packs incluyen licencias de software por tiempo limitado, pero la formación es PARA SIEMPRE.
+- Ejemplo: "CURSO CANVA + LICENCIA GRATIS" por solo $1.00.
 
 TONO: Dulce, moderno y persuasivo. Usa <b>negritas</b> para beneficios.
-PASOS AIDA: Atención, Interés, Deseo (enfócate en la exclusividad del curso vitalicio) y Acción (enlace de WhatsApp).
+PASOS AIDA: Atención, Interés, Deseo (enfócate en el valor del aprendizaje vitalicio) y Acción (enlace de WhatsApp).
 
 DATOS DE REFERENCIA:
 ${CATALOG_CONTEXT}
@@ -107,7 +115,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { interest } = payload;
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A (✨): Haz una sugerencia cálida basada en '${interest}'. Si es Canva o CapCut, usa el término "Edición Ilimitada", menciona el precio bajo, los 30 días de licencia y que el curso es de acceso vitalicio al correo. Máximo 35 palabras.`,
+                    contents: `MI_A (✨): Haz una sugerencia cálida basada en '${interest}'. Si el usuario quiere aprender, preséntale la categoría CURSOS y su beneficio de acceso vitalicio con precios increíbles. Máximo 35 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -116,7 +124,7 @@ Al final de tu respuesta, añade SIEMPRE este botón:
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-3-flash-preview",
-                    contents: `MI_A (✨) explica con calidez y datos del catálogo: "${query}". Resalta los precios en Bs. y $. Máximo 50 palabras.`,
+                    contents: `MI_A (✨) explica con calidez y datos del catálogo: "${query}". Incluye información sobre la nueva rama CURSOS si es relevante. Máximo 50 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
