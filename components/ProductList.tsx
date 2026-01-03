@@ -150,7 +150,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
                       className={`
                         w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-white shadow-xl transition-all duration-300
                         bg-indigo-600/30 dark:bg-indigo-500/30 backdrop-blur-xl border border-white/10
-                        hover:bg-indigo-600/50 dark:hover:bg-indigo-500/50 hover:scale-110 active:scale-90
+                        hover:bg-indigo-600/50 dark:hover:bg-indigo-500/50 hover:scale-110 active:scale-95
                         ${isAnimating ? 'ring-4 ring-indigo-400/50 scale-125 bg-green-500/50' : ''}
                       `}
                       title="Añadir al Carrito"
@@ -214,7 +214,10 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
         <StreamixLogo isDarkMode={isDarkMode} className="w-56 mb-8 md:w-80 md:mb-16" />
         <h1 className={`text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-8 transition-colors duration-500 uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             DIGITAL <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400">
+            <span 
+              className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400"
+              style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
+            >
                 EXPERIENCE
             </span>
         </h1>

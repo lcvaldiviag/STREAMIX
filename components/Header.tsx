@@ -2,46 +2,41 @@ import React, { useState, useEffect } from 'react';
 
 export const StreamixLogo = ({ isDarkMode, className }: { isDarkMode: boolean; className?: string }) => (
     <div 
-        className={`relative flex items-center group cursor-pointer select-none ${className || ''}`}
-        style={{ background: 'transparent !important', boxShadow: 'none !important', border: 'none !important' }}
+        className={`relative flex items-center select-none bg-transparent border-none shadow-none ${className || ''}`}
     >
         <div 
-            className="logo-wrapper transition-transform duration-300 group-hover:scale-105" 
-            style={{ width: '100%', background: 'transparent !important' }}
+            className="logo-wrapper w-full bg-transparent border-none shadow-none" 
         >
             <div style={{ 
                 position: 'relative', 
                 width: '100%', 
                 height: '0', 
                 paddingTop: '33.3333%', 
-                overflow: 'hidden', 
-                willChange: 'transform',
-                background: 'transparent !important'
+                overflow: 'hidden',
+                background: 'transparent'
             }}>
-                {/* Logo para Modo Claro: Usamos multiply para eliminar el fondo blanco del embebido */}
+                {/* Logo for Light Mode: Multiply removes white background */}
                 <div 
-                    className={`absolute inset-0 transition-opacity duration-300 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
-                    style={{ mixBlendMode: 'multiply', background: 'transparent !important' }}
+                    className={`absolute inset-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
+                    style={{ mixBlendMode: 'multiply', background: 'transparent' }}
                 >
                     <iframe 
                         loading="lazy" 
                         style={{ position: 'absolute', width: '100%', height: '100%', top: '0', left: '0', border: 'none', padding: '0', margin: '0', pointerEvents: 'none', background: 'transparent' }} 
                         src="https://www.canva.com/design/DAG8QHpO2OI/egldNQwoS13TJaWXxcZUHw/view?embed" 
                         title="STREAMIX Light Logo" 
-                        allowTransparency={true}
                     />
                 </div>
-                {/* Logo para Modo Oscuro: Usamos screen para eliminar el fondo negro del embebido */}
+                {/* Logo for Dark Mode: Screen removes black background */}
                 <div 
-                    className={`absolute inset-0 transition-opacity duration-300 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
-                    style={{ mixBlendMode: 'screen', background: 'transparent !important' }}
+                    className={`absolute inset-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
+                    style={{ mixBlendMode: 'screen', background: 'transparent' }}
                 >
                     <iframe 
                         loading="lazy" 
                         style={{ position: 'absolute', width: '100%', height: '100%', top: '0', left: '0', border: 'none', padding: '0', margin: '0', pointerEvents: 'none', background: 'transparent' }} 
                         src="https://www.canva.com/design/DAG8QMGm2Y8/Vmb-gO9Quw-pZcmViXdiTw/view?embed" 
                         title="STREAMIX Dark Logo" 
-                        allowTransparency={true}
                     />
                 </div>
             </div>
