@@ -6,7 +6,6 @@ import CartModal from './components/CartModal';
 import CheckoutModal from './components/CheckoutModal';
 import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
-import SideNav from './components/SideNav';
 import ProductDetail from './components/ProductDetail';
 import Toast from './components/Toast';
 import { Product, Combo, CartItem, Category } from './types';
@@ -20,11 +19,15 @@ const App = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
-    
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const hour = new Date().getHours();
-        return hour >= 18 || hour < 6;
-    });
+    const [isDarkMode, setIsDarkMode] = useState(true);
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+        }
+    }, [isDarkMode]);
 
     const cartItemCount = useMemo(() => cart.reduce((count, item) => count + item.quantity, 0), [cart]);
 
@@ -42,44 +45,37 @@ const App = () => {
     };
 
     const toggleTheme = () => setIsDarkMode(!isDarkMode);
+    const toggleCart = () => setIsCartOpen(!isCartOpen);
 
     return (
         <div className={isDarkMode ? 'dark' : ''}>
-            <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
-                
-                {/* Fixed Navigation Rail (Desktop) / Modal Drawer (Mobile) */}
-                <SideNav 
-                    selectedCategory={selectedCategory}
-                    onSelectCategory={(category) => {
-                        setSelectedCategory(category);
-                        setIsNavOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    isOpen={isNavOpen}
+            <div className="flex flex-col min-h-screen">
+                <Header 
+                    cartItemCount={cartItemCount} 
+                    onCartClick={toggleCart}
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
+                    onNavToggle={() => setIsNavOpen(!isNavOpen)}
+                    isNavOpen={isNavOpen}
+                    isDarkMode={isDarkMode}
+                    onToggleTheme={toggleTheme}
                 />
 
-                {/* Main Content Area */}
-                <div className="flex-grow flex flex-col lg:pl-[88px]">
-                    <Header 
-                        cartItemCount={cartItemCount} 
-                        onCartClick={() => setIsCartOpen(true)}
-                        searchQuery={searchQuery}
-                        onSearchChange={setSearchQuery}
-                        onNavToggle={() => setIsNavOpen(!isNavOpen)}
-                        isNavOpen={isNavOpen}
-                        isDarkMode={isDarkMode}
-                        onToggleTheme={toggleTheme}
-                    />
-                    
-                    <main className="flex-grow pt-8 pb-20">
+                <div className="flex-grow flex flex-col relative z-10 pt-24 lg:pt-28">
+                    <main className="flex-grow pb-24">
                         <ProductList 
                             onAddToCart={handleQuickAddToCart}
                             onProductSelect={setSelectedProduct}
                             selectedCategory={selectedCategory}
+                            onSelectCategory={(category) => {
+                                setSelectedCategory(category);
+                                setIsNavOpen(false);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
                             searchQuery={searchQuery}
                             isDarkMode={isDarkMode}
+                            isNavOpen={isNavOpen}
+                            onSearchChange={setSearchQuery}
                         />
                     </main>
 
