@@ -35,13 +35,6 @@ export const PRODUCTS: Product[] = [
   { id: 'prod-gxmax', name: 'GX MAX NUVIA', category: Category.STREAMING_SERIES, priceUSD: 5.00, priceBS: 50, logo: "GX", brandColor: '#000000', description: 'Plataforma premium de entretenimiento variado.' },
   { id: 'prod-10', name: 'Drama Box', category: Category.STREAMING_SERIES, priceUSD: 5.00, priceBS: 50, logo: "DB", brandColor: '#E60073', description: 'Tus dramas cortos favoritos en formato vertical.' },
 
-  // --- Streamix EDU / CURSOS ---
-  { id: 'edu-01', name: 'Curso Diseño Gráfico Completo', category: Category.STREAMIX_EDU, priceUSD: 2.50, priceBS: 25, logo: "DG", brandColor: '#F59E0B', description: '¡Acceso Vitalicio! Domina el diseño gráfico. Incluye: Curso de por vida + Pack de Instaladores de Software + Recursos exclusivos en Drive.' },
-  { id: 'edu-02', name: 'Seminario Educación Financiera', category: Category.STREAMIX_EDU, priceUSD: 0.70, priceBS: 7, logo: "EF", brandColor: '#10B981', description: '¡Formación de por vida! Aprende a gestionar tus finanzas. Incluye: Acceso a grabación del seminario + Plantillas de gestión financiera en Drive.' },
-  { id: 'edu-03', name: 'CURSO CAPCUT + LICENCIA GRATIS', category: Category.STREAMIX_EDU, priceUSD: 2.50, priceBS: 25, logo: "CC", brandColor: '#000000', description: '¡Foco en el Curso! Incluye: Curso de edición vertical DE POR VIDA + Licencia CapCut Pro (30 días) + Recursos extra en Drive.' },
-  { id: 'edu-04', name: 'CURSO CANVA + LICENCIA GRATIS', category: Category.STREAMIX_EDU, priceUSD: 1.00, priceBS: 10, logo: "CV", brandColor: '#00C4CC', description: '¡Foco en el Curso! Incluye: Curso de Diseño Magnético DE POR VIDA + Licencia Canva Pro (30 días) + Plantillas premium en Drive.' },
-  { id: 'edu-05', name: 'Trafficker & Community Manager 2 en 1', category: Category.STREAMIX_EDU, priceUSD: 2.90, priceBS: 29, logo: "T&C", brandColor: '#3B82F6', description: '¡Acceso Vitalicio! Formación completa en gestión de comunidades y pauta. Incluye: Curso completo + Instaladores de herramientas de gestión.' },
-
   // --- Music ---
   { id: 'prod-11', name: 'Spotify', category: Category.MUSIC, priceUSD: 5.00, priceBS: 50, logo: "S", brandColor: '#1DB954', description: 'Música ilimitada sin comerciales y en alta calidad.' },
   { id: 'prod-12', name: 'Deezer', category: Category.MUSIC, priceUSD: 3.00, priceBS: 30, logo: "D", brandColor: '#EF5466', description: 'Millones de canciones y playlists personalizadas.' },
@@ -92,6 +85,13 @@ export const PRODUCTS: Product[] = [
 
   // --- Lifestyle ---
   { id: 'prod-31', name: 'Membresía Black Smart Fit', category: Category.LIFESTYLE, priceUSD: 25.00, priceBS: 250, logo: "SF", brandColor: '#FFC72C', description: 'Entrena sin límites en toda la red Smart Fit.' },
+
+  // --- Streamix EDU / CURSOS ---
+  { id: 'edu-01', name: 'Curso Diseño Gráfico Completo', category: Category.STREAMIX_EDU, priceUSD: 2.50, priceBS: 25, logo: "DG", brandColor: '#F59E0B', description: '¡Acceso Vitalicio! Domina el diseño gráfico. Incluye: Curso de por vida + Pack de Instaladores de Software + Recursos exclusivos en Drive.' },
+  { id: 'edu-02', name: 'Seminario Educación Financiera', category: Category.STREAMIX_EDU, priceUSD: 0.70, priceBS: 7, logo: "EF", brandColor: '#10B981', description: '¡Formación de por vida! Aprende a gestionar tus finanzas. Incluye: Acceso a grabación del seminario + Plantillas de gestión financiera en Drive.' },
+  { id: 'edu-03', name: 'CURSO CAPCUT + LICENCIA GRATIS', category: Category.STREAMIX_EDU, priceUSD: 2.50, priceBS: 25, logo: "CC", brandColor: '#000000', description: '¡Foco en el Curso! Incluye: Curso de edición vertical DE POR VIDA + Licencia CapCut Pro (30 días) + Recursos extra en Drive.' },
+  { id: 'edu-04', name: 'CURSO CANVA + LICENCIA GRATIS', category: Category.STREAMIX_EDU, priceUSD: 1.00, priceBS: 10, logo: "CV", brandColor: '#00C4CC', description: '¡Foco en el Curso! Incluye: Curso de Diseño Magnético DE POR VIDA + Licencia Canva Pro (30 días) + Plantillas premium en Drive.' },
+  { id: 'edu-05', name: 'Trafficker & Community Manager 2 en 1', category: Category.STREAMIX_EDU, priceUSD: 2.90, priceBS: 29, logo: "T&C", brandColor: '#3B82F6', description: '¡Acceso Vitalicio! Formación completa en gestión de comunidades y pauta. Incluye: Curso completo + Instaladores de herramientas de gestión.' },
 ];
 
 export const COMBOS: Combo[] = [

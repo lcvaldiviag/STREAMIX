@@ -25,6 +25,7 @@ const categoryIcons: Record<Category | 'Todos los Productos', string> = {
 };
 
 const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSearchChange }: SideNavProps) => {
+    // Explicitly define the order of categories as requested in the screenshot
     const categories: (Category | 'Todos los Productos')[] = [
         'Todos los Productos',
         Category.STREAMING_SERIES,
@@ -38,63 +39,67 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
         Category.LIVE_TV_SPORTS,
         Category.LIFESTYLE,
     ];
-
-    const getDisplayName = (cat: string) => {
-        if (cat === 'Todos los Productos') return 'INICIO';
-        if (cat === Category.STREAMING_SERIES) return 'STREAMING';
-        if (cat === Category.STREAMIX_EDU) return 'CURSOS';
-        if (cat === Category.COMBOS) return 'COMBOS';
-        if (cat === Category.MUSIC) return 'MÚSICA';
-        if (cat === Category.EDUCATION_LEARNING) return 'EDUCACIÓN';
-        if (cat === Category.AI) return 'INTELIGENCIA';
-        if (cat === Category.SECURITY) return 'SEGURIDAD';
-        if (cat === Category.GAMING_SUBS) return 'GAMING';
-        if (cat === Category.LIVE_TV_SPORTS) return 'TV';
-        if (cat === Category.LIFESTYLE) return 'ESTILO';
-        return cat.split(' ')[0].toUpperCase();
-    };
     
     return (
-        <div className="w-full py-6 mt-4">
-            <div className="max-w-7xl mx-auto px-2 overflow-x-auto no-scrollbar">
-                <nav className="flex items-center gap-3 lg:gap-5 justify-start lg:justify-center min-w-max px-4">
-                    {categories.map(category => {
-                        const isSelected = selectedCategory === category;
-                        return (
-                            <button
-                                key={category}
-                                onClick={() => onSelectCategory(category)}
-                                className={`
-                                    flex flex-col items-center group transition-all duration-300 min-w-[64px]
-                                    ${isSelected ? 'scale-105' : 'hover:scale-105'}
-                                `}
-                            >
-                                <div className={`
-                                    w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-xl lg:text-2xl border transition-all duration-300 shadow-md
-                                    ${isSelected 
-                                        ? 'bg-indigo-600/30 border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' 
-                                        : 'bg-white/5 border-white/10 hover:bg-white/10 group-hover:border-white/20'
-                                    }
-                                `}>
-                                    {categoryIcons[category]}
-                                </div>
-                                <span className={`
-                                    mt-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-tight transition-colors duration-300 whitespace-nowrap
-                                    ${isSelected ? 'text-indigo-500 dark:text-white' : 'text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'}
-                                `}>
-                                    {getDisplayName(category)}
-                                </span>
-                                
-                                <div className={`
-                                    h-0.5 rounded-full mt-1 transition-all duration-500
-                                    ${isSelected ? 'w-6 bg-indigo-500 opacity-100' : 'w-0 bg-transparent opacity-0 group-hover:w-3 group-hover:bg-indigo-500/50 group-hover:opacity-50'}
-                                `} />
-                            </button>
-                        );
-                    })}
-                </nav>
-            </div>
-        </div>
+        <>
+            {/* Modal Drawer Mobile Backdrop */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] lg:hidden"
+                    onClick={() => onSelectCategory(selectedCategory)}
+                />
+            )}
+
+            {/* M3 Navigation Rail / Drawer */}
+            <aside className={`
+                fixed top-0 bottom-0 left-0 z-[110] w-[280px] lg:w-[88px] bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-white/5
+                transform transition-all duration-400 ease-[cubic-bezier(0.4, 0, 0.2, 1)]
+                ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                lg:flex lg:flex-col lg:items-center lg:pt-24
+            `}>
+                <div className="flex flex-col h-full w-full overflow-y-auto lg:overflow-visible py-8 lg:py-0">
+                    <div className="px-6 mb-8 lg:hidden">
+                        <h2 className="text-sm font-bold text-m3-primary dark:text-indigo-400 tracking-wider uppercase">Explorar</h2>
+                    </div>
+
+                    <nav className="flex flex-col space-y-2 lg:space-y-6 w-full items-center">
+                        {categories.map(category => {
+                            const isSelected = selectedCategory === category;
+                            return (
+                                <button
+                                    key={category}
+                                    onClick={() => onSelectCategory(category)}
+                                    title={category}
+                                    className="relative w-full lg:w-auto flex items-center lg:flex-col group"
+                                >
+                                    {/* M3 Active Indicator Pill */}
+                                    <div className={`
+                                        absolute left-0 lg:left-1/2 lg:-translate-x-1/2 h-full lg:h-8 w-1 lg:w-14 rounded-r-full lg:rounded-full transition-all duration-300
+                                        ${isSelected ? 'bg-m3-primary opacity-100' : 'bg-transparent opacity-0 group-hover:bg-m3-primary/10 group-hover:opacity-100'}
+                                    `} />
+                                    
+                                    <div className="flex items-center lg:flex-col w-full px-6 lg:px-0 py-3 lg:py-0 relative z-10">
+                                        <span className={`
+                                            text-2xl transition-transform duration-300
+                                            ${isSelected ? 'scale-110' : 'group-hover:scale-110'}
+                                        `}>
+                                            {categoryIcons[category]}
+                                        </span>
+                                        <span className={`
+                                            ml-4 lg:ml-0 lg:mt-1 text-sm font-medium transition-colors
+                                            ${isSelected ? 'text-m3-onSurface dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400 group-hover:text-m3-primary'}
+                                            ${isOpen ? 'block' : 'hidden lg:block lg:text-[10px] lg:uppercase lg:tracking-tighter'}
+                                        `}>
+                                            {category === 'Todos los Productos' ? 'Inicio' : category.split(' ')[0]}
+                                        </span>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </nav>
+                </div>
+            </aside>
+        </>
     );
 };
 
