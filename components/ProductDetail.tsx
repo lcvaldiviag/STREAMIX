@@ -83,10 +83,10 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
                                 }
                             }}
                             disabled={isSoldOut}
-                            className={`w-full py-3 text-white font-bold rounded-xl shadow-lg transition-all ${
+                            className={`w-full py-4 text-white font-black uppercase tracking-[0.2em] rounded-xl shadow-lg transition-all duration-300 active:scale-95 ${
                                 isSoldOut 
                                 ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-300 dark:border-slate-700' 
-                                : 'bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg'
+                                : 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:brightness-110 hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]'
                             }`}
                         >
                             {isSoldOut ? 'Agotado' : 'Añadir al Carrito'}

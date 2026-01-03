@@ -11,6 +11,12 @@ import Toast from './components/Toast';
 import { Product, Combo, CartItem, Category } from './types';
 
 const App = () => {
+    // Función para detectar si debe iniciar en modo oscuro (Noche: 6pm a 6am)
+    const detectInitialTheme = () => {
+        const hour = new Date().getHours();
+        return hour < 6 || hour >= 18;
+    };
+
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -19,7 +25,9 @@ const App = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | Combo | null>(null);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: '', visible: false });
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    
+    // Estado inicial automatizado por la hora del sistema
+    const [isDarkMode, setIsDarkMode] = useState(detectInitialTheme());
 
     useEffect(() => {
         if (isDarkMode) {
@@ -49,7 +57,9 @@ const App = () => {
 
     return (
         <div className={isDarkMode ? 'dark' : ''}>
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col min-h-screen relative">
+                {/* El fondo decorativo está controlado por CSS en index.html */}
+                
                 <Header 
                     cartItemCount={cartItemCount} 
                     onCartClick={toggleCart}
