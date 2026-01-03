@@ -14,7 +14,7 @@ interface CardProps {
 const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
 const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkMode }) => {
-  const brandColor = isProduct(item) ? item.brandColor : '#ffffff';
+  const brandColor = isProduct(item) ? item.brandColor : (isDarkMode ? '#ffffff' : '#000000');
   const isSoldOut = isProduct(item) ? item.soldOut : false;
   const [ghosts, setGhosts] = useState<{ id: number }[]>([]);
 
@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
           {isProduct(item) ? (
             <span 
               className="text-4xl md:text-7xl font-black tracking-tighter" 
-              style={{ color: item.brandColor === '#000000' ? '#ffffff' : item.brandColor }}
+              style={{ color: item.brandColor === '#000000' ? (isDarkMode ? '#ffffff' : '#000000') : item.brandColor }}
             >
               {item.logo}
             </span>
@@ -69,12 +69,12 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
             {item.name}
           </h3>
           <div className="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
-            <span className="text-white text-lg md:text-2xl font-black">${item.priceUSD.toFixed(2)}</span>
-            <span className="text-slate-500 text-[9px] md:text-xs font-bold uppercase tracking-wider">/ {item.priceBS.toFixed(0)} Bs.</span>
+            <span className="text-luxury-text text-lg md:text-2xl font-black">${item.priceUSD.toFixed(2)}</span>
+            <span className="text-luxury-muted text-[9px] md:text-xs font-bold uppercase tracking-wider">/ {item.priceBS.toFixed(0)} Bs.</span>
           </div>
         </div>
 
-        <p className="text-slate-500 text-[10px] md:text-xs leading-relaxed line-clamp-2 mb-3 md:mb-6 h-6 md:h-8">
+        <p className="text-luxury-muted text-[10px] md:text-xs leading-relaxed line-clamp-2 mb-3 md:mb-6 h-6 md:h-8">
           {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
         </p>
 
@@ -122,13 +122,13 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
     <div className="max-w-7xl mx-auto px-4 md:px-6">
       <header className="mb-10 md:mb-20 text-center flex flex-col items-center">
         <StreamixLogo isDarkMode={isDarkMode} className="w-48 md:w-64 mb-8 md:mb-16" />
-        <h1 className="text-4xl md:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-6 uppercase text-white">
+        <h1 className={`text-4xl md:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-6 uppercase transition-colors duration-400 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           DIGITAL <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400" style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
             EXPERIENCE
           </span>
         </h1>
-        <p className="text-slate-500 text-sm md:text-xl font-medium max-w-2xl leading-relaxed">
+        <p className="text-luxury-muted text-sm md:text-xl font-medium max-w-2xl leading-relaxed">
           Suscripciones premium y formación vitalicia. Tu acceso directo al mundo digital de alta gama.
         </p>
       </header>
@@ -150,10 +150,10 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
             <section key={category} id={category.replace(/\s/g, '-')} className="relative">
               <div className="flex flex-col items-center mb-8 md:mb-16">
                   <span className="text-indigo-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
-                  <h2 className="text-2xl md:text-5xl font-black tracking-tight text-center text-white uppercase">
+                  <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-400 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       {category}
                   </h2>
-                  <div className="w-16 md:w-24 h-0.5 md:h-1 bg-white mt-4 md:mt-6 rounded-full opacity-10"></div>
+                  <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-400 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
               </div>
 
               <div className="product-grid">

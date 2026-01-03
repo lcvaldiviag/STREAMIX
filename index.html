@@ -16,10 +16,12 @@
           extend: {
             colors: {
               luxury: {
-                bg: '#0d0d0d',
-                card: 'rgba(26,26,26,0.9)',
-                text: '#e0e0e0',
-                accent: '#ffffff'
+                bg: 'var(--luxury-bg)',
+                card: 'var(--luxury-card)',
+                text: 'var(--luxury-text)',
+                muted: 'var(--luxury-text-muted)',
+                border: 'var(--luxury-border)',
+                accent: 'var(--luxury-accent)'
               }
             }
           }
@@ -27,17 +29,48 @@
       }
     </script>
     <style>
+      :root {
+        /* Modo Oscuro (Default - Blindado) */
+        --luxury-bg: #0d0d0d;
+        --luxury-card: rgba(26,26,26,0.9);
+        --luxury-card-gradient: linear-gradient(145deg, rgba(30,30,30,0.95), rgba(15,15,15,0.95));
+        --luxury-text: #e0e0e0;
+        --luxury-text-pure: #ffffff;
+        --luxury-text-muted: #a0a0a0;
+        --luxury-border: rgba(255, 255, 255, 0.08);
+        --luxury-shadow-color: rgba(0, 0, 0, 0.8);
+        --luxury-btn-bg: #ffffff;
+        --luxury-btn-text: #000000;
+        --luxury-mesh-opacity: 0.8;
+      }
+
+      body:not(.dark) {
+        /* Modo Claro (Premium - Apple Style) */
+        --luxury-bg: #f5f5f7;
+        --luxury-card: rgba(255, 255, 255, 0.85);
+        --luxury-card-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 245, 0.95));
+        --luxury-text: #1d1d1f;
+        --luxury-text-pure: #000000;
+        --luxury-text-muted: #6e6e73;
+        --luxury-border: rgba(0, 0, 0, 0.1);
+        --luxury-shadow-color: rgba(0, 0, 0, 0.1);
+        --luxury-btn-bg: #000000;
+        --luxury-btn-text: #ffffff;
+        --luxury-mesh-opacity: 0.4;
+      }
+
       *, *::before, *::after {
         box-sizing: border-box;
       }
 
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #0d0d0d;
-        color: #e0e0e0;
+        background-color: var(--luxury-bg);
+        color: var(--luxury-text);
         margin: 0;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+        transition: background-color 0.4s ease, color 0.4s ease;
       }
 
       /* Mesh Gradient Lujo */
@@ -51,10 +84,11 @@
         background: radial-gradient(at 0% 0%, hsla(240,10%,15%,1) 0, transparent 50%), 
                     radial-gradient(at 100% 0%, hsla(260,10%,10%,1) 0, transparent 50%);
         filter: blur(100px);
-        opacity: 0.8;
+        opacity: var(--luxury-mesh-opacity);
+        transition: opacity 0.4s ease;
       }
 
-      /* Grid Blindado - Optimizado para 2 columnas en mobile */
+      /* Grid Blindado */
       .product-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -69,12 +103,12 @@
         }
       }
 
-      /* Card Maestro */
+      /* Card Maestro Blindado */
       .product-card {
-        background: linear-gradient(145deg, rgba(30,30,30,0.95), rgba(15,15,15,0.95));
+        background: var(--luxury-card-gradient);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--luxury-border);
         border-radius: 16px;
         display: flex;
         flex-direction: column;
@@ -93,18 +127,22 @@
 
       .product-card:hover {
         transform: translateY(-12px);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        border-color: rgba(var(--luxury-text-pure), 0.2);
+        box-shadow: 0 25px 50px -12px var(--luxury-shadow-color);
       }
 
       .product-image-container {
         aspect-ratio: 1 / 1;
-        background: radial-gradient(circle, #222 0%, #000 100%);
+        background: radial-gradient(circle, rgba(40,40,40,1) 0%, rgba(0,0,0,1) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         position: relative;
+      }
+
+      body:not(.dark) .product-image-container {
+        background: radial-gradient(circle, rgba(240,240,240,1) 0%, rgba(200,200,210,1) 100%);
       }
 
       .product-image-container .content-wrapper {
@@ -123,8 +161,8 @@
 
       /* Botón AURA */
       .add-btn {
-        background: #ffffff;
-        color: #000000;
+        background: var(--luxury-btn-bg);
+        color: var(--luxury-btn-text);
         border: none;
         padding: 12px;
         font-weight: 900;
@@ -156,7 +194,7 @@
       }
 
       .add-btn:hover {
-        background: #f0f0f0;
+        opacity: 0.9;
         letter-spacing: 0.2em;
       }
 
@@ -172,13 +210,20 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        background: white;
+        background: var(--luxury-btn-bg);
         animation: ghost-fly 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
       }
 
       @keyframes ghost-fly {
         0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
         100% { transform: translate(200px, -500px) scale(0); opacity: 0; }
+      }
+
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--luxury-border);
+        border-radius: 10px;
       }
     </style>
   <script type="importmap">
