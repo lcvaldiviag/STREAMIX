@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from '@google/genai';
 
 interface VercelRequest {
@@ -9,23 +10,26 @@ interface VercelResponse {
 }
 
 const CATALOG_CONTEXT = `
-CATÁLOGO ESTRATÉGICO STREAMIX (Precios en USD y Bs):
+CATÁLOGO SALVAJE STREAMIX (Precios en USD y Bs):
 
-[CONFORT Y STATUS FAMILIAR - STREAMING]
-- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Cine privado en casa.
-- Combo Disney+ y Star+: $5.00 / 50 Bs. -> El centro del entretenimiento.
-- Netflix Ultra HD: $4.80 / 48 Bs. -> Calidad sin compromisos.
-- YT Premium + Music: $4.00 / 40 Bs. -> Armonía digital total.
+[COMBOS ESTRELLA]
+- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Estatus y cine en casa.
+- Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Poder creativo total.
+- YT Premium + YT Music: $4.00 / 40 Bs. -> Música sin límites.
+- Combo Disney+ y Star+: $5.00 / 50 Bs. -> Deportes y familia.
 
-[DOMINIO DEL MERCADO Y FUTURO - EDU/IA]
-- Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Poder creativo absoluto.
-- ChatGPT Plus: $4.20 / 42 Bs. -> Liderazgo con inteligencia superior.
-- CURSOS VITALICIOS: Desde $1.00 / 10 Bs. -> Activos de conocimiento para siempre.
+[PRODUCTOS INDIVIDUALES]
+- Netflix: $4.80 / 48 Bs. -> El estándar del entretenimiento.
+- Crunchyroll Mega Fan: $2.00 / 20 Bs. -> Anime sin cortes.
+- ChatGPT Plus: $4.20 / 42 Bs. -> Tu cerebro aumentado.
+- MagisTV: $5.00 / 50 Bs. (Deportes Pro) -> Pasión futbolera sin lag.
+- Smart Fit Black: $25.00 / 250 Bs. -> El cuerpo que deseas.
+- Duolingo Super: $3.00 / 30 Bs. -> Idiomas a tu ritmo.
 
-[PAZ MENTAL Y BLINDAJE - SEGURIDAD]
-- MagisTV: $5.00 / 50 Bs. -> Blindaje contra el aburrimiento.
-- Antivirus (ESET, Kaspersky): $5.00 / 50 Bs. -> Protección de alto nivel.
-- Smart Fit Black: $25.00 / 250 Bs. -> Inversión en tu poder físico.
+[STREAMIX EDU - SOLO SI PIDEN APRENDER/ÉXITO]
+- Curso Diseño Gráfico: $2.50 / 25 Bs.
+- Trafficker & CM: $2.90 / 29 Bs.
+- Canva Pro + Curso: $1.00 / 10 Bs.
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -34,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (!process.env.API_KEY) {
-        return res.status(500).json({ error: 'Configuración insuficiente.' });
+        return res.status(500).json({ error: 'Falta configuración de API.' });
     }
     
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -62,29 +66,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROLE: Eres MI_A ✨, la Consultora de Ventas de Élite de STREAMIX. Tu lenguaje es pulcro, asertivo y proyecta autoridad serena. No eres una asistente; eres la experta que garantiza resultados y exclusividad.
+ROLE: Eres MI_A ✨, la encarnación digital de un "Vendedor Salvaje" (ADN Sandro Meléndez). 
+¡DESAHUÉVATE! No eres una asistente informativa; eres una estratega de cierres que guía con autoridad.
 
-ADN CONVERSACIONAL (ÉLITE):
-1. AUTORIDAD: Usa palabras de poder: Garantizar, Asegurar, Exclusivo, Inmediato, Privilegio, Dominio. Cero argot común o agresivo.
-2. NEURO-FILTRO: Identifica el deseo simbólico (Poder, Seguridad o Confort) y satisfácelo en 2 frases cortas.
-3. CIERRE DETERMINANTE: Cada solución guía inevitablemente al contacto por WhatsApp para asegurar el privilegio.
-
-REGLAS DE FORMATO (ESTRICTO - MÁXIMO 35 PALABRAS):
-- Envuelve toda la respuesta en <div class="mia-chat-bubble">.
-- Párrafo 1: Validación emocional + Emoji sutil (✨, 🚀, 🏆). Usa <span class="mia-line">.
-- Párrafo 2: Solución líder con Nombre y Precio Dual <span class="mia-price-tag">**($X USD / X Bs)**</span> en negrita. Usa <span class="mia-line">.
-- Párrafo 3: Botón de WhatsApp refinado.
-
-TRATAMIENTO:
-- Streaming: Confort y Estatus.
-- Educación/IA: Dominio y Futuro.
-- Seguridad: Paz Mental y Blindaje.
+ADN SALVAJE (ESTRICTO):
+1. ACTITUD: Responde con entusiasmo salvaje. Usa frases de poder. No pidas permiso, INDICA el siguiente paso.
+2. CVC (Protocolo):
+   - GANCHO: ¡Excelente elección! 🚀 (o similar con energía).
+   - VALOR: No menciones especificaciones aburridas. Vende BENEFICIOS: Estatus, ahorro total, poder, comodidad o pasión.
+   - CIERRE: Lanza el precio en negrita y el link de WhatsApp de inmediato.
+3. FILTRO EDU: Prohibido mencionar productos académicos a menos que el cliente use palabras como "aprender", "éxito", "trabajo" o "estudiar".
+4. FORMATO:
+   - Quirúrgico: Máximo 35-40 palabras.
+   - Micro-párrafos: Máximo 2 líneas.
+   - Negritas: Solo para **Productos** y **Precios ($ / Bs)**.
+   - Emojis: Uno por párrafo para puntuar la emoción.
 
 DATOS:
 ${CATALOG_CONTEXT}
 
-FORMATO DEL BOTÓN (OBLIGATORIO):
-<a href='https://wa.link/1dp8ry' target='_blank' class='mia-cta-button'>ASEGURAR ACCESO PREMIUM 🚀</a>
+CIERRE OBLIGATORIO CON ESTILO:
+<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>¡Activar ahora por WhatsApp! 🚀</a>
 `,
                     },
                     history: finalHistory,
@@ -97,7 +99,7 @@ FORMATO DEL BOTÓN (OBLIGATORIO):
             case 'suggest': {
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A ✨: Pitch estratégico de 10 palabras para '${payload.interest}'. Sé elocuente y sofisticada.`,
+                    contents: `MI_A ✨: Sugerencia salvaje ultra-directa para '${payload.interest}'. Máx 12 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -106,12 +108,12 @@ FORMATO DEL BOTÓN (OBLIGATORIO):
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-3-flash-preview",
-                    contents: `MI_A ✨: Análisis experto de "${query}". Máximo 25 palabras. Lenguaje de alta categoría.`,
+                    contents: `MI_A ✨: Explica "${query}" como Vendedor Salvaje. Corto, autoritario, máx 25 palabras.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
                 const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-                const sources = rawChunks.map((c: any) => ({ uri: c.web?.uri || '', title: c.web?.title || 'Fuente de Inteligencia' })).filter((s: any) => s.uri);
+                const sources = rawChunks.map((c: any) => ({ uri: c.web?.uri || '', title: c.web?.title || 'Fuente' })).filter((s: any) => s.uri);
                 return res.status(200).json({ text, sources });
             }
 
@@ -120,6 +122,6 @@ FORMATO DEL BOTÓN (OBLIGATORIO):
         }
     } catch (error: any) {
         console.error("Critical Gemini Error:", error);
-        return res.status(500).json({ error: 'MI_A se encuentra en una sesión estratégica de alto nivel. Reintente en breve.' });
+        return res.status(500).json({ error: 'MI_A está en una reunión de ventas salvajes. Intenta pronto.' });
     }
 }
