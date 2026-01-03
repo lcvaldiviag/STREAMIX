@@ -1,5 +1,4 @@
-
-import { GoogleGenAI, Modality } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 
 interface VercelRequest {
     method?: string;
@@ -10,36 +9,23 @@ interface VercelResponse {
 }
 
 const CATALOG_CONTEXT = `
-CATÁLOGO ACTUALIZADO STREAMIX (Precios en USD y Bs):
+CATÁLOGO ESTRATÉGICO STREAMIX (Precios en USD y Bs):
 
-[COMBOS ESTRELLA]
-- Pack Cinéfilo: $8.00 / 80 Bs.
-- Suite del Creador: $8.00 / 80 Bs.
-- YT Premium + YT Music: $4.00 / 40 Bs.
-- Combo Disney+ y Star+: $5.00 / 50 Bs.
+[CONFORT Y STATUS FAMILIAR - STREAMING]
+- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Cine privado en casa.
+- Combo Disney+ y Star+: $5.00 / 50 Bs. -> El centro del entretenimiento.
+- Netflix Ultra HD: $4.80 / 48 Bs. -> Calidad sin compromisos.
+- YT Premium + Music: $4.00 / 40 Bs. -> Armonía digital total.
 
-[OFERTAS EDUCATIVAS]
-- Canva Pro + curso: $1.00 / 10 Bs.
-- CapCut Pro + curso: $2.50 / 25 Bs.
-- Duolingo Super: $3.00 / 30 Bs.
-- Office Educativo: $3.50 / 35 Bs.
+[DOMINIO DEL MERCADO Y FUTURO - EDU/IA]
+- Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Poder creativo absoluto.
+- ChatGPT Plus: $4.20 / 42 Bs. -> Liderazgo con inteligencia superior.
+- CURSOS VITALICIOS: Desde $1.00 / 10 Bs. -> Activos de conocimiento para siempre.
 
-[CURSOS VITALICIOS - RAMA DE FORMACIÓN]
-- Curso Diseño Gráfico Completo: $2.50 / 25 Bs.
-- Seminario Educación Financiera: $0.70 / 7 Bs.
-- CURSO CAPCUT + LICENCIA: $2.50 / 25 Bs.
-- CURSO CANVA + LICENCIA: $1.00 / 10 Bs.
-- Trafficker & Community Manager: $2.90 / 29 Bs.
-
-[PRODUCTOS INDIVIDUALES]
-- Netflix: $4.80 / 48 Bs.
-- Crunchyroll Mega Fan: $2.00 / 20 Bs.
-- ChatGPT (GPT-5) Renovable: $5.00 / 50 Bs.
-- ChatGPT Plus: $4.20 / 42 Bs.
-- HBO Max / Paramount+: $2.00 / 20 Bs.
-- Spotify Premium: $5.00 / 50 Bs.
-- MagisTV: $5.00 / 50 Bs.
-- Smart Fit Black: $25.00 / 250 Bs.
+[PAZ MENTAL Y BLINDAJE - SEGURIDAD]
+- MagisTV: $5.00 / 50 Bs. -> Blindaje contra el aburrimiento.
+- Antivirus (ESET, Kaspersky): $5.00 / 50 Bs. -> Protección de alto nivel.
+- Smart Fit Black: $25.00 / 250 Bs. -> Inversión en tu poder físico.
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -48,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (!process.env.API_KEY) {
-        return res.status(500).json({ error: 'Falta configuración de API.' });
+        return res.status(500).json({ error: 'Configuración insuficiente.' });
     }
     
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -76,27 +62,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROLE: Eres MI_A ✨, Consultora de Neuroventas de Élite. Tu lema es: "Precisión, no saturación".
+ROLE: Eres MI_A ✨, la Consultora de Ventas de Élite de STREAMIX. Tu lenguaje es pulcro, asertivo y proyecta autoridad serena. No eres una asistente; eres la experta que garantiza resultados y exclusividad.
 
-REGLAS DE ORO (ESTRICTAS):
-1. LÍMITE DE PALABRAS: Máximo 35 palabras por respuesta. Sé quirúrgica.
-2. FILTRO COHERENCIA: PROHIBIDO mencionar STREAMIX EDU, CapCut o productos académicos a menos que el cliente use: "estudiar", "aprender", "éxito", "herramientas" o "trabajo".
-3. EL PODER DE DOS: Máximo 2 opciones. Opción Ganadora y una Alternativa lógica.
-4. VENTA SIMBÓLICA: 
-   - Fútbol = Pasión y Cero Lag.
-   - Cine = Comodidad y Familia.
-   - Trabajo = Poder y Rapidez.
+ADN CONVERSACIONAL (ÉLITE):
+1. AUTORIDAD: Usa palabras de poder: Garantizar, Asegurar, Exclusivo, Inmediato, Privilegio, Dominio. Cero argot común o agresivo.
+2. NEURO-FILTRO: Identifica el deseo simbólico (Poder, Seguridad o Confort) y satisfácelo en 2 frases cortas.
+3. CIERRE DETERMINANTE: Cada solución guía inevitablemente al contacto por WhatsApp para asegurar el privilegio.
 
-PROTOCOLO DE RESPUESTA:
-Paso 1 (Empatía): Valida la necesidad brevemente.
-Paso 2 (Solución): 2 mejores precios en "$X USD / X Bs."
-Paso 3 (Cierre): Enlace de WhatsApp.
+REGLAS DE FORMATO (ESTRICTO - MÁXIMO 35 PALABRAS):
+- Envuelve toda la respuesta en <div class="mia-chat-bubble">.
+- Párrafo 1: Validación emocional + Emoji sutil (✨, 🚀, 🏆). Usa <span class="mia-line">.
+- Párrafo 2: Solución líder con Nombre y Precio Dual <span class="mia-price-tag">**($X USD / X Bs)**</span> en negrita. Usa <span class="mia-line">.
+- Párrafo 3: Botón de WhatsApp refinado.
+
+TRATAMIENTO:
+- Streaming: Confort y Estatus.
+- Educación/IA: Dominio y Futuro.
+- Seguridad: Paz Mental y Blindaje.
 
 DATOS:
 ${CATALOG_CONTEXT}
 
-Al final añade SIEMPRE:
-<br/><br/><a href='https://wa.link/1dp8ry' target='_blank' style='display:inline-block; background-color:#25D366; color:white; font-weight:bold; padding:10px 20px; border-radius:30px; text-decoration:none; font-size: 0.85em;'>Chatear por WhatsApp 🎁</a>
+FORMATO DEL BOTÓN (OBLIGATORIO):
+<a href='https://wa.link/1dp8ry' target='_blank' class='mia-cta-button'>ASEGURAR ACCESO PREMIUM 🚀</a>
 `,
                     },
                     history: finalHistory,
@@ -109,7 +97,7 @@ Al final añade SIEMPRE:
             case 'suggest': {
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A ✨: Haz una sugerencia de neuroventa ultra-corta (máx 20 palabras) para '${payload.interest}'. Sin mencionar cursos a menos que sea relevante.`,
+                    contents: `MI_A ✨: Pitch estratégico de 10 palabras para '${payload.interest}'. Sé elocuente y sofisticada.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
@@ -118,12 +106,12 @@ Al final añade SIEMPRE:
                 const { query } = payload;
                 const response = await ai.models.generateContent({
                     model: "gemini-3-flash-preview",
-                    contents: `MI_A ✨: Explica "${query}" con precisión de neuroventa. Máx 30 palabras. Sigue las reglas de no saturación.`,
+                    contents: `MI_A ✨: Análisis experto de "${query}". Máximo 25 palabras. Lenguaje de alta categoría.`,
                     config: { tools: [{googleSearch: {}}] },
                 });
                 const text = response.text;
                 const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-                const sources = rawChunks.map((c: any) => ({ uri: c.web?.uri || '', title: c.web?.title || 'Fuente' })).filter((s: any) => s.uri);
+                const sources = rawChunks.map((c: any) => ({ uri: c.web?.uri || '', title: c.web?.title || 'Fuente de Inteligencia' })).filter((s: any) => s.uri);
                 return res.status(200).json({ text, sources });
             }
 
@@ -132,6 +120,6 @@ Al final añade SIEMPRE:
         }
     } catch (error: any) {
         console.error("Critical Gemini Error:", error);
-        return res.status(500).json({ error: 'MI_A está atendiendo a otros clientes. Intenta en un momento.' });
+        return res.status(500).json({ error: 'MI_A se encuentra en una sesión estratégica de alto nivel. Reintente en breve.' });
     }
 }
