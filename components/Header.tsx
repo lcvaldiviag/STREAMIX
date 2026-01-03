@@ -68,12 +68,6 @@ const MoonIcon = () => (
     </svg>
 );
 
-const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        {isOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
-    </svg>
-);
-
 interface HeaderProps {
     cartItemCount: number;
     onCartClick: () => void;
@@ -98,9 +92,6 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
         <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'py-1 md:py-2' : 'py-3 md:py-6'}`}>
             <div className={`mx-auto max-w-7xl px-2 md:px-6 lg:px-8`}>
                 <div className={`relative flex items-center justify-between px-3 md:px-6 h-12 md:h-20 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-slate-200 dark:border-white/10 shadow-xl' : 'bg-transparent border-transparent'}`}>
-                    <button onClick={onNavToggle} className="lg:hidden p-2 rounded-full text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
-                        <MenuIcon isOpen={isNavOpen} />
-                    </button>
                     
                     <div className="flex-1 max-w-xl mx-2 md:mx-8">
                         <div className="relative group">

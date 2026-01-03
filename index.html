@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STREAMIX | Tu Mercado Digital</title>
+    <title>STREAMIX | Mercado Digital de Lujo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -15,30 +15,11 @@
         theme: {
           extend: {
             colors: {
-              m3: {
-                primary: '#6366F1', 
-                onPrimary: '#FFFFFF',
-                primaryContainer: '#E0E7FF',
-                onPrimaryContainer: '#312E81',
-                secondary: '#A855F7',
-                surface: '#F8FAFC',
-                onSurface: '#0F172A',
-                surfaceVariant: '#E2E8F0',
-                outline: '#94A3B8'
-              }
-            },
-            borderRadius: {
-              'm3-xl': '32px',
-              'm3-l': '24px',
-            },
-            animation: {
-              'border-glow': 'border-glow 4s linear infinite',
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              'border-glow': {
-                '0%, 100%': { 'border-color': 'rgba(99, 102, 241, 0.5)' },
-                '50%': { 'border-color': 'rgba(168, 85, 247, 0.8)' },
+              luxury: {
+                bg: '#0d0d0d',
+                card: 'rgba(26,26,26,0.9)',
+                text: '#e0e0e0',
+                accent: '#ffffff'
               }
             }
           }
@@ -52,32 +33,14 @@
 
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #f8fafc;
+        background-color: #0d0d0d;
+        color: #e0e0e0;
         margin: 0;
         overflow-x: hidden;
-        transition: background-color 0.4s ease, color 0.4s ease;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      body.dark {
-        background-color: #020617;
       }
 
-      /* Performance and Anti-Blur */
-      img, .logo-wrapper, .card-image {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        image-rendering: -webkit-optimize-contrast;
-      }
-
-      .logo-wrapper {
-        background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
-      }
-
-      /* Mesh Gradient Animated Background */
+      /* Mesh Gradient Lujo */
       .mesh-bg {
         position: fixed;
         top: 0;
@@ -85,96 +48,137 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        background: radial-gradient(at 0% 0%, hsla(240,100%,95%,1) 0, transparent 50%), 
-                    radial-gradient(at 50% 0%, hsla(260,100%,92%,1) 0, transparent 50%), 
-                    radial-gradient(at 100% 0%, hsla(240,100%,98%,1) 0, transparent 50%);
-        filter: blur(80px);
-        opacity: 1;
-        transition: background 0.6s ease, opacity 0.6s ease;
-        will-change: background;
+        background: radial-gradient(at 0% 0%, hsla(240,10%,15%,1) 0, transparent 50%), 
+                    radial-gradient(at 100% 0%, hsla(260,10%,10%,1) 0, transparent 50%);
+        filter: blur(100px);
+        opacity: 0.8;
       }
 
-      .dark .mesh-bg {
-        background: radial-gradient(at 0% 0%, hsla(240,100%,10%,1) 0, transparent 50%), 
-                    radial-gradient(at 50% 0%, hsla(260,100%,15%,1) 0, transparent 50%), 
-                    radial-gradient(at 100% 0%, hsla(240,100%,5%,1) 0, transparent 50%), 
-                    radial-gradient(at 50% 50%, hsla(260,100%,10%,1) 0, transparent 50%);
-        opacity: 0.6;
+      /* Grid Blindado - Optimizado para 2 columnas en mobile */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        align-items: stretch;
       }
 
-      /* Scrollbar */
-      ::-webkit-scrollbar { width: 6px; height: 6px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(99, 102, 241, 0.4);
-        border-radius: 10px;
+      @media (min-width: 640px) {
+        .product-grid {
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: 2rem;
+        }
       }
-      
-      .edu-glow {
+
+      /* Card Maestro */
+      .product-card {
+        background: linear-gradient(145deg, rgba(30,30,30,0.95), rgba(15,15,15,0.95));
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        height: 100%;
         position: relative;
       }
-      .edu-glow::after {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        border-radius: 26px;
-        background: linear-gradient(45deg, #6366f1, #a855f7, #6366f1);
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.3s;
-        filter: blur(8px);
-      }
-      .edu-glow:hover::after {
-        opacity: 0.6;
-        animation: border-rotate 3s linear infinite;
-      }
 
-      @keyframes border-rotate {
-        from { filter: hue-rotate(0deg); }
-        to { filter: hue-rotate(360deg); }
-      }
-      
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      /* Fly to Cart Animation */
-      @keyframes fly-to-cart {
-        0% {
-          transform: translate(0, 0) scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: translate(100px, -200px) scale(1.2);
-          opacity: 0.8;
-        }
-        100% {
-          transform: translate(calc(100vw - 150px), calc(-100vh + 100px)) scale(0.2);
-          opacity: 0;
+      @media (min-width: 640px) {
+        .product-card {
+          border-radius: 24px;
         }
       }
 
-      /* Simplified version for items that just fly up and right */
-      @keyframes ghost-fly {
-        0% {
-          transform: translate(0, 0) scale(1) rotate(0deg);
-          opacity: 1;
-        }
-        100% {
-          transform: translate(150px, -400px) scale(0.1) rotate(45deg);
-          opacity: 0;
+      .product-card:hover {
+        transform: translateY(-12px);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      }
+
+      .product-image-container {
+        aspect-ratio: 1 / 1;
+        background: radial-gradient(circle, #222 0%, #000 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .product-image-container .content-wrapper {
+        width: 70%;
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .product-card:hover .content-wrapper {
+        transform: scale(1.1);
+      }
+
+      /* Botón AURA */
+      .add-btn {
+        background: #ffffff;
+        color: #000000;
+        border: none;
+        padding: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.65rem;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        width: 100%;
+        margin-top: auto;
+      }
+
+      @media (min-width: 768px) {
+        .add-btn {
+          padding: 18px;
+          font-size: 0.75rem;
         }
       }
 
+      @media (hover: hover) {
+        .add-btn { 
+          opacity: 0; 
+          transform: translateY(20px); 
+        }
+        .product-card:hover .add-btn { 
+          opacity: 1; 
+          transform: translateY(0); 
+        }
+      }
+
+      .add-btn:hover {
+        background: #f0f0f0;
+        letter-spacing: 0.2em;
+      }
+
+      .add-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* Ghost Particle */
       .ghost-particle {
         pointer-events: none;
         position: absolute;
         z-index: 1000;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: white;
         animation: ghost-fly 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+      }
+
+      @keyframes ghost-fly {
+        0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+        100% { transform: translate(200px, -500px) scale(0); opacity: 0; }
       }
     </style>
   <script type="importmap">
@@ -188,7 +192,7 @@
 }
 </script>
 </head>
-  <body class="dark">
+  <body class="dark bg-luxury-bg">
     <div class="mesh-bg"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>

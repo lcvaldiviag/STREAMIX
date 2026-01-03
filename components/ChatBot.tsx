@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { getChatResponse } from '../services/geminiService';
 
@@ -78,35 +77,35 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
         <>
             {/* Chat Window */}
             {isOpen && (
-                <div className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] bg-white/95 dark:bg-slate-900/95 rounded-[2rem] shadow-2xl flex flex-col z-[80] border border-slate-200 dark:border-white/10 font-sans transition-all duration-300 ease-in-out transform origin-bottom-right backdrop-blur-xl">
+                <div className="fixed bottom-20 md:bottom-24 right-4 md:right-6 w-[85vw] sm:w-96 h-[450px] md:h-[500px] bg-white/95 dark:bg-slate-900/95 rounded-[2rem] shadow-2xl flex flex-col z-[80] border border-slate-200 dark:border-white/10 font-sans transition-all duration-300 ease-in-out transform origin-bottom-right backdrop-blur-xl">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 p-4 rounded-t-[2rem] flex justify-between items-center text-white shadow-lg border-b border-white/10">
+                    <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 p-3 md:p-4 rounded-t-[2rem] flex justify-between items-center text-white shadow-lg border-b border-white/10">
                         <div className="flex items-center space-x-3">
-                            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-white/30 shadow-inner relative bg-white/10 backdrop-blur-md flex items-center justify-center">
-                                <span className="text-2xl filter drop-shadow-md brightness-110 contrast-110" role="img" aria-label="MI_A Avatar">✨</span>
+                            <div className="w-9 h-9 md:w-11 md:h-11 rounded-full overflow-hidden border-2 border-white/30 shadow-inner relative bg-white/10 backdrop-blur-md flex items-center justify-center">
+                                <span className="text-xl md:text-2xl filter drop-shadow-md" role="img" aria-label="MI_A Avatar">✨</span>
                             </div>
                             <div>
-                                <span className="font-bold block leading-none tracking-tight text-lg">MI_A</span>
-                                <span className="text-[10px] text-white/80 flex items-center gap-1.5 uppercase font-bold tracking-widest mt-1">
-                                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]"></span>
+                                <span className="font-bold block leading-none tracking-tight text-base md:text-lg">MI_A</span>
+                                <span className="text-[8px] md:text-[10px] text-white/80 flex items-center gap-1 uppercase font-bold tracking-widest mt-1">
+                                    <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-400 rounded-full animate-pulse"></span>
                                     En línea
                                 </span>
                             </div>
                         </div>
                         <button onClick={toggleChat} className="p-2 hover:bg-white/20 rounded-full transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
 
                     {/* Messages Area */}
-                    <div className="flex-1 overflow-y-auto p-5 bg-slate-50/30 dark:bg-slate-950/30 space-y-4 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto p-4 md:p-5 bg-slate-50/30 dark:bg-slate-950/30 space-y-4 custom-scrollbar">
                         {messages.map((msg, index) => (
                             <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm transition-all duration-300 ${
+                                <div className={`max-w-[85%] p-3 md:p-4 rounded-2xl text-[12px] md:text-sm leading-relaxed shadow-sm transition-all duration-300 ${
                                     msg.role === 'user' 
-                                    ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-none shadow-indigo-200 dark:shadow-none' 
+                                    ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-none' 
                                     : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-100 dark:border-white/5 rounded-tl-none'
                                 }`}>
                                    <div dangerouslySetInnerHTML={{ __html: formatText(msg.text) }} />
@@ -115,10 +114,10 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                         ))}
                         {isLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-100 dark:border-white/5 shadow-sm flex space-x-2 items-center">
-                                    <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                    <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                    <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-slate-100 dark:border-white/5 shadow-sm flex space-x-1.5 items-center">
+                                    <div className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                 </div>
                             </div>
                         )}
@@ -126,22 +125,22 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                     </div>
 
                     {/* Input Area */}
-                    <div className="p-5 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-white/5 rounded-b-[2rem]">
-                        <div className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800/80 rounded-full px-1.5 py-1.5 border border-slate-200 dark:border-white/5 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+                    <div className="p-4 md:p-5 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-white/5 rounded-b-[2rem]">
+                        <div className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800/80 rounded-full px-1.5 py-1 md:py-1.5 border border-slate-200 dark:border-white/5">
                             <input
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                placeholder="Escribe tu consulta aquí..."
-                                className="flex-1 bg-transparent border-none px-4 py-2 text-sm focus:ring-0 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
+                                placeholder="Escribe tu consulta..."
+                                className="flex-1 bg-transparent border-none px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm focus:ring-0 outline-none text-slate-800 dark:text-slate-100"
                             />
                             <button 
                                 onClick={handleSend}
                                 disabled={!input.trim() || isLoading}
-                                className="p-2.5 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-90"
+                                className="p-2 md:p-2.5 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 disabled:opacity-50 shadow-md active:scale-90"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                                 </svg>
                             </button>
@@ -150,26 +149,26 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                 </div>
             )}
 
-            {/* Toggle Button */}
+            {/* Toggle Button - Optimized Size for Mobile/Tablet */}
             <button
                 onClick={toggleChat}
-                className={`fixed bottom-6 right-6 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_8px_25px_rgba(79,70,229,0.4)] hover:shadow-[0_12px_30px_rgba(79,70,229,0.5)] hover:scale-110 active:scale-95 transition-all duration-500 z-[80] group border border-white/20 ${isOpen ? 'w-14 h-14' : 'h-14 px-6 gap-3'}`}
+                className={`fixed bottom-6 right-4 md:right-6 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_8px_25px_rgba(79,70,229,0.4)] hover:shadow-[0_12px_30px_rgba(79,70,229,0.5)] hover:scale-110 active:scale-95 transition-all duration-500 z-[80] group border border-white/20 ${isOpen ? 'w-10 h-10 md:w-14 md:h-14' : 'h-10 px-4 md:h-14 md:px-6 gap-2 md:gap-3'}`}
                 aria-label={isOpen ? "Cerrar chat" : "Chatea con MI_A"}
             >
                  {isOpen ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white transition-transform duration-300 rotate-0 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6 text-white transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                  ) : (
                     <>
-                        <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/30">
-                            <span className="text-xl filter brightness-110 contrast-110" role="img" aria-label="MI_A Icon">✨</span>
-                            <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                        <div className="relative flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/30">
+                            <span className="text-base md:text-xl filter" role="img" aria-label="MI_A Icon">✨</span>
+                            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2 md:h-3 md:w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.5)]"></span>
+                                <span className="relative inline-flex rounded-full h-full w-full bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.5)]"></span>
                             </span>
                         </div>
-                        <span className="text-white font-extrabold text-sm tracking-widest drop-shadow-sm uppercase">CHATEA CON MI_A</span>
+                        <span className="text-white font-black text-[10px] md:text-sm tracking-widest uppercase">CHATEA CON MI_A</span>
                     </>
                  )}
             </button>
