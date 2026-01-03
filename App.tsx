@@ -45,14 +45,13 @@ const App = () => {
     };
 
     const toggleTheme = () => setIsDarkMode(!isDarkMode);
-    const toggleCart = () => setIsCartOpen(!isCartOpen);
 
     return (
         <div className={isDarkMode ? 'dark' : ''}>
             <div className="flex flex-col min-h-screen">
                 <Header 
                     cartItemCount={cartItemCount} 
-                    onCartClick={toggleCart}
+                    onCartClick={() => setIsCartOpen(true)}
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                     onNavToggle={() => setIsNavOpen(!isNavOpen)}
