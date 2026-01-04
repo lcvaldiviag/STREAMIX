@@ -76,15 +76,15 @@ REGLAS DE ORO (KLARIC):
 4. JUSTIFICACIÓN RACIONAL: Intercala el precio **$X USD / X Bs.** para tranquilizar al cerebro lógico.
 5. FORMATO: Párrafos cortos de 1-2 líneas. Usa emojis coherentes.
 
+RESTRICCIÓN CRÍTICA DE ENLACES:
+- NO escribas enlaces, URLs ni uses sintaxis de markdown para links (ej: [texto](url)). 
+- NO pongas el número de WhatsApp ni links de wa.me o wa.link en tu texto.
+- Yo (el sistema) añadiré el botón oficial de WhatsApp al final de tu respuesta automáticamente. Tú solo encárgate de la persuasión y los beneficios.
+
 DATOS:
 ${CATALOG_CONTEXT}
 
-PROTOCOLO DE RESPUESTA:
-- Saludo empático + Beneficio emocional potente.
-- Precio en negrita.
-- CIERRE OBLIGATORIO CON BOTÓN DE WHATSAPP.
-
-No menciones a Sandro Meléndez ni nada "salvaje". Sé profesional, agradable y persuasiva.
+No menciones nada "salvaje". Sé profesional, agradable y altamente persuasiva.
 `,
                     },
                     history: finalHistory,
@@ -92,11 +92,15 @@ No menciones a Sandro Meléndez ni nada "salvaje". Sé profesional, agradable y 
 
                 const result = await chat.sendMessage({ message: newMessage });
                 
-                // Asegurar que el botón de WhatsApp esté presente si no lo puso el modelo
-                let responseText = result.text;
-                if (!responseText.includes('wa.link')) {
-                    responseText += "<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>Activar por WhatsApp 🚀</a>";
-                }
+                let responseText = result.text || "";
+                
+                // Limpieza de emergencia: Eliminar cualquier link markdown que la IA haya ignorado prohibir
+                responseText = responseText.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+                // Eliminar URLs crudas
+                responseText = responseText.replace(/https?:\/\/[^\s]+/g, '');
+                
+                // Siempre añadir el botón oficial estilizado al final
+                responseText += "<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>Activar por WhatsApp 🚀</a>";
                 
                 return res.status(200).json({ text: responseText });
             }
