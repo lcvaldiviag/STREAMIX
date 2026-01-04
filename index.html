@@ -149,25 +149,33 @@
         background: var(--luxury-btn-bg);
         color: var(--luxury-btn-text);
         border: none;
-        padding: 14px;
+        padding: 20px;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.15em;
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         width: 100%;
         position: relative;
         overflow: hidden;
         box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        /* Interacción: Oculto por defecto para todas las versiones */
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      /* Mostrar botón solo al interactuar con la tarjeta */
+      .product-card:hover .add-btn {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       @media (max-width: 640px) {
         .add-btn {
           padding: 12px;
           font-size: 0.6rem;
-          opacity: 1 !important;
-          transform: translateY(0) !important;
+          /* Eliminado opacity: 1 fijo para móviles */
         }
       }
 
@@ -175,12 +183,6 @@
         .add-btn {
           padding: 20px;
           font-size: 0.75rem;
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        .product-card:hover .add-btn {
-          opacity: 1;
-          transform: translateY(0);
         }
       }
 
