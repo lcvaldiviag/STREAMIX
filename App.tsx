@@ -32,8 +32,10 @@ const App = () => {
     useEffect(() => {
         if (isDarkMode) {
             document.body.classList.add('dark');
+            document.body.classList.remove('light-mode');
         } else {
             document.body.classList.remove('dark');
+            document.body.classList.add('light-mode');
         }
     }, [isDarkMode]);
 

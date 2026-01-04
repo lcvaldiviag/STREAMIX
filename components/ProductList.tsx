@@ -31,8 +31,10 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
     onAddToCart(item);
   };
 
+  const displayColor = isProduct(item) ? (item.brandColor === '#000000' ? (isDarkMode ? '#ffffff' : '#000000') : item.brandColor) : (isDarkMode ? '#ffffff' : '#000000');
+
   return (
-    <div className="product-card" onClick={() => onProductSelect(item)}>
+    <div className="product-card group" onClick={() => onProductSelect(item)}>
       {ghosts.map(ghost => (
         <div 
           key={ghost.id} 
@@ -45,13 +47,13 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
         <div className="content-wrapper">
           {isProduct(item) ? (
             <span 
-              className="text-5xl md:text-7xl font-black tracking-tighter" 
-              style={{ color: item.brandColor === '#000000' ? (isDarkMode ? '#ffffff' : '#000000') : item.brandColor }}
+              className="logo-text text-5xl md:text-7xl font-black tracking-tighter" 
+              style={{ color: displayColor }}
             >
               {item.logo}
             </span>
           ) : (
-            <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-xl" />
+            <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110" />
           )}
         </div>
         
@@ -68,7 +70,9 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
             {item.name}
           </h3>
           <div className="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
-            <span className="text-luxury-text text-lg md:text-2xl font-black">${item.priceUSD.toFixed(2)}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-lg md:text-2xl font-black">
+                ${item.priceUSD.toFixed(2)}
+            </span>
             <span className="text-luxury-muted text-[10px] md:text-xs font-bold uppercase tracking-wider">/ {item.priceBS.toFixed(0)} Bs.</span>
           </div>
         </div>

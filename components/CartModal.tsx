@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { CartItem, Product } from '../types';
 import { PlaceholderIcon } from '../constants';
@@ -80,7 +81,9 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                                     </div>
                                     <div className="flex-1">
                                         <p className="font-semibold text-slate-900 dark:text-slate-200">{item.name}</p>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">${item.priceUSD.toFixed(2)}</p>
+                                        <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                                            ${item.priceUSD.toFixed(2)}
+                                        </p>
                                         <div className="flex items-center mt-2">
                                             <button 
                                                 onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))} 
@@ -110,7 +113,9 @@ const CartModal = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem,
                     <footer className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950">
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-lg font-semibold text-slate-600 dark:text-slate-400">Subtotal:</span>
-                            <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400 drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(129,140,248,0.3)]">${subtotal.toFixed(2)}</span>
+                            <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-sm">
+                                ${subtotal.toFixed(2)}
+                            </span>
                         </div>
                         <button 
                             onClick={onCheckout}

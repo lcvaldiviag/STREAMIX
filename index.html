@@ -124,6 +124,17 @@
         box-shadow: 0 20px 40px -15px var(--luxury-shadow-color);
       }
 
+      /* Efecto de Logo: Crecimiento y Brillo con el color de la marca */
+      .logo-text {
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        display: inline-block;
+      }
+
+      .product-card:hover .logo-text {
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 15px currentColor);
+      }
+
       .product-image-container {
         aspect-ratio: 1 / 1;
         display: flex;
@@ -235,6 +246,37 @@
       .btn-whatsapp-salvaje:hover {
         transform: scale(1.05);
         filter: brightness(1.1);
+      }
+
+      /* AJUSTE EXCLUSIVO PARA MODO CLARO */
+      body.light-mode .product-card {
+        /* Técnica de Doble Background para Borde con Degradado */
+        /* Fondo interno blanco sólido */
+        background: linear-gradient(#ffffff, #ffffff) padding-box, 
+                    var(--luxury-btn-bg) border-box; 
+        
+        /* Borde transparente para que actúe de contenedor del degradado */
+        border: 2px solid transparent; 
+        
+        /* Sombra de profundidad (Soft Shadow) */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+        
+        transition: all 0.4s ease;
+      }
+
+      /* Efecto Hover en Modo Claro para resaltar el contraste al pasar el mouse */
+      body.light-mode .product-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-8px);
+        /* Al hacer hover, el degradado se siente aún más vivo */
+        filter: brightness(1.02);
+      }
+
+      /* El contenedor de imagen en modo claro */
+      body.light-mode .product-image-container {
+        /* Un degradado muy suave para que el logo resalte más */
+        background: radial-gradient(circle, #fafafa 0%, #f0f0f0 100%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       }
     </style>
   <script type="importmap">

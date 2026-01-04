@@ -71,7 +71,7 @@ const ProductDetail = ({ product, onClose, onAddToCart }: ProductDetailProps) =>
                         <div className="flex justify-between items-center mb-4">
                             <p className="text-sm text-slate-500 uppercase font-bold tracking-wider">Precio</p>
                             <div className="text-right">
-                                <p className="text-2xl font-black text-indigo-600 dark:text-indigo-400 drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(129,140,248,0.3)]">${product.priceUSD.toFixed(2)}</p>
+                                <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(129,140,248,0.3)]">${product.priceUSD.toFixed(2)}</p>
                                 <p className="text-sm text-slate-500">BS. {product.priceBS.toFixed(2)}</p>
                             </div>
                         </div>
