@@ -76,7 +76,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
     return (
         <>
             {isOpen && (
-                <div className="fixed bottom-20 md:bottom-24 right-4 md:right-6 w-[80vw] sm:w-[320px] h-[400px] md:h-[440px] bg-white/95 dark:bg-slate-900/95 rounded-[1.5rem] shadow-2xl flex flex-col z-[80] border border-slate-200 dark:border-white/10 font-sans transition-all duration-300 ease-in-out transform origin-bottom-right backdrop-blur-xl">
+                <div className="fixed bottom-20 md:bottom-24 right-4 md:right-6 w-[80vw] sm:w-[320px] h-[400px] md:h-[440px] bg-white/95 dark:bg-slate-900/95 rounded-[1.5rem] shadow-2xl flex flex-col z-[180] border border-slate-200 dark:border-white/10 font-sans transition-all duration-300 ease-in-out transform origin-bottom-right backdrop-blur-xl">
                     <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 p-2 md:p-3 rounded-t-[1.5rem] flex justify-between items-center text-white shadow-lg border-b border-white/10">
                         <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border-2 border-white/30 shadow-inner relative bg-white/10 backdrop-blur-md flex items-center justify-center">
@@ -121,7 +121,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    <div className="p-3 md:p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-white/5 rounded-b-[1.5rem]">
+                    <div className="p-3 md:p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-white/5 rounded-b-[1.5rem]">
                         <div className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800/80 rounded-full px-1 py-0.5 border border-slate-200 dark:border-white/5">
                             <input
                                 type="text"
@@ -147,7 +147,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
 
             <button
                 onClick={toggleChat}
-                className={`fixed bottom-6 right-4 md:right-6 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_8px_25px_rgba(79,70,229,0.4)] hover:scale-110 active:scale-95 transition-all duration-500 z-[80] group border border-white/20 ${isOpen ? 'w-10 h-10 md:w-12 md:h-12' : 'h-10 px-4 md:h-12 md:px-5 gap-2 md:gap-3'}`}
+                className={`fixed bottom-6 right-4 md:right-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_10px_35px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 transition-all duration-500 z-[180] group border border-white/20 ${isOpen ? 'w-10 h-10 md:w-12 md:h-12' : 'h-11 px-6 md:h-14 md:px-8 gap-3 md:gap-4'}`}
                 aria-label={isOpen ? "Cerrar chat" : "Chatea con MI_A"}
             >
                  {isOpen ? (
@@ -156,14 +156,10 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                     </svg>
                  ) : (
                     <>
-                        <div className="relative flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-full bg-white/10 backdrop-blur-md border border-white/30">
-                            <span className="text-base md:text-lg filter" role="img" aria-label="MI_A Icon">✨</span>
-                            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-full w-full bg-green-500"></span>
-                            </span>
+                        <div className="relative flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40">
+                            <span className="text-base md:text-xl" role="img" aria-label="MI_A Icon">✨</span>
                         </div>
-                        <span className="text-white font-black text-[9px] md:text-xs tracking-widest uppercase">Chatea con MI_A ✨</span>
+                        <span className="text-white font-black text-[10px] md:text-sm tracking-[0.15em] uppercase whitespace-nowrap">Chatea con MI_A ✨</span>
                     </>
                  )}
             </button>

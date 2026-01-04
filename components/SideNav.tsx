@@ -55,44 +55,46 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
     };
     
     return (
-        <div className="w-full py-4 md:py-6 mt-2 md:mt-4">
-            <div className="max-w-7xl mx-auto px-2">
-                <nav className="grid grid-cols-4 sm:grid-cols-5 md:flex md:items-center gap-2 md:gap-5 justify-start md:justify-center px-2">
-                    {categories.map(category => {
-                        const isSelected = selectedCategory === category;
-                        return (
-                            <button
-                                key={category}
-                                onClick={() => onSelectCategory(category)}
-                                className={`
-                                    flex flex-col items-center group transition-all duration-300 py-2 rounded-2xl
-                                    ${isSelected ? 'bg-indigo-600/10 scale-105' : 'hover:scale-105'}
-                                `}
-                            >
-                                <div className={`
-                                    w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-xl lg:text-2xl border transition-all duration-300 shadow-sm
-                                    ${isSelected 
-                                        ? 'bg-indigo-600/30 border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' 
-                                        : 'bg-white/5 border-white/10 hover:bg-white/10 group-hover:border-white/20'
-                                    }
-                                `}>
-                                    {categoryIcons[category]}
-                                </div>
-                                <span className={`
-                                    mt-1 text-[8px] lg:text-[10px] font-black uppercase tracking-tight transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis w-full px-1 text-center
-                                    ${isSelected ? 'text-indigo-500 dark:text-white' : 'text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'}
-                                `}>
-                                    {getDisplayName(category)}
-                                </span>
-                                
-                                <div className={`
-                                    h-0.5 rounded-full mt-1 transition-all duration-500 hidden md:block
-                                    ${isSelected ? 'w-6 bg-indigo-500 opacity-100' : 'w-0 bg-transparent opacity-0 group-hover:w-3 group-hover:bg-indigo-500/50 group-hover:opacity-50'}
-                                `} />
-                            </button>
-                        );
-                    })}
-                </nav>
+        <div className="w-full flex justify-center z-50 sticky top-24 md:top-28 pointer-events-none">
+            <div className="pointer-events-auto bg-white/80 dark:bg-black/70 backdrop-blur-2xl border border-slate-200 dark:border-white/10 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl p-2 md:p-2 grid grid-cols-4 gap-1 sm:grid-cols-5 md:flex md:items-center md:gap-2 max-w-[95vw] overflow-hidden md:overflow-x-auto no-scrollbar scroll-smooth transition-all duration-500">
+                {categories.map(category => {
+                    const isSelected = selectedCategory === category;
+                    return (
+                        <button
+                            key={category}
+                            onClick={() => {
+                                onSelectCategory(category);
+                                // For grid layout, we might not want to auto-scroll if it's all visible
+                                if (window.innerWidth >= 768) {
+                                    document.getElementById(category.replace(/\s/g, '-'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }}
+                            className={`
+                                relative flex flex-col items-center group transition-all duration-500 py-2 px-1 md:py-3 md:px-4 rounded-xl md:rounded-[2rem] min-w-0 md:min-w-[80px]
+                                ${isSelected ? 'bg-indigo-600/10 dark:bg-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'}
+                            `}
+                        >
+                            <div className={`
+                                w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center text-base md:text-xl border transition-all duration-500
+                                ${isSelected 
+                                    ? 'bg-indigo-600 border-indigo-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.6)]' 
+                                    : 'bg-white/5 dark:bg-white/5 border-slate-200 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20'
+                                }
+                            `}>
+                                {categoryIcons[category]}
+                            </div>
+                            <span className={`
+                                mt-1 md:mt-2 text-[7px] md:text-[9px] font-black uppercase tracking-widest transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis w-full text-center
+                                ${isSelected ? 'text-indigo-600 dark:text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200'}
+                            `}>
+                                {getDisplayName(category)}
+                            </span>
+                            {isSelected && (
+                                <div className="absolute bottom-1 w-1 h-1 bg-indigo-500 rounded-full md:hidden"></div>
+                            )}
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );

@@ -14,6 +14,15 @@ interface CardProps {
 
 const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
+// Definición de imágenes contextuales de alta calidad
+const CONTEXT_IMAGES: Record<string, string> = {
+    HERO: "https://images.unsplash.com/photo-1593784991095-a205039470b6?q=80&w=2070&auto=format&fit=crop",
+    [Category.STREAMING_SERIES]: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=1470&auto=format&fit=crop",
+    [Category.STREAMIX_EDU]: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1374&auto=format&fit=crop",
+    [Category.AI]: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1632&auto=format&fit=crop",
+    DIVIDER: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+};
+
 const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkMode }) => {
   const brandColor = isProduct(item) ? item.brandColor : (isDarkMode ? '#ffffff' : '#000000');
   const isSoldOut = isProduct(item) ? item.soldOut : false;
@@ -77,7 +86,6 @@ const Card: React.FC<CardProps> = ({ item, onAddToCart, onProductSelect, isDarkM
           </div>
         </div>
 
-        {/* Optimización de texto para móviles: Evitar cortes bruscos */}
         <p className="text-luxury-muted text-[11px] md:text-xs leading-relaxed line-clamp-2 md:line-clamp-3 mb-4 flex-grow min-h-[32px] md:min-h-[48px]">
           {isProduct(item) ? item.description : `Incluye: ${item.included.join(', ')}`}
         </p>
@@ -124,17 +132,29 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6">
-      <header className="mb-10 md:mb-20 text-center flex flex-col items-center">
-        <StreamixLogo isDarkMode={isDarkMode} className="w-48 md:w-64 mb-8 md:mb-16" />
-        <h1 className={`text-4xl md:text-8xl font-black tracking-tighter leading-none mb-4 md:mb-6 uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-          DIGITAL <br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400">
-            EXPERIENCE
-          </span>
-        </h1>
-        <p className="text-luxury-muted text-sm md:text-xl font-medium max-w-2xl leading-relaxed">
-          Suscripciones premium y formación vitalicia. Tu acceso directo al mundo digital de alta gama.
-        </p>
+      <header className="mb-4 md:mb-8 text-center flex flex-col items-center">
+        <StreamixLogo isDarkMode={isDarkMode} className="w-48 md:w-64 mb-6 md:mb-8" />
+        
+        {/* Banner Superior Hero - Optimized visual area */}
+        <div className="hero-banner-main">
+            <img src={CONTEXT_IMAGES.HERO} alt="" className="opacity-80 dark:opacity-60" />
+            <div className="hero-overlay"></div>
+            <div className="relative z-10 px-6 md:px-16 text-left max-w-4xl py-12 md:py-20">
+                <h2 className="text-luxury-pure text-4xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-6">
+                    DISFRUTA EL <br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">SIGUIENTE NIVEL</span>
+                </h2>
+                <p className="text-luxury-text text-opacity-100 dark:text-luxury-text text-sm md:text-xl font-medium leading-relaxed max-w-xl mb-10">
+                    La mayor colección de entretenimiento digital y formación profesional de Latinoamérica en un solo lugar.
+                </p>
+                <button 
+                  onClick={() => document.getElementById('Streaming-y-Series')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-10 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-black uppercase tracking-[0.2em] text-[11px] rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-indigo-500/50"
+                >
+                  Explorar Catálogo
+                </button>
+            </div>
+        </div>
       </header>
 
       <SideNav 
@@ -145,27 +165,46 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
         onSearchChange={onSearchChange}
       />
 
-      <div className="space-y-16 md:space-y-48 pb-24 md:pb-40">
-        {categoriesToRender.map(category => {
+      <div className="space-y-24 md:space-y-48 pb-24 md:pb-40 mt-12 md:mt-24">
+        {categoriesToRender.map((category, index) => {
           const items = getFilteredItems(category);
           if (items.length === 0) return null;
 
           return (
-            <section key={category} id={category.replace(/\s/g, '-')} className="relative">
-              <div className="flex flex-col items-center mb-8 md:mb-16">
-                  <span className="text-indigo-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
-                  <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                      {category}
-                  </h2>
-                  <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-500 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
-              </div>
+            <React.Fragment key={category}>
+                {/* Visual Divider - Adición Visual entre categorías principales */}
+                {index > 0 && index % 2 === 0 && (
+                    <div className="visual-divider" style={{ backgroundImage: `url(${CONTEXT_IMAGES.DIVIDER})` }}></div>
+                )}
 
-              <div className="product-grid">
-                {items.map(item => (
-                  <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} isDarkMode={isDarkMode} />
-                ))}
-              </div>
-            </section>
+                <section id={category.replace(/\s/g, '-')} className="relative pt-8">
+                  {/* Category Banner - Adición Visual Contextual */}
+                  {CONTEXT_IMAGES[category] && (
+                      <div className="category-banner group">
+                          <img src={CONTEXT_IMAGES[category]} alt={category} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                          <div className="category-banner-text">
+                              <span className="text-[10px] font-black tracking-[0.4em] text-white/60 uppercase block mb-1">COLECCIÓN PREMIUM</span>
+                              <h3 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter">{category}</h3>
+                          </div>
+                      </div>
+                  )}
+
+                  <div className="flex flex-col items-center mb-8 md:mb-16">
+                      <span className="text-indigo-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
+                      <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {category}
+                      </h2>
+                      <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-500 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
+                  </div>
+
+                  <div className="product-grid">
+                    {items.map(item => (
+                      <Card key={item.id} item={item} onAddToCart={onAddToCart} onProductSelect={onProductSelect} isDarkMode={isDarkMode} />
+                    ))}
+                  </div>
+                </section>
+            </React.Fragment>
           );
         })}
       </div>
