@@ -147,19 +147,19 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
 
             <button
                 onClick={toggleChat}
-                className={`fixed bottom-6 right-4 md:right-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_10px_35px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 transition-all duration-500 z-[180] group border border-white/20 ${isOpen ? 'w-10 h-10 md:w-12 md:h-12' : 'h-11 px-6 md:h-14 md:px-8 gap-3 md:gap-4'}`}
+                className={`fixed bottom-6 right-4 md:right-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 flex items-center justify-center rounded-full shadow-[0_10px_35px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-95 transition-all duration-500 z-[180] group border border-white/20 ${isOpen ? 'w-8 h-8 md:w-10 md:h-10' : 'h-9 px-4 md:h-11 md:px-6 gap-2 md:gap-3'}`}
                 aria-label={isOpen ? "Cerrar chat" : "Chatea con MI_A"}
             >
                  {isOpen ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                  ) : (
                     <>
-                        <div className="relative flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40">
-                            <span className="text-base md:text-xl" role="img" aria-label="MI_A Icon">✨</span>
+                        <div className="relative flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40">
+                            <span className="text-sm md:text-base" role="img" aria-label="MI_A Icon">✨</span>
                         </div>
-                        <span className="text-white font-black text-[10px] md:text-sm tracking-[0.15em] uppercase whitespace-nowrap">Chatea con MI_A ✨</span>
+                        <span className="text-white font-black text-[9px] md:text-xs tracking-[0.15em] uppercase whitespace-nowrap">Chatea con MI_A ✨</span>
                     </>
                  )}
             </button>
