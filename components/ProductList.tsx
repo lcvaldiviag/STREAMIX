@@ -14,12 +14,19 @@ interface CardProps {
 
 const isProduct = (item: Product | Combo): item is Product => 'logo' in item;
 
-// Definición de imágenes contextuales de alta calidad
+// Definición de imágenes contextuales de alta calidad para todas las categorías
 const CONTEXT_IMAGES: Record<string, string> = {
     HERO: "https://images.unsplash.com/photo-1593784991095-a205039470b6?q=80&w=2070&auto=format&fit=crop",
     [Category.STREAMING_SERIES]: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=1470&auto=format&fit=crop",
     [Category.STREAMIX_EDU]: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1374&auto=format&fit=crop",
     [Category.AI]: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1632&auto=format&fit=crop",
+    [Category.MUSIC]: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1470&auto=format&fit=crop",
+    [Category.EDUCATION_LEARNING]: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470&auto=format&fit=crop",
+    [Category.SECURITY]: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1470&auto=format&fit=crop",
+    [Category.GAMING_SUBS]: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1470&auto=format&fit=crop",
+    [Category.LIVE_TV_SPORTS]: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1470&auto=format&fit=crop",
+    [Category.LIFESTYLE]: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop",
+    [Category.COMBOS]: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1470&auto=format&fit=crop",
     DIVIDER: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
 };
 
@@ -189,14 +196,6 @@ const ProductList = ({ onAddToCart, onProductSelect, selectedCategory, onSelectC
                           </div>
                       </div>
                   )}
-
-                  <div className="flex flex-col items-center mb-8 md:mb-16">
-                      <span className="text-indigo-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] mb-2 md:mb-4">COLECCIÓN</span>
-                      <h2 className={`text-2xl md:text-5xl font-black tracking-tight text-center uppercase transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                          {category}
-                      </h2>
-                      <div className={`w-16 md:w-24 h-0.5 md:h-1 mt-4 md:mt-6 rounded-full transition-opacity duration-500 ${isDarkMode ? 'bg-white opacity-10' : 'bg-slate-900 opacity-5'}`}></div>
-                  </div>
 
                   <div className="product-grid">
                     {items.map(item => (
