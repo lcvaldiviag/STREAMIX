@@ -11,7 +11,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
     const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
         { 
             role: 'model', 
-            text: '¡Desahuévate! Soy <b>MI_A</b> ✨, tu estratega salvaje.<br/><br/>¿Qué experiencia premium vamos a cerrar hoy? 🚀' 
+            text: '¡Hola! Soy <b>MI_A</b> ✨<br/><br/>¿Qué experiencia premium vamos a disfrutar hoy? 🍿🤖' 
         }
     ]);
     const [input, setInput] = useState('');
@@ -61,13 +61,12 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
             const responseText = await getChatResponse(history, userMessage);
             setMessages(prev => [...prev, { role: 'model', text: responseText }]);
         } catch (error) {
-            setMessages(prev => [...prev, { role: 'model', text: 'Tuvimos un error, pero un Vendedor Salvaje no se detiene. ¡Escríbenos por WhatsApp para atención VIP!' }]);
+            setMessages(prev => [...prev, { role: 'model', text: 'Lo siento, tuve un inconveniente. Escríbenos por WhatsApp para darte atención personalizada.' }]);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Fix: Added React import at top of file to resolve "Cannot find namespace 'React'" error.
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') handleSend();
     };
@@ -87,7 +86,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                                 <span className="font-bold block leading-none tracking-tight text-sm md:text-base">MI_A</span>
                                 <span className="text-[7px] md:text-[8px] text-white/80 flex items-center gap-1 uppercase font-bold tracking-widest mt-0.5">
                                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                                    MODO SALVAJE
+                                    EN LÍNEA
                                 </span>
                             </div>
                         </div>
@@ -129,7 +128,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                placeholder="Escribe tu consulta salvaje..."
+                                placeholder="Haz tu consulta..."
                                 className="flex-1 bg-transparent border-none px-2.5 py-1.5 text-[11px] md:text-xs focus:ring-0 outline-none text-slate-800 dark:text-slate-100"
                             />
                             <button 
@@ -164,7 +163,7 @@ const ChatBot = ({ visible = true }: ChatBotProps) => {
                                 <span className="relative inline-flex rounded-full h-full w-full bg-green-500"></span>
                             </span>
                         </div>
-                        <span className="text-white font-black text-[9px] md:text-xs tracking-widest uppercase">ASESORÍA SALVAJE ✨</span>
+                        <span className="text-white font-black text-[9px] md:text-xs tracking-widest uppercase">Chatea con MI_A ✨</span>
                     </>
                  )}
             </button>

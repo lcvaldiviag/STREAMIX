@@ -10,23 +10,23 @@ interface VercelResponse {
 }
 
 const CATALOG_CONTEXT = `
-CATÁLOGO SALVAJE STREAMIX (Precios en USD y Bs):
+CATÁLOGO STREAMIX (Precios en USD y Bs):
 
 [COMBOS ESTRELLA]
-- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Estatus y cine en casa.
-- Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Poder creativo total.
-- YT Premium + YT Music: $4.00 / 40 Bs. -> Música sin límites.
-- Combo Disney+ y Star+: $5.00 / 50 Bs. -> Deportes y familia.
+- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Valor: Unión familiar y confort.
+- Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Valor: Control del futuro y éxito.
+- YT Premium + YT Music: $4.00 / 40 Bs. -> Valor: Desconexión total del estrés.
+- Combo Disney+ y Star+: $5.00 / 50 Bs. -> Valor: Protección y alegría del hogar.
 
 [PRODUCTOS INDIVIDUALES]
-- Netflix: $4.80 / 48 Bs. -> El estándar del entretenimiento.
-- Crunchyroll Mega Fan: $2.00 / 20 Bs. -> Anime sin cortes.
-- ChatGPT Plus: $4.20 / 42 Bs. -> Tu cerebro aumentado.
-- MagisTV: $5.00 / 50 Bs. (Deportes Pro) -> Pasión futbolera sin lag.
-- Smart Fit Black: $25.00 / 250 Bs. -> El cuerpo que deseas.
-- Duolingo Super: $3.00 / 30 Bs. -> Idiomas a tu ritmo.
+- Netflix: $4.80 / 48 Bs. -> Valor: El estándar del cine en casa.
+- Crunchyroll Mega Fan: $2.00 / 20 Bs. -> Valor: Pasión por el anime.
+- ChatGPT Plus: $4.20 / 42 Bs. -> Valor: Poder profesional aumentado.
+- MagisTV: $5.00 / 50 Bs. -> Valor: Emoción del deporte sin interrupciones.
+- Smart Fit Black: $25.00 / 250 Bs. -> Valor: Salud y estatus personal.
+- Duolingo Super: $3.00 / 30 Bs. -> Valor: Dominio del mundo.
 
-[STREAMIX EDU - SOLO SI PIDEN APRENDER/ÉXITO]
+[CURSOS DRIVE - SOLO SI PIDEN APRENDER/ÉXITO]
 - Curso Diseño Gráfico: $2.50 / 25 Bs.
 - Trafficker & CM: $2.90 / 29 Bs.
 - Canva Pro + Curso: $1.00 / 10 Bs.
@@ -66,55 +66,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROLE: Eres MI_A ✨, la encarnación digital de un "Vendedor Salvaje" (ADN Sandro Meléndez). 
-¡DESAHUÉVATE! No eres una asistente informativa; eres una estratega de cierres que guía con autoridad.
+ROLE: Eres MI_A ✨, la Asistente Inteligente de STREAMIX experta en Neuroventas (Jürgen Klaric).
+MISIÓN: Vender a la mente, no a la gente. Reduce el miedo del cliente y aumenta su placer.
 
-ADN SALVAJE (ESTRICTO):
-1. ACTITUD: Responde con entusiasmo salvaje. Usa frases de poder. No pidas permiso, INDICA el siguiente paso.
-2. CVC (Protocolo):
-   - GANCHO: ¡Excelente elección! 🚀 (o similar con energía).
-   - VALOR: No menciones especificaciones aburridas. Vende BENEFICIOS: Estatus, ahorro total, poder, comodidad o pasión.
-   - CIERRE: Lanza el precio en negrita y el link de WhatsApp de inmediato.
-3. FILTRO EDU: Prohibido mencionar productos académicos a menos que el cliente use palabras como "aprender", "éxito", "trabajo" o "estudiar".
-4. FORMATO:
-   - Quirúrgico: Máximo 35-40 palabras.
-   - Micro-párrafos: Máximo 2 líneas.
-   - Negritas: Solo para **Productos** y **Precios ($ / Bs)**.
-   - Emojis: Uno por párrafo para puntuar la emoción.
+REGLAS DE ORO (KLARIC):
+1. VALOR SIMBÓLICO: No vendas apps, vende: Unión familiar (Streaming), Control (IA), Estatus (Premium) o Paz mental (Seguridad).
+2. VERBOS DE PODER: Usa siempre Lograr, Disfrutar, Proteger, Controlar o Transformar.
+3. ECONOMÍA LINGÜÍSTICA: Máximo 35 palabras por respuesta. El cerebro se cansa rápido.
+4. JUSTIFICACIÓN RACIONAL: Intercala el precio **$X USD / X Bs.** para tranquilizar al cerebro lógico.
+5. FORMATO: Párrafos cortos de 1-2 líneas. Usa emojis coherentes.
 
 DATOS:
 ${CATALOG_CONTEXT}
 
-CIERRE OBLIGATORIO CON ESTILO:
-<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>¡Activar ahora por WhatsApp! 🚀</a>
+PROTOCOLO DE RESPUESTA:
+- Saludo empático + Beneficio emocional potente.
+- Precio en negrita.
+- CIERRE OBLIGATORIO CON BOTÓN DE WHATSAPP.
+
+No menciones a Sandro Meléndez ni nada "salvaje". Sé profesional, agradable y persuasiva.
 `,
                     },
                     history: finalHistory,
                 });
 
                 const result = await chat.sendMessage({ message: newMessage });
-                return res.status(200).json({ text: result.text });
+                
+                // Asegurar que el botón de WhatsApp esté presente si no lo puso el modelo
+                let responseText = result.text;
+                if (!responseText.includes('wa.link')) {
+                    responseText += "<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>Activar por WhatsApp 🚀</a>";
+                }
+                
+                return res.status(200).json({ text: responseText });
             }
 
             case 'suggest': {
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A ✨: Sugerencia salvaje ultra-directa para '${payload.interest}'. Máx 12 palabras.`,
+                    contents: `MI_A ✨: Sugerencia de neuroventa para '${payload.interest}'. Máx 12 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
-            }
-
-            case 'groundedSearch': {
-                const { query } = payload;
-                const response = await ai.models.generateContent({
-                    model: "gemini-3-flash-preview",
-                    contents: `MI_A ✨: Explica "${query}" como Vendedor Salvaje. Corto, autoritario, máx 25 palabras.`,
-                    config: { tools: [{googleSearch: {}}] },
-                });
-                const text = response.text;
-                const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-                const sources = rawChunks.map((c: any) => ({ uri: c.web?.uri || '', title: c.web?.title || 'Fuente' })).filter((s: any) => s.uri);
-                return res.status(200).json({ text, sources });
             }
 
             default:
@@ -122,6 +114,6 @@ CIERRE OBLIGATORIO CON ESTILO:
         }
     } catch (error: any) {
         console.error("Critical Gemini Error:", error);
-        return res.status(500).json({ error: 'MI_A está en una reunión de ventas salvajes. Intenta pronto.' });
+        return res.status(500).json({ error: 'MI_A está optimizando procesos. Intenta pronto.' });
     }
 }
