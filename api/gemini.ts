@@ -13,16 +13,16 @@ const CATALOG_CONTEXT = `
 CATÁLOGO STREAMIX (Precios en USD y Bs):
 
 [COMBOS ESTRELLA]
-- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Valor: Unión familiar y confort.
+- Pack Cinéfilo: $8.00 / 80 Bs. (Netflix+Disney+Prime) -> Valor: Confort absoluto y exclusividad.
 - Suite del Creador: $8.00 / 80 Bs. (Canva+CapCut+GPT) -> Valor: Control del futuro y éxito.
 - YT Premium + YT Music: $4.00 / 40 Bs. -> Valor: Desconexión total del estrés.
-- Combo Disney+ y Star+: $5.00 / 50 Bs. -> Valor: Protección y alegría del hogar.
+- Combo Disney+ y Star+: $5.00 / 50 Bs. -> Valor: Protección y estatus en el hogar.
 
 [PRODUCTOS INDIVIDUALES]
-- Netflix: $4.80 / 48 Bs. -> Valor: El estándar del cine en casa.
-- Crunchyroll Mega Fan: $2.00 / 20 Bs. -> Valor: Pasión por el anime.
+- Netflix: $4.80 / 48 Bs. -> Valor: El estándar del cine premium.
+- Crunchyroll Mega Fan: $2.00 / 20 Bs. -> Valor: Pasión y libertad.
 - ChatGPT Plus: $4.20 / 42 Bs. -> Valor: Poder profesional aumentado.
-- MagisTV: $5.00 / 50 Bs. -> Valor: Emoción del deporte sin interrupciones.
+- MagisTV: $5.00 / 50 Bs. -> Valor: Emoción total sin límites.
 - Smart Fit Black: $25.00 / 250 Bs. -> Valor: Salud y estatus personal.
 - Duolingo Super: $3.00 / 30 Bs. -> Valor: Dominio del mundo.
 
@@ -66,25 +66,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     model: 'gemini-3-flash-preview',
                     config: {
                         systemInstruction: `
-ROLE: Eres MI_A ✨, la Asistente Inteligente de STREAMIX experta en Neuroventas (Jürgen Klaric).
-MISIÓN: Vender a la mente, no a la gente. Reduce el miedo del cliente y aumenta su placer.
+ROLE: Eres MI_A ✨, Consultora Estratégica en STREAMIX experta en Neuroventas (Jürgen Klaric).
+MISIÓN: Conectar con el placer o el control del cliente. Vende a la mente, no a la gente.
 
-REGLAS DE ORO (KLARIC):
-1. VALOR SIMBÓLICO: No vendas apps, vende: Unión familiar (Streaming), Control (IA), Estatus (Premium) o Paz mental (Seguridad).
-2. VERBOS DE PODER: Usa siempre Lograr, Disfrutar, Proteger, Controlar o Transformar.
-3. ECONOMÍA LINGÜÍSTICA: Máximo 35 palabras por respuesta. El cerebro se cansa rápido.
-4. JUSTIFICACIÓN RACIONAL: Intercala el precio **$X USD / X Bs.** para tranquilizar al cerebro lógico.
-5. FORMATO: Párrafos cortos de 1-2 líneas. Usa emojis coherentes.
-
-RESTRICCIÓN CRÍTICA DE ENLACES:
-- NO escribas enlaces, URLs ni uses sintaxis de markdown para links (ej: [texto](url)). 
-- NO pongas el número de WhatsApp ni links de wa.me o wa.link en tu texto.
-- Yo (el sistema) añadiré el botón oficial de WhatsApp al final de tu respuesta automáticamente. Tú solo encárgate de la persuasión y los beneficios.
+REGLAS DE ORO (KLARIC V2):
+1. LÉXICO DINÁMICO: NO repitas frases hechas. Alterna entre conceptos de: Libertad, Dominio, Exclusividad, Ahorro Inteligente o Estatus VIP.
+2. VERBOS DE PODER: Lograr, Disfrutar, Dominar, Transformar, Escapar.
+3. ECONOMÍA LINGÜÍSTICA: Máximo 30 palabras. Sé quirúrgica.
+4. JUSTIFICACIÓN RACIONAL: Precio en negrita **$X USD / X Bs.** siempre.
+5. PROHIBICIÓN DE ENLACES: NO generes enlaces, ni [texto](url), ni números de teléfono, ni wa.me. Solo escribe el mensaje de persuasión.
 
 DATOS:
 ${CATALOG_CONTEXT}
 
-No menciones nada "salvaje". Sé profesional, agradable y altamente persuasiva.
+PROTOCOLO FINAL:
+- No saludes siempre igual.
+- Usa emojis elegantes.
+- No pongas el link de WhatsApp tú; el sistema lo hará al final.
 `,
                     },
                     history: finalHistory,
@@ -94,21 +92,22 @@ No menciones nada "salvaje". Sé profesional, agradable y altamente persuasiva.
                 
                 let responseText = result.text || "";
                 
-                // Limpieza de emergencia: Eliminar cualquier link markdown que la IA haya ignorado prohibir
+                // Limpieza agresiva de cualquier link que la IA intente generar
                 responseText = responseText.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
-                // Eliminar URLs crudas
                 responseText = responseText.replace(/https?:\/\/[^\s]+/g, '');
+                responseText = responseText.replace(/wa\.me\/[0-9]+/g, '');
+                responseText = responseText.replace(/wa\.link\/[a-z0-9]+/g, '');
                 
-                // Siempre añadir el botón oficial estilizado al final
-                responseText += "<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>Activar por WhatsApp 🚀</a>";
+                // Generación de UN SOLO BOTÓN con la estética original solicitada
+                const ctaButton = `<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>ADQUIRIR AHORA 🚀</a>`;
                 
-                return res.status(200).json({ text: responseText });
+                return res.status(200).json({ text: responseText + ctaButton });
             }
 
             case 'suggest': {
                 const response = await ai.models.generateContent({
                     model: 'gemini-3-flash-preview',
-                    contents: `MI_A ✨: Sugerencia de neuroventa para '${payload.interest}'. Máx 12 palabras.`,
+                    contents: `MI_A ✨: Frase corta de neuroventa para '${payload.interest}'. Máx 10 palabras.`,
                 });
                 return res.status(200).json({ text: response.text });
             }
