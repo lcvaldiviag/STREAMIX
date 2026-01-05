@@ -64,10 +64,6 @@ const SideNav = ({ selectedCategory, onSelectCategory, isOpen, searchQuery, onSe
                             key={category}
                             onClick={() => {
                                 onSelectCategory(category);
-                                // For grid layout, we might not want to auto-scroll if it's all visible
-                                if (window.innerWidth >= 768) {
-                                    document.getElementById(category.replace(/\s/g, '-'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                }
                             }}
                             className={`
                                 relative flex flex-col items-center group transition-all duration-500 py-2 px-1 md:py-3 md:px-4 rounded-xl md:rounded-[2rem] min-w-0 md:min-w-[80px]

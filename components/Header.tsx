@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 export const StreamixLogo = ({ isDarkMode, className }: { isDarkMode: boolean; className?: string }) => (
@@ -68,6 +69,12 @@ const MoonIcon = () => (
     </svg>
 );
 
+const HomeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+    </svg>
+);
+
 interface HeaderProps {
     cartItemCount: number;
     onCartClick: () => void;
@@ -77,9 +84,10 @@ interface HeaderProps {
     isNavOpen: boolean;
     isDarkMode: boolean;
     onToggleTheme: () => void;
+    onHomeClick: () => void;
 }
 
-const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle, isNavOpen, isDarkMode, onToggleTheme }: HeaderProps) => {
+const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNavToggle, isNavOpen, isDarkMode, onToggleTheme, onHomeClick }: HeaderProps) => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -93,6 +101,16 @@ const Header = ({ cartItemCount, onCartClick, searchQuery, onSearchChange, onNav
             <div className={`mx-auto max-w-7xl px-2 md:px-6 lg:px-8`}>
                 <div className={`relative flex items-center justify-between px-3 md:px-6 h-12 md:h-20 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-slate-200 dark:border-white/10 shadow-xl' : 'bg-transparent border-transparent'}`}>
                     
+                    <div className="flex items-center gap-1.5 md:gap-3">
+                        <button 
+                            onClick={onHomeClick} 
+                            className="p-2 rounded-full bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-white hover:scale-110 active:scale-95 transition-all shadow-sm border border-slate-200 dark:border-white/10"
+                            title="Inicio"
+                        >
+                            <HomeIcon />
+                        </button>
+                    </div>
+
                     <div className="flex-1 max-w-xl mx-2 md:mx-8">
                         <div className="relative group">
                             <span className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2">

@@ -68,6 +68,34 @@ const App = () => {
     const toggleTheme = () => setIsDarkMode(!isDarkMode);
     const toggleCart = () => setIsCartOpen(!isCartOpen);
 
+    const handleSelectCategory = (category: Category | 'Todos los Productos') => {
+        // Para el efecto de "desplazamiento rápido a través de la página", 
+        // cambiamos a 'Todos los Productos' para asegurar que las secciones existan y luego scrolleamos.
+        setSelectedCategory('Todos los Productos');
+        
+        // Pequeño delay para asegurar que el DOM se actualice si veníamos de una categoría filtrada
+        setTimeout(() => {
+            if (category === 'Todos los Productos') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const sectionId = category.replace(/\s/g, '-');
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const headerOffset = 160; // Compensación por el header sticky y nav
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }, 100);
+        
+        setIsNavOpen(false);
+    };
+
     return (
         <div className={isDarkMode ? 'dark' : ''}>
             <div className="flex flex-col min-h-screen relative overflow-x-hidden">
@@ -80,6 +108,7 @@ const App = () => {
                     isNavOpen={isNavOpen}
                     isDarkMode={isDarkMode}
                     onToggleTheme={toggleTheme}
+                    onHomeClick={() => handleSelectCategory('Todos los Productos')}
                 />
 
                 <div className="flex-grow flex flex-col relative z-10 pt-24 lg:pt-28">
@@ -88,11 +117,7 @@ const App = () => {
                             onAddToCart={handleQuickAddToCart}
                             onProductSelect={setSelectedProduct}
                             selectedCategory={selectedCategory}
-                            onSelectCategory={(category) => {
-                                setSelectedCategory(category);
-                                setIsNavOpen(false);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
+                            onSelectCategory={handleSelectCategory}
                             searchQuery={searchQuery}
                             isDarkMode={isDarkMode}
                             isNavOpen={isNavOpen}
