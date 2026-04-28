@@ -7,17 +7,27 @@
   --space-40: 40px;
   --space-64: 64px;
 
-  /* Paleta de Lujo */
+  /* Paleta de Lujo - Base Oscura */
   --bg-primary: #050505;
   --accent-primary: #6366f1;
   --accent-secondary: #ec4899;
   --text-pure: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.05);
+}
+
+.light-mode {
+  --bg-primary: #F5F7FA;
+  --text-pure: #1a202c;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(0, 0, 0, 0.05);
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-pure);
   font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #bg-canvas {
@@ -30,6 +40,10 @@ body {
   pointer-events: none;
 }
 
+.light-mode #bg-canvas {
+  opacity: 0.15;
+}
+
 /* Bento Grid */
 .bento-grid {
   display: grid;
@@ -38,13 +52,23 @@ body {
 }
 
 .bento-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 20px;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
 }
+
+.light-mode .bento-card {
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
 .bento-card:hover {
   background: rgba(255, 255, 255, 0.06);
   transform: translateY(-8px);
+}
+
+.light-mode .bento-card:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
