@@ -1,0 +1,50 @@
+:root {
+  /* Sistema de 8 puntos */
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-64: 64px;
+
+  /* Paleta de Lujo */
+  --bg-primary: #050505;
+  --accent-primary: #6366f1;
+  --accent-secondary: #ec4899;
+  --text-pure: #ffffff;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-pure);
+  font-family: 'Inter', sans-serif;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-16);
+}
+
+.bento-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: transform;
+}
+.bento-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-8px);
+}

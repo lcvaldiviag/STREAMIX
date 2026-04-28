@@ -8,6 +8,7 @@ import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
 import ProductDetail from './components/ProductDetail';
 import Toast from './components/Toast';
+import BackgroundMesh from './components/BackgroundMesh';
 import { Product, Combo, CartItem, Category } from './types';
 
 const App = () => {
@@ -98,6 +99,7 @@ const App = () => {
 
     return (
         <div className={isDarkMode ? 'dark' : ''}>
+            <BackgroundMesh />
             <div className="flex flex-col min-h-screen relative overflow-x-hidden">
                 <Header 
                     cartItemCount={cartItemCount} 
