@@ -114,10 +114,10 @@ Ejemplo: "¡Es una oferta increíble! Pulsa el botón de abajo para que uno de n
 </restricciones_criticas>
 
 A CONTINUACIÓN EL CATÁLOGO DE STREAMIX DIGITAL SHOP (FORMATO JSON):
-\${JSON.stringify(MASTER_CATALOG, null, 2)}
+${JSON.stringify(MASTER_CATALOG, null, 2)}
 
 FAQ LÓGICA:
-\${JSON.stringify(FAQ_LOGIC, null, 2)}
+${JSON.stringify(FAQ_LOGIC, null, 2)}
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -135,19 +135,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const chat = ai.chats.create({
                 model: 'gemini-3-flash-preview',
                 config: {
-                    systemInstruction: `Eres MI_A ✨. Instrucciones: ${JSON.stringify(SYSTEM_PROMPT)}. 
+                    systemInstruction: `Eres MI_A ✨. Instrucciones:\n${SYSTEM_PROMPT}\n
                     Responde con elegancia extrema. Si el usuario pregunta por algo que no está en el catálogo, indica que podemos conseguirlo bajo pedido especial.
                     Usa siempre el precio en dólares USDT y bolivianos.
                     Al final de tu respuesta, SIEMPRE termina con un llamado a la acción que despierte el deseo y sea directo.`,
                     temperature: 0.4,
                     topP: 0.9,
-                    frequencyPenalty: 0.5,
                 },
                 history: (history || []).filter((msg: any) => msg.role === 'user' || msg.role === 'model'),
             });
 
             const result = await chat.sendMessage({ message: newMessage });
-            let responseText = (result.text || "").replace(/https?:\/\/[^\s]+/g, '');
+            
+            // Eliminar el bloque de pensamiento de la respuesta si existe
+            let responseText = (result.text || "").replace(/<pensamiento>[\s\S]*?<\/pensamiento>/g, '').trim();
+            // Eliminar enlaces si hay alguno (por si el modelo ignora la restricción)
+            responseText = responseText.replace(/https?:\/\/[^\s]+/g, '');
+            
             const ctaButton = `<br/><a href='https://wa.link/1dp8ry' target='_blank' class='btn-whatsapp-salvaje'>ADQUIRIR AHORA 🚀</a>`;
             
             return res.status(200).json({ text: responseText + ctaButton });
